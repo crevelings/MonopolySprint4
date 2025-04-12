@@ -114,6 +114,7 @@ public class ComputerPlayer extends Player {
      * @author walshj05
      */
     public void move(int spaces) {
+        GameBoard.getInstance().removeToken(this.token, position); // Remove token from old position
         if (!inJail) {
             position += spaces; // Move the player
             System.out.println(name + " moved " + spaces + " spaces to position " + position);
@@ -121,6 +122,7 @@ public class ComputerPlayer extends Player {
         } else {
             System.out.println(name + " is in jail and cannot move.");
         }
+        GameBoard.getInstance().addToken(this.token, position); // Remove token from old position
     }
 
     /**

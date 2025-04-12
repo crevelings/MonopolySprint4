@@ -1,5 +1,7 @@
 package org.monopoly.Model;
 
+import org.monopoly.View.GameScene.GameScene;
+
 import java.util.Random;
 
 
@@ -38,11 +40,15 @@ public class Dice {
      * Also tracks if doubles have been rolled
      * @return an array of 2 integers representing the rolled dice
      * @author crevelings
+     * modified by walshj05 (4/10/2024)
      */
     public int[] roll() {
         int die1 = random.nextInt(SIDES) + 1; // Random number between 1 and 6
         int die2 = random.nextInt(SIDES) + 1;
         isDouble = (die1 == die2); // Check if it's a double
+        if (GameScene.getInstance() != null){ // Updates the dice in the GUI if it has been initialized
+            GameScene.getInstance().updateDice(die1, die2);
+        }
         return new int[]{die1, die2};
     }
 

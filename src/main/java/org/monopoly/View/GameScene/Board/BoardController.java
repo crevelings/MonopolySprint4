@@ -2,9 +2,11 @@ package org.monopoly.View.GameScene.Board;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import org.monopoly.Model.Players.Token;
+import org.monopoly.View.GameScene.GameScene;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -189,5 +191,36 @@ public class BoardController {
      */
     public void updateTokens(ArrayList<Token> tokens, int tileIndex) {
         tileControllers[tileIndex].updateTokens(tokens);
+    }
+
+    /**
+     * Updates the dice images
+     * @param die1 The value of the first die.
+     * @param die2 The value of the second die.
+     * @author walshj05
+     */
+    public void updateDice(int die1, int die2) {
+        if (die1 < 1 || die1 > 6 || die2 < 1 || die2 > 6) {
+            return; // do nothing
+        }
+        updateDiceImage(die1, dice1);
+        updateDiceImage(die2, dice2);
+    }
+
+    /**
+     * Updates the image of a die
+     * @param dieValue The value of the die.
+     * @param dieImageView The ImageView to update.
+     * @author walshj05
+     */
+    private void updateDiceImage(int dieValue, ImageView dieImageView) {
+        switch (dieValue) {
+            case 1 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-one.png")));
+            case 2 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-two.png")));
+            case 3 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-three.png")));
+            case 4 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-four.png")));
+            case 5 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-five.png")));
+            case 6 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-six.png")));
+        }
     }
 }

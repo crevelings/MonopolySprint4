@@ -38,8 +38,6 @@ public class PropertyTileController implements TileController {
         // Initialize the tile if needed
         // For example, set a default image or style
         tile.setVisible(true);
-        token1.setImage(new Image(GameScene.addFilePath("BattleShip.png")));
-        token1.setVisible(true);
     }
 
     /**
@@ -78,6 +76,10 @@ public class PropertyTileController implements TileController {
         }
     }
 
+    /**
+     * Cancels all tokens on the tile.
+     * @author walshj05
+     */
     private void cancelAllTokens(){
         token1.setImage(null);
         token2.setImage(null);

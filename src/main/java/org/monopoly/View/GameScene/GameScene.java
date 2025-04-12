@@ -20,11 +20,19 @@ import java.util.ArrayList;
  */
 public class GameScene {
     private final Scene scene;
-    private BoardController boardController;
+    private final BoardController boardController;
     private static GameScene instance;
     public static GameScene getInstance() {
         return  instance; // returns null if the GUI hasn't been made yet
     }
+
+    /**
+     * Constructor for the GameScene class.
+     * @param humanPlayers The list of human players.
+     * @param computerPlayers The list of computer players.
+     * @throws IOException if an error occurs while loading the FXML files
+     * @author walshj05
+     */
     public GameScene(ArrayList<Player> humanPlayers, ArrayList<Player> computerPlayers) throws IOException {
         AnchorPane root = new AnchorPane();
         root.setPrefSize(1190, 740);
@@ -87,6 +95,10 @@ public class GameScene {
      * @param tileIndex The index of the tile to update.
      */
     public void updateTokens(ArrayList<Token> tokens, int tileIndex) {
+        // Ensure index is not a rollover index
+        if (tileIndex > 39) {
+            tileIndex = tileIndex % 40;
+        }
         boardController.updateTokens(tokens, tileIndex);
     }
 
@@ -98,11 +110,27 @@ public class GameScene {
         return scene;
     }
 
+    /**
+     * Adds the file path to the given file name.
+     * @param fileName The name of the file.
+     * @return The full file path.
+     * @author walshj05
+     */
     public static String addFilePath(String fileName) {
         // Check if the file exists in the resources directory
         if (GameScene.class.getResource("TokenPNGs/" + fileName) == null) {
             return "file:src/main/resources/org/monopoly/View/GameScene/TokenPNGs/error.png";
         }
         return "file:src/main/resources/org/monopoly/View/GameScene/TokenPNGs/" + fileName;
+    }
+
+    /**
+     * Updates the dice on the board.
+     * @param die1 The value of the first die.
+     * @param die2 The value of the second die.
+     * @author walshj05
+     */
+    public void updateDice(int die1, int die2) {
+        boardController.updateDice(die1, die2);
     }
 }

@@ -6,6 +6,7 @@ import org.monopoly.Model.Cards.CommunityChestDeck;
 import org.monopoly.Model.GameTiles.*;
 import org.monopoly.Model.Players.Player;
 import org.monopoly.Model.Players.Token;
+import org.monopoly.View.GameScene.GameScene;
 
 import java.util.*;
 
@@ -24,6 +25,7 @@ public class GameBoard {
 
     /**
      * Constructs a GameSpace object
+     * @author crevelings
      */
     public GameBoard() {
         this.tiles = new ArrayList<>();
@@ -34,6 +36,11 @@ public class GameBoard {
     }
 
 
+    /**
+     * Initializes the tokens for the game board.
+     * This method creates an array of ArrayLists to hold tokens for each position on the board.
+     * @author walshj05
+     */
     private void initializeTokens(){
         this.tokens = new ArrayList[40];
         for (int i = 0; i < tokens.length; i++) {
@@ -41,18 +48,42 @@ public class GameBoard {
         }
     }
 
+    /**
+     * Removes a token from the specified position on the board.
+     * @param token The token to remove.
+     * @param position The position on the board to remove the token from.
+     * @author walshj05
+     */
     public void removeToken(Token token, int position) {
         if (position >= 0 && position < tokens.length) {
             tokens[position].remove(token);
         }
+        if (GameScene.getInstance() != null) {
+            GameScene.getInstance().updateTokens(tokens[position], position);
+        }
     }
 
+    /**
+     * Adds a token to the specified position on the board.
+     * @param token The token to add.
+     * @param position The position on the board to add the token to.
+     * @author walshj05
+     */
     public void addToken(Token token, int position) {
         if (position >= 0 && position < tokens.length) {
             tokens[position].add(token);
         }
+        if (GameScene.getInstance() != null) {
+            GameScene.getInstance().updateTokens(tokens[position], position);
+        }
     }
 
+    /**
+     * Gets the tokens at the specified position on the board.
+     * @param position The position on the board to get tokens from.
+     * @return The list of tokens at the specified position.
+     * @author walshj05
+     */
     public ArrayList<Token> getTokens(int position) {
         if (position >= 0 && position < tokens.length) {
             return tokens[position];

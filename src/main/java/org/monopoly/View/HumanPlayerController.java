@@ -1,11 +1,13 @@
 package org.monopoly.View;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import org.monopoly.Model.Dice;
 import org.monopoly.Model.Players.Player;
 
 /**
@@ -72,5 +74,14 @@ public class HumanPlayerController {
     public void updatePlayerInfo(){
         money.setText("Balance: $" + player.getBalance());
 
+    }
+
+    /**
+     * Handles the action when the player clicks the "Roll Dice" button.
+     * @param actionEvent The action event triggered by the button click.
+     * @author walshj05
+     */
+    public void onRollDice(ActionEvent actionEvent) {
+        player.takeTurn(Dice.getInstance());
     }
 }

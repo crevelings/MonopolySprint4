@@ -20,6 +20,13 @@ public class ComputerPlayerController {
     private VBox properties;
     private Player player;
 
+    @FXML
+    private void initialize() {
+        // Initialize the player interface if needed
+        // For example, set a default image or style
+        playerPane.setVisible(true);
+    }
+
     /**
      * Initializes the player interface with the given player.
      * @param player The player to initialize the interface for.
@@ -27,6 +34,7 @@ public class ComputerPlayerController {
      */
     public void setPlayer(Player player) {
         this.player = player;
+        player.move(0);
         name.setText(player.getName());
         balance.setText("Balance: $" + player.getBalance());
         // Update properties list if needed

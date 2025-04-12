@@ -16,7 +16,7 @@
     <children>
         <HBox layoutX="12.0" layoutY="129.0" prefHeight="26.0" prefWidth="450.0" spacing="10.0">
             <children>
-                <Button fx:id="rollDice" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Roll Dice">
+                <Button onAction="#onRollDice" fx:id="rollDice" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Roll Dice">
                     <font>
                         <Font name="Futura Bold" size="10.0" />
                     </font>

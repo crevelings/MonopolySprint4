@@ -39,8 +39,8 @@ public class GUI {
         instance = this;
         this.stage = stage;
         ArrayList<Player> humanPlayers = new ArrayList<>();
-        humanPlayers.add(new HumanPlayer("Player 1", new Token("Player 1", "Iron.png")));
-        humanPlayers.add(new HumanPlayer("Player 2", new Token("Player 1", "BattleShip.png")));
+        humanPlayers.add(new HumanPlayer("Player 1", new Token("Player 1", "testingApple.png")));
+        humanPlayers.add(new HumanPlayer("Player 2", new Token("Player 2", "testingBanana.png")));
         ArrayList<Player> computerPlayers = new ArrayList<>();
         computerPlayers.add(new ComputerPlayer("Computer 1", new Token("Computer 1", "TopHat.png")));
         computerPlayers.add(new ComputerPlayer("Computer 2", new Token("Computer 2", "Boot.png")));
