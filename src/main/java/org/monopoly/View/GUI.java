@@ -5,6 +5,7 @@ import org.monopoly.Model.Players.ComputerPlayer;
 import org.monopoly.Model.Players.HumanPlayer;
 import org.monopoly.Model.Players.Player;
 import org.monopoly.Model.Players.Token;
+import org.monopoly.View.GameScene.GameScene;
 
 import java.io.IOException;
 import java.util.ArrayList;

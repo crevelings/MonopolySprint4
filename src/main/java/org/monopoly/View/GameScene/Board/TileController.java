@@ -1,4 +1,4 @@
-package org.monopoly.View.Board;
+package org.monopoly.View.GameScene.Board;
 
 import org.monopoly.Model.Players.Token;
 

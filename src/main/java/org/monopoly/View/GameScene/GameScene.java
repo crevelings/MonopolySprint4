@@ -1,4 +1,4 @@
-package org.monopoly.View;
+package org.monopoly.View.GameScene;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -6,7 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import org.monopoly.Model.Players.Player;
 import org.monopoly.Model.Players.Token;
-import org.monopoly.View.Board.BoardController;
+import org.monopoly.View.GameScene.Board.BoardController;
+import org.monopoly.View.ComputerPlayerController;
+import org.monopoly.View.HumanPlayerController;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,5 +96,13 @@ public class GameScene {
      */
     public Scene getScene() {
         return scene;
+    }
+
+    public static String addFilePath(String fileName) {
+        // Check if the file exists in the resources directory
+        if (GameScene.class.getResource("TokenPNGs/" + fileName) == null) {
+            return "file:src/main/resources/org/monopoly/View/GameScene/TokenPNGs/error.png";
+        }
+        return "file:src/main/resources/org/monopoly/View/GameScene/TokenPNGs/" + fileName;
     }
 }

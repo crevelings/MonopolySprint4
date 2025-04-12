@@ -1,4 +1,4 @@
-package org.monopoly.View.Controllers;
+package org.monopoly.View;
 
 /**
  * Controller interface for the Monopoly game.

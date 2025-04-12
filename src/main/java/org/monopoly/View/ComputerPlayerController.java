@@ -1,4 +1,4 @@
-package org.monopoly.View.Controllers;
+package org.monopoly.View;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

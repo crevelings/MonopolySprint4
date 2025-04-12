@@ -134,7 +134,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                org.monopoly.monopolygameproject/org.monopoly.monopolygameproject.HelloApplication
+                                org.monopoly.View.Main
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
