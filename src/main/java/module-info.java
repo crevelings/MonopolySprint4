@@ -1,4 +1,4 @@
-module org.monopoly.monopolygameproject {
+module org.monopoly.View {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -11,9 +11,10 @@ module org.monopoly.monopolygameproject {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
-    opens org.monopoly.monopolygameproject to javafx.fxml;
-    opens org.monopoly.View to javafx.fxml;
-    exports org.monopoly.monopolygameproject;
-    exports org.monopoly.View to javafx.fxml;
-    opens org.monopoly.View.Controllers to javafx.fxml;
+    opens org.monopoly.View to javafx.fxml, javafx.graphics;
+    exports org.monopoly.View.GameScene.Board to javafx.graphics, javafx.fxml;
+    exports org.monopoly.View to javafx.fxml, javafx.graphics;
+    opens org.monopoly.View.GameScene.Board to javafx.fxml, javafx.graphics;
+    exports org.monopoly.View.GameScene to javafx.fxml, javafx.graphics;
+    opens org.monopoly.View.GameScene to javafx.fxml, javafx.graphics;
 }

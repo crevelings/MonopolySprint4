@@ -1,7 +1,7 @@
 package org.monopoly.Exceptions;
 
 /**
- * Player goes broke
+ * Player goes broke.
  */
 public class BankruptcyException extends Exception {
     public BankruptcyException(String message) {
