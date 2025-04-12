@@ -1,4 +1,6 @@
 # Monopoly Game Project
+## CI Status:
+![Testing](https://github.com/walshj05/MonopolySprint4/actions/workflows/run_tests.yml/badge.svg)
 ### Developers
 1. Jonathan Walsh
 2. Sydney Shifman
