@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<?import javafx.scene.image.Image?>
-<GridPane fx:id="board" fx:controller="org.monopoly.View.GameScene.Board.BoardController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="board" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.monopoly.View.GameScene.Board.BoardController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" />
@@ -36,6 +36,16 @@
    <children>
       <ImageView fitHeight="740.0" fitWidth="740.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="11" GridPane.rowSpan="11">
             <Image url="@Board/board.jpg" />
+      </ImageView>
+      <ImageView fx:id="dice1" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5">
+         <image>
+            <Image url="@TokenPNGs/dice-five.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="dice2" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="5">
+         <image>
+            <Image url="@TokenPNGs/dice-five.png" />
+         </image>
       </ImageView>
    </children>
 </GridPane>

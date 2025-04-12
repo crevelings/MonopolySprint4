@@ -19,7 +19,7 @@ public class Main extends Application {
         GUI monopolyGUI = new GUI(stage);
         ArrayList<Token> tokens = new ArrayList<>();
         ArrayList<Token> empty = new ArrayList<>();
-        String[] images = {"RaceCar", "ScottieDog", "TopHat", "RandomFile"};
+        String[] images = {"RaceCar", "ScottieDog", "TopHat", "Battleship"};
         for (int i = 0; i < 4; i++) {
             tokens.add(new Token(images[i], images[i] + ".png"));
         }

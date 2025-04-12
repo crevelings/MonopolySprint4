@@ -2,6 +2,7 @@ package org.monopoly.View.GameScene.Board;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import org.monopoly.Model.Players.Token;
 
@@ -13,6 +14,10 @@ import java.util.ArrayList;
  * @author walshj05
  */
 public class BoardController {
+    @FXML
+    private ImageView dice1;
+    @FXML
+    private ImageView dice2;
     @FXML
     private GridPane board;
     private TileController[] tileControllers;
