@@ -10,6 +10,7 @@ module org.monopoly.View {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires javafx.media;
 
     opens org.monopoly.View to javafx.fxml, javafx.graphics;
     exports org.monopoly.View.GameScene.Board to javafx.graphics, javafx.fxml;
