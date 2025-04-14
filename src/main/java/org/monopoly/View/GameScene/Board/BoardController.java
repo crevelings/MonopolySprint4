@@ -221,7 +221,7 @@ public class BoardController {
         AudioClip plonkSound = new AudioClip("file:src/main/resources/org/monopoly/View/GameScene/RollSound.wav");
         plonkSound.play();
         dieImageView.setImage(new Image(GameScene.addFilePath("diceRoll.gif")));
-        RotateTransition rt = new RotateTransition(Duration.millis(75), dieImageView);
+        RotateTransition rt = new RotateTransition(Duration.millis(150), dieImageView);
         rt.setByAngle(360);
         rt.setCycleCount(4);
         rt.setAutoReverse(true);

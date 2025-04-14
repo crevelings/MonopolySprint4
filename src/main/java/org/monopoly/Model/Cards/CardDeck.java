@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * @author walshj05
  * This class is responsible for creating a deck of cards and
  * has abstract methods for the basic functions of a deck of cards.
+ * @author walshj05
  */
 public abstract class CardDeck implements Strategy {
     protected ArrayList<String> drawPile;
