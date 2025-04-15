@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author walshj05
  * This class is responsible for creating a deck of chance cards, and retrieving each card's header.
+ * @author walshj05
  */
 public class ChanceDeck extends CardDeck {
     /**

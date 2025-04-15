@@ -82,11 +82,7 @@
                 <Font name="Futura Bold" size="14.0" />
             </font>
         </Label>
-        <ImageView fitHeight="100.0" fitWidth="100.0" style="visibility: True;">
-            <image>
-                <Image url="@TokenPNGs/Boot.png" />
-            </image>
-        </ImageView>
+        <ImageView fx:id="token" fitHeight="100.0" fitWidth="100.0" style="visibility: True;"/>
         <Label style="-fx-wrap-text: true" fx:id="money" layoutY="60" layoutX="130.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" prefWidth="85.0" text="Money&#10;">
             <font>
                 <Font name="Futura Bold" size="14.0" />

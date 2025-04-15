@@ -62,14 +62,24 @@ public class RegularGameTileController implements TileController {
     /**
      * Rotates the tile by the specified degrees.
      * @param degrees The degrees to rotate the tile.
+     * @author walshj05
      */
     public void rotatePane(int degrees){
         tile.setRotate(tile.getRotate() + degrees);
         atTopOfBoard(degrees, token1, token2, token3, token4);
     }
 
+    /**
+     * Adjusts the tokens at the top of the board so that they turn around.
+     * @param degrees The degrees to rotate the tile.
+     * @param token1 The first token.
+     * @param token2 The second token.
+     * @param token3 The third token.
+     * @param token4 The fourth token.
+     * @author walshj05
+     */
     static void atTopOfBoard(int degrees, ImageView token1, ImageView token2, ImageView token3, ImageView token4) {
-        if (degrees == 180) {
+        if (degrees == 180){
             token1.setRotate(token1.getRotate() - degrees);
             token1.setScaleX(-1);
             token2.setRotate(token2.getRotate() - degrees);
@@ -81,6 +91,11 @@ public class RegularGameTileController implements TileController {
         }
     }
 
+    /**
+     * Cancels all tokens on the tile.
+     * This method sets the images of all tokens to null.
+     * @author walshj05
+     */
     private void cancelAllTokens(){
         token1.setImage(null);
         token2.setImage(null);

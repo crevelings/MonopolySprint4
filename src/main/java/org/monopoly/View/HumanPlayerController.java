@@ -4,11 +4,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import org.monopoly.Model.Dice;
 import org.monopoly.Model.Players.Player;
+import org.monopoly.View.GameScene.GameScene;
 
 /**
  * Controller for the human player interface.
@@ -50,6 +52,7 @@ public class HumanPlayerController {
     private VBox properties;
     private Player player;
 
+
     /**
      * Initializes the player interface with the given player.
      * @param player The player to initialize the interface for.
@@ -57,6 +60,8 @@ public class HumanPlayerController {
      */
     public void setPlayer(Player player) {
         this.player = player;
+        name.setText(player.getName());
+        token.setImage(new Image(GameScene.addFilePath(player.getToken().getIcon())));
         name.setText(player.getName());
         money.setText("Balance: $" + player.getBalance());
     }

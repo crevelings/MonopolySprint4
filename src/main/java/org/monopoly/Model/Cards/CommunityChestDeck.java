@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author walshj05
  * This class is responsible for creating a deck of Community Chest cards
  * and has methods for drawing a card from the deck.
+ * @author walshj05
  */
 public class CommunityChestDeck extends CardDeck {
     /**

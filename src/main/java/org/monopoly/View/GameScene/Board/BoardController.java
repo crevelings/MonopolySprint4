@@ -1,10 +1,14 @@
 package org.monopoly.View.GameScene.Board;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.AudioClip;
+import javafx.util.Duration;
 import org.monopoly.Model.Players.Token;
 import org.monopoly.View.GameScene.GameScene;
 
@@ -214,13 +218,26 @@ public class BoardController {
      * @author walshj05
      */
     private void updateDiceImage(int dieValue, ImageView dieImageView) {
-        switch (dieValue) {
-            case 1 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-one.png")));
-            case 2 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-two.png")));
-            case 3 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-three.png")));
-            case 4 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-four.png")));
-            case 5 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-five.png")));
-            case 6 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-six.png")));
-        }
+        AudioClip plonkSound = new AudioClip("file:src/main/resources/org/monopoly/View/GameScene/RollSound.wav");
+        plonkSound.play();
+        dieImageView.setImage(new Image(GameScene.addFilePath("diceRoll.gif")));
+        RotateTransition rt = new RotateTransition(Duration.millis(150), dieImageView);
+        rt.setByAngle(360);
+        rt.setCycleCount(4);
+        rt.setAutoReverse(true);
+        rt.setInterpolator(Interpolator.LINEAR);
+        rt.setAxis(javafx.geometry.Point3D.ZERO.add(5, 5, 5));
+        rt.play();
+        rt.setOnFinished(event -> {
+            switch (dieValue) {
+                case 1 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-one.png")));
+                case 2 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-two.png")));
+                case 3 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-three.png")));
+                case 4 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-four.png")));
+                case 5 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-five.png")));
+                case 6 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-six.png")));
+            }
+        });
+
     }
 }
