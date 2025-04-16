@@ -3,9 +3,12 @@ package org.monopoly.View.GameScene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.PopupWindow;
 import org.monopoly.Model.Players.Player;
 import org.monopoly.Model.Players.Token;
+import org.monopoly.View.GUI;
 import org.monopoly.View.GameScene.Board.BoardController;
 import org.monopoly.View.ComputerPlayerController;
 import org.monopoly.View.HumanPlayerController;
@@ -132,5 +135,19 @@ public class GameScene {
      */
     public void updateDice(int die1, int die2) {
         boardController.updateDice(die1, die2);
+    }
+
+    /**
+     * Sends an alert message to the user.
+     * @param message The message to send.
+     *
+     * @author shifmans
+     */
+    public static void sendAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("\u26A0 Alert!");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

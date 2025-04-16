@@ -1,5 +1,8 @@
 package org.monopoly.View;
 import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import org.monopoly.View.GameScene.GameScene;
@@ -18,8 +21,14 @@ public class TestingGUI extends Application {
      */
     @Override
     public void start(Stage stage) {
-        AudioClip plonkSound = new AudioClip(GameScene.addFilePath("RollSound.wav"));
-        plonkSound.play();
+
+        Scene scene = new Scene(new Pane());
+        stage.setTitle("Monopoly");
+        ((Pane) scene.getRoot()).setPrefSize(800,600);
+        stage.setScene(scene);
+        stage.show();
+
+        GameScene.sendAlert("This is a test alert");
     }
 
     /**
