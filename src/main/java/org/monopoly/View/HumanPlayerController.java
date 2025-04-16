@@ -89,4 +89,94 @@ public class HumanPlayerController {
     public void onRollDice(ActionEvent actionEvent) {
         player.takeTurn(Dice.getInstance());
     }
+
+    /**
+     * Handles the action when the player clicks the "Sell" button.
+     * @param actionEvent The action event triggered by the button click.
+     * @author walshj05
+     */
+    public void onSell(ActionEvent actionEvent) {
+        System.out.println(player.getName() + " Sell button clicked");
+    }
+
+    /**
+     * Handles the action when the player clicks the "Buy Property" button.
+     * @param actionEvent The action event triggered by the button click.
+     * @author walshj05
+     */
+    public void onBuyProperty(ActionEvent actionEvent) {
+        System.out.println(player.getName() + " Buy Property button clicked");
+    }
+
+    /**
+     * Handles the action when the player clicks the "Buy House" button.
+     * @param actionEvent The action event triggered by the button click.
+     * @author walshj05
+     */
+    public void onBuyHouse(ActionEvent actionEvent) {
+        System.out.println(player.getName() + " Buy House button clicked");
+    }
+
+    /**
+     * Handles the action when the player clicks the "Buy Hotel" button.
+     * @param actionEvent The action event triggered by the button click.
+     * @author walshj05
+     */
+    public void onBuyHotel(ActionEvent actionEvent) {
+        System.out.println(player.getName() + " Buy Hotel button clicked");
+    }
+
+    /**
+     * Handles the action when the player clicks the "End Turn" button.
+     * @param actionEvent The action event triggered by the button click.
+     * @author walshj05
+     */
+    public void onEndTurn(ActionEvent actionEvent) {
+        System.out.println(player.getName() + " End Turn button clicked");
+    }
+
+    /**
+     * Handles the action when the player clicks the "Mortgage Property" button.
+     * @param actionEvent The action event triggered by the button click.
+     * @author walshj05
+     */
+    public void onDrawCard(ActionEvent actionEvent) {
+        System.out.println(player.getName() + " Draw Card button clicked");
+    }
+
+    /**
+     * Handles the action when the player clicks the "Get Out of Jail" button.
+     * @param actionEvent The action event triggered by the button click.
+     * @author walshj05
+     */
+    public void onAuction(ActionEvent actionEvent) {
+        System.out.println(player.getName() + " Auction button clicked");
+    }
+
+    /**
+     * Handles the action when the player clicks the "Trade" button.
+     * @param actionEvent The action event triggered by the button click.
+     * @author walshj05
+     */
+    public void onTrade(ActionEvent actionEvent) {
+        System.out.println(player.getName() + " Trade button clicked");
+    }
+
+    /**
+     * Handles the action when the player clicks the "Get Out of Jail" button.
+     * @param actionEvent The action event triggered by the button click.
+     * @author walshj05
+     */
+    public void onGetOutOfJail(ActionEvent actionEvent) {
+        System.out.println(player.getName() + " Get Out of Jail button clicked");
+    }
+
+    /**
+     * Handles the action when the player clicks the "Mortgage Property" button.
+     * @param actionEvent The action event triggered by the button click.
+     * @author walshj05
+     */
+    public void onMortgageProperty(ActionEvent actionEvent) {
+        System.out.println(player.getName() + " Mortgage Property button clicked");
+    }
 }
