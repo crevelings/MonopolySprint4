@@ -136,32 +136,67 @@ public class StartupController {
         int total = humans + cpus;
 
         if (total < 2) {
-            errorMessage.setText("Must have at least 2 players total");
+            showAlert("Must have at least 2 players total");
             return false;
         }
         if (total > 4) {
-            errorMessage.setText("Cannot have more than 4 players total");
+            showAlert("Cannot have more than 4 players total");
             return false;
         }
         if (humans < 1) {
-            errorMessage.setText("Must have at least 1 human player");
+            showAlert("Must have at least 1 human player");
             return false;
         }
         if (cpus < 1) {
-            errorMessage.setText("Must have at least 1 CPU player");
+            showAlert("Must have at least 1 CPU player");
             return false;
         }
 
         // Validate player names are not empty
         for (TextField field : playerNameFields.values()) {
             if (field.isEditable() && field.getText().trim().isEmpty()) {
-                errorMessage.setText("Player names cannot be empty");
+                showAlert("Player names cannot be empty");
                 return false;
             }
         }
 
+        // Check for duplicate tokens
+        Map<String, String> selectedTokens = new HashMap<>();
+        for (Map.Entry<String, ComboBox<String>> entry : playerTokenFields.entrySet()) {
+            String playerName = playerNameFields.get(entry.getKey()).getText();
+            String selectedToken = entry.getValue().getValue();
+            
+            if (selectedTokens.containsValue(selectedToken)) {
+                // Find the other player who has this token
+                String otherPlayer = selectedTokens.entrySet().stream()
+                    .filter(e -> e.getValue().equals(selectedToken))
+                    .map(Map.Entry::getKey)
+                    .findFirst()
+                    .orElse("another player");
+                
+                showAlert("Duplicate token selected!\n" + 
+                         playerName + " and " + otherPlayer + 
+                         " cannot use the same token (" + selectedToken + ")");
+                return false;
+            }
+            selectedTokens.put(playerName, selectedToken);
+        }
+
         errorMessage.setText("");
         return true;
+    }
+
+    /**
+     * Shows an alert dialog with the given message
+     * @param message The message to display
+     */
+    private void showAlert(String message) {
+        errorMessage.setText(message);
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("⚠ Invalid Player Setup");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     /**
@@ -195,6 +230,8 @@ public class StartupController {
                 String tokenType = playerTokenFields.get(key).getValue();
                 String tokenImage = tokenImages.get(tokenType); // Get the correct image filename
                 computerPlayers.add(new ComputerPlayer(name, new Token(name, tokenImage)));
+
+
             }
 
             // Get the GUI instance and transition to game scene
