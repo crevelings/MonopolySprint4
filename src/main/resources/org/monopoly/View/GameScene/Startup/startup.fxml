@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.monopoly.View.GameScene.Board.StartupController"
+      prefHeight="600.0" prefWidth="800.0"
+      spacing="20"
+      style="-fx-background-color: #f4f4f4;">
+    
+    <padding>
+        <Insets top="40" right="40" bottom="40" left="40"/>
+    </padding>
+
+    <Label text="Monopoly Game" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;">
+        <VBox.margin>
+            <Insets bottom="20"/>
+        </VBox.margin>
+    </Label>
+
+    <VBox spacing="15">
+        <Label text="Player Setup" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+        
+        <GridPane hgap="15" vgap="15">
+            <Label text="Human Players:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="humanPlayerCount" onAction="#updatePlayerInputs"
+                    GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="1"/>
+                        <String fx:value="2"/>
+                        <String fx:value="3"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+            <Label text="CPU Players:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="cpuPlayerCount" onAction="#updatePlayerInputs"
+                    GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="1"/>
+                        <String fx:value="2"/>
+                        <String fx:value="3"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </GridPane>
+
+        <Label fx:id="errorMessage" style="-fx-text-fill: #e74c3c;"/>
+    </VBox>
+
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+        <VBox fx:id="playerInputContainer" spacing="20">
+        </VBox>
+    </ScrollPane>
+
+    <Button fx:id="startGameButton" 
+            text="Start Game" 
+            onAction="#launchGameBoard"
+            style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 10 20; -fx-background-radius: 5;">
+        <VBox.margin>
+            <Insets top="20"/>
+        </VBox.margin>
+    </Button>
+</VBox>
