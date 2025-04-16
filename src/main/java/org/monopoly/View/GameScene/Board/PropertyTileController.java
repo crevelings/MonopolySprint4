@@ -15,7 +15,8 @@ import java.util.ArrayList;
  * @author walshj05
  */
 public class PropertyTileController implements TileController {
-
+    @FXML
+    private ImageView buildings;
     @FXML
     private AnchorPane tile;
     @FXML
@@ -26,12 +27,11 @@ public class PropertyTileController implements TileController {
     private ImageView token3;
     @FXML
     private ImageView token4;
-    @FXML
-    private ImageView houseToken;
 
 
     /**
      * Initializes the tile with default settings.
+     *
      * @author walshj05
      */
     public void initialize() {
@@ -42,10 +42,11 @@ public class PropertyTileController implements TileController {
 
     /**
      * Rotates the tile by the specified degrees.
+     *
      * @param degrees The degrees to rotate the tile.
      * @author walshj05
      */
-    public void rotatePane(int degrees){
+    public void rotatePane(int degrees) {
         tile.setRotate(tile.getRotate() + degrees);
         if (degrees == 270 || degrees == 90) {
             tile.translateXProperty().set(20);
@@ -55,6 +56,7 @@ public class PropertyTileController implements TileController {
 
     /**
      * Updates the tokens to display on the tile
+     *
      * @param tokens The tokens to display on the tile.
      * @author walshj05
      */
@@ -78,12 +80,36 @@ public class PropertyTileController implements TileController {
 
     /**
      * Cancels all tokens on the tile.
+     *
      * @author walshj05
      */
-    private void cancelAllTokens(){
+    private void cancelAllTokens() {
         token1.setImage(null);
         token2.setImage(null);
         token3.setImage(null);
         token4.setImage(null);
+    }
+
+    /**
+     * Updates the buildings on the tile.
+     *
+     * @param numBuildings The number of buildings to display.
+     * @author shifmans
+     */
+    @Override
+    public void updateBuildings(int numBuildings) {
+        buildings.setLayoutX(0);
+        if (numBuildings == 1) {
+            buildings.setImage(new Image(GameScene.addFilePath("oneHouse.png")));
+        } else if (numBuildings == 2) {
+            buildings.setImage(new Image(GameScene.addFilePath("twoHouse.png")));
+        } else if (numBuildings == 3) {
+            buildings.setImage(new Image(GameScene.addFilePath("threeHouse.png")));
+        } else if (numBuildings == 4) {
+            buildings.setImage(new Image(GameScene.addFilePath("fourHouse.png")));
+        } else if (numBuildings == 5) {
+            buildings.setImage(new Image(GameScene.addFilePath("Hotel.png")));
+            buildings.setLayoutX(20);
+        }
     }
 }
