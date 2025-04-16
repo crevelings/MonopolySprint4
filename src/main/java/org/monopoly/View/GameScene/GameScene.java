@@ -5,10 +5,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.PopupWindow;
 import org.monopoly.Model.Players.Player;
 import org.monopoly.Model.Players.Token;
-import org.monopoly.View.GUI;
 import org.monopoly.View.GameScene.Board.BoardController;
 import org.monopoly.View.ComputerPlayerController;
 import org.monopoly.View.HumanPlayerController;
@@ -141,7 +139,7 @@ public class GameScene {
      * Sends an alert message to the user.
      * @param message The message to send.
      *
-     * @author shifmans
+     * Developed by: shifmans
      */
     public static void sendAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

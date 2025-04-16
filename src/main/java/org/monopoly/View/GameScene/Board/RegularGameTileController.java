@@ -60,6 +60,17 @@ public class RegularGameTileController implements TileController {
     }
 
     /**
+     * Updates the buildings on the tile.
+     * @param numBuildings The number of buildings to display on the tile.
+     *
+     * Developed by: shifmans
+     * */
+    @Override
+    public void updateBuildings(int numBuildings) {
+        return;
+    }
+
+    /**
      * Rotates the tile by the specified degrees.
      * @param degrees The degrees to rotate the tile.
      * @author walshj05

@@ -11,6 +11,7 @@ module org.monopoly.View {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires javafx.media;
+    requires java.desktop;
 
     opens org.monopoly.View to javafx.fxml, javafx.graphics;
     exports org.monopoly.View.GameScene.Board to javafx.graphics, javafx.fxml;

@@ -16,4 +16,12 @@ public interface TileController {
      * @author walshj05
      */
     void updateTokens(ArrayList<Token> tokens);
+
+    /**
+     * Updates the buildings to display on the tile.
+     * @param numBuildings The number of buildings to display on the tile.
+     *
+     * Developed by: shifmans
+     */
+    void updateBuildings(int numBuildings);
 }
