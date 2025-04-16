@@ -2,11 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import java.lang.String?>
-
 <?import javafx.collections.FXCollections?>
+
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.monopoly.View.GameScene.Board.StartupController"
@@ -20,7 +19,7 @@
 
     <Label text="Monopoly Game" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;">
         <VBox.margin>
-            <Insets bottom="30"/>
+            <Insets bottom="20"/>
         </VBox.margin>
     </Label>
 
@@ -29,7 +28,8 @@
         
         <GridPane hgap="15" vgap="15">
             <Label text="Human Players:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-            <ComboBox fx:id="humanPlayerCount" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <ComboBox fx:id="humanPlayerCount" onAction="#updatePlayerInputs"
+                    GridPane.rowIndex="0" GridPane.columnIndex="1">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="1"/>
@@ -40,7 +40,8 @@
             </ComboBox>
 
             <Label text="CPU Players:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-            <ComboBox fx:id="cpuPlayerCount" GridPane.rowIndex="1" GridPane.columnIndex="1">
+            <ComboBox fx:id="cpuPlayerCount" onAction="#updatePlayerInputs"
+                    GridPane.rowIndex="1" GridPane.columnIndex="1">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="1"/>
@@ -53,6 +54,11 @@
 
         <Label fx:id="errorMessage" style="-fx-text-fill: #e74c3c;"/>
     </VBox>
+
+    <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+        <VBox fx:id="playerInputContainer" spacing="20">
+        </VBox>
+    </ScrollPane>
 
     <Button fx:id="startGameButton" 
             text="Start Game" 
