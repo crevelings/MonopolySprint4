@@ -109,36 +109,28 @@ public class ComputerPlayer extends Player {
     /**
      * Moves player a certain number of spaces
      * Also checks if they are in jail or not
-     *
      * @param spaces num spaces moved
      * @author walshj05
      */
     public void move(int spaces) {
-        GameBoard.getInstance().removeToken(this.token, position); // Remove token from old position
         if (!inJail) {
+            GameBoard.getInstance().removeToken(this.token, position); // Remove token from old position
             position += spaces; // Move the player
-            System.out.println(name + " moved " + spaces + " spaces to position " + position);
-
-        } else {
-            System.out.println(name + " is in jail and cannot move.");
+            GameBoard.getInstance().addToken(this.token, position);
         }
-        GameBoard.getInstance().addToken(this.token, position); // Remove token from old position
     }
 
     /**
      * Puts player in jail
-     *
      * @author walshj05
      */
     public void goToJail() {
         inJail = true;
         position = 10;
-        System.out.println(name + " has been sent to jail!");
     }
 
     /**
      * Checks to see if the player is in jail
-     *
      * @return boolean
      * @author walshj05
      */
@@ -148,13 +140,11 @@ public class ComputerPlayer extends Player {
 
     /**
      * Releases player from jail
-     *
      * @author walshj05
      */
     public void releaseFromJail() {
         inJail = false;
         jailTurns = 0;
-        System.out.println(name + " has been released from jail!");
     }
 
     /**
@@ -165,17 +155,14 @@ public class ComputerPlayer extends Player {
      */
     public void takeTurn(Dice dice) {
         if (inJail) {
-            System.out.println(name + " is in jail and cannot roll.");
+            // todo add logic for jail turn process
+            return;
         }
-
         int[] rollResult = dice.roll();
-        int die1 = rollResult[0];
-        int die2 = rollResult[1];
-        int total = die1 + die2;
-
-        System.out.println(name + " rolled a " + die1 + " and a " + die2 + " (Total: " + total + ")");
-
+        int total = rollResult[0] + rollResult[1];
         move(total);
+        GameBoard.getInstance().executeStrategyType(this, "tile");
+        // todo add logic for doubles
 
 
     }
@@ -198,17 +185,17 @@ public class ComputerPlayer extends Player {
             decision = runOdds(0.50);
         }
 
-        if (!decision) {
-            System.out.println("Player has decided not to purchase " + property);
-            return;
-        }
-
-        if (balance >= price) {
+        if (decision) {
+            if (balance - price < 0) {
+                throw new InsufficientFundsException("Insufficient funds to purchase " + property);
+            }
             propertiesOwned.add(property);
-            balance -= price;
+            // todo make the player the owner
+            subtractFromBalance(price);
             updateMonopolies();
         } else {
-            throw new InsufficientFundsException("Insufficient funds to purchase " + property);
+            // todo start auction process
+            return;
         }
     }
 
@@ -338,9 +325,12 @@ public class ComputerPlayer extends Player {
      * @author walshj05
      */
     public void subtractFromBalance(int amount) {
-        if (this.balance - amount < 0) {
-            this.balance = 0;
-            return;
+        if ((balance < amount)) {
+            try {
+                attemptToRaiseFunds(amount);
+            } catch (BankruptcyException e) {
+                throw new RuntimeException(e);
+            }
         }
         this.balance -= amount;
     }
@@ -614,6 +604,7 @@ public class ComputerPlayer extends Player {
      * @author crevelings (4/7/25)
      */
     public void handleLanding( ArrayList<Integer> rentPrices) {
+        // todo this method needs to be safely removed after altering the code in Utilities strategies and railroad
         GameTile space = GameBoard.getInstance().getTile(position);
         Banker banker = Banker.getInstance();
         TurnManager turnManager = TurnManager.getInstance();
