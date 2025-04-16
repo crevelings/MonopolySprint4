@@ -1,14 +1,15 @@
 package org.monopoly.View;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.monopoly.Model.Players.ComputerPlayer;
-import org.monopoly.Model.Players.HumanPlayer;
 import org.monopoly.Model.Players.Player;
-import org.monopoly.Model.Players.Token;
 import org.monopoly.View.GameScene.GameScene;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * GUI class for the Monopoly game.
@@ -17,8 +18,7 @@ import java.util.ArrayList;
  * @author walshj05
  */
 public class GUI {
-    private Stage stage;
-    private GameScene gameScene;
+    private final Stage stage;
     private static GUI instance;
 
     /**
@@ -31,22 +31,31 @@ public class GUI {
 
     /**
      * Constructor for the GUI class.
-     * Initializes the GUI with a given stage and sets up the game scene.
+     * Initializes the GUI with a given stage and shows the startup screen.
      * @param stage The stage to be used for the GUI.
      * @throws IOException If an error occurs while loading the FXML files.
+     * @author walshj05
+     * @author crevelings (4/15/25)
+     * 4/15/25: Goes right to startup screen instead of going straight to GameScene
      */
     public GUI(Stage stage) throws IOException {
         instance = this;
         this.stage = stage;
-        ArrayList<Player> humanPlayers = new ArrayList<>();
-        humanPlayers.add(new HumanPlayer("Player 1", new Token("Player 1", "testingApple.png")));
-        humanPlayers.add(new HumanPlayer("Player 2", new Token("Player 2", "testingBanana.png")));
-        ArrayList<Player> computerPlayers = new ArrayList<>();
-        computerPlayers.add(new ComputerPlayer("Computer 1", new Token("Computer 1", "TopHat.png")));
-        computerPlayers.add(new ComputerPlayer("Computer 2", new Token("Computer 2", "Boot.png")));
-        setGameScene(humanPlayers, computerPlayers);
+        showStartupScreen();
     }
 
+    /**
+     * Shows the startup screen where players can configure the game.
+     * @throws IOException If an error occurs while loading the FXML file.
+     * @author crevelings
+     */
+    private void showStartupScreen() throws IOException {
+        String fxmlPath = "/org/monopoly/View/GameScene/Startup/startup.fxml";
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxmlPath)));
+        stage.setTitle("Monopoly - Startup");
+        stage.setScene(new Scene(root, 800, 600));
+        stage.show();
+    }
 
     /**
      * Sets the game scene for the GUI.
@@ -54,12 +63,17 @@ public class GUI {
      * @param humanPlayers The list of human players in the game.
      * @param computerPlayers The list of computer players in the game.
      * @throws IOException If an error occurs while loading the FXML files.
+     * @author walshj05
+     * @author crevelings (4/15/25)
+     * 4/15/25: Calls gamescene object inside of method instead of one of the field variables
+     *
      */
     public void setGameScene(ArrayList<Player> humanPlayers, ArrayList<Player> computerPlayers) throws IOException {
         // Create a new game scene and set it as the current scene
-        this.gameScene = new GameScene(humanPlayers, computerPlayers);
+        GameScene gameScene = new GameScene(humanPlayers, computerPlayers);
         stage.setScene(gameScene.getScene());
         stage.centerOnScreen();
         stage.show();
     }
+
 }
