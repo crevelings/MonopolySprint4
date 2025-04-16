@@ -238,6 +238,16 @@ public class BoardController {
                 case 6 -> dieImageView.setImage(new Image(GameScene.addFilePath("dice-six.png")));
             }
         });
+    }
 
+    /**
+     * Updates the buildings on a tile.
+     * @param numBuildings The number of buildings to display.
+     * @param tileIndex The index of the tile to update.
+     *
+     * Developed by: shifmans
+     */
+    public void updateBuildings(int numBuildings, int tileIndex) {
+        tileControllers[tileIndex].updateBuildings(numBuildings);
     }
 }
