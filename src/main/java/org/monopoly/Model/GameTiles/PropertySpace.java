@@ -1,13 +1,9 @@
 package org.monopoly.Model.GameTiles;
 
-import org.monopoly.Exceptions.*;
 import org.monopoly.Exceptions.InsufficientFundsException;
-import org.monopoly.Model.Banker;
 import org.monopoly.Model.Cards.ColorGroup;
-import org.monopoly.Model.Players.ComputerPlayer;
-import org.monopoly.Model.Players.HumanPlayer;
+import org.monopoly.Model.Game;
 import org.monopoly.Model.Players.Player;
-import org.monopoly.Model.TurnManager;
 
 import java.util.ArrayList;
 
@@ -256,56 +252,39 @@ public class PropertySpace extends GameTile {
      * Executes the strategy for the PropertySpace.
      * @author crevelings
      * Modified by: crevelings (4/8/25), (4/9/25)
+     * Modified by: walshj05 (4/17/25)
      * 4/8/25: Configured for CPU
      * 4/9/25: Added full implementation for strategy
+     * 4/17/25: Refactored method for more general usage
      */
     @Override
     public void executeStrategy(Player player) {
-        System.out.println(player.getName() + " landed on " + getName());
-
-        if (player.hasProperty(getName())) {
-            System.out.println("You already own " + getName() + "!");
+        if (PropertySpace.doNothingCondition(player, isMortgaged, getName())) { // mortgaged or you own it
             return;
         }
-
-        if (owner == null || owner.isEmpty()) {
-            System.out.println(getName() + " is unowned.");
-
-            if (player instanceof HumanPlayer) {
-                try {
-                    player.purchaseProperty(getName(), price);
-                    setOwner(player.getName());
-                    System.out.println("You bought " + getName() + "!");
-                } catch (InsufficientFundsException e) {
-                    System.out.println("Not enough money to purchase. Starting auction...");
-                    Banker banker = Banker.getInstance();
-                    TurnManager turnManager = TurnManager.getInstance();
-                    banker.auctionProperty(getName(), turnManager.getPlayers());
-                }
-            } else if (player instanceof ComputerPlayer) {
-                ((ComputerPlayer) player).handleLanding(rentPrices);
-            }
-
-        } else {
-            if (isMortgaged) {
-                System.out.println("Property is mortgaged. No rent due.");
-                return;
-            }
-
-            int buildings = getNumHotels() > 0 ? 5 : getNumHouses(); // hotel is index 5
-            int rent = getRentPrice(buildings);
-            System.out.println("Owned by " + owner + ". Rent is $" + rent);
-
+        if (owner.isEmpty()) { // no one owns it
             try {
-                if (!(player.getBalance() >= rent)) {
-                    System.out.println("Not enough funds. Attempting to raise money...");
-                    player.attemptToRaiseFunds(rent);
-                }
-
-                player.subtractFromBalance(rent);
-            } catch (BankruptcyException e) {
-                System.out.println(player.getName() + " is bankrupt!");
+                player.purchaseProperty(this.getName(), price);
+            } catch (InsufficientFundsException e) {
+                throw new RuntimeException(e);
             }
+        } else {
+            int buildings = numHotels > 0 ? 5 : numHouses;
+            int rent = getRentPrice(buildings);
+            player.subtractFromBalance(rent);
         }
     }
+
+    /**
+     * Checks if the player can do nothing on the PropertySpace.
+     * @param player The player who landed on the PropertySpace.
+     * @param isMortgaged The mortgaged status of the PropertySpace.
+     * @param tileName The name of the PropertySpace.
+     * @return True if the player can do nothing, false otherwise.
+     * @author walshj05
+     */
+    public static boolean doNothingCondition(Player player, boolean isMortgaged, String tileName) {
+        return isMortgaged || player.hasProperty(tileName);
+    }
+
 }

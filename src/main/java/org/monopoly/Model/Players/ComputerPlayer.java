@@ -1,12 +1,10 @@
 package org.monopoly.Model.Players;
 
-import org.monopoly.Exceptions.BankruptcyException;
 import org.monopoly.Exceptions.InsufficientFundsException;
 import org.monopoly.Exceptions.NoSuchPropertyException;
 import org.monopoly.Model.*;
 import org.monopoly.Model.Cards.ColorGroup;
 import org.monopoly.Model.Cards.TitleDeedCards;
-import org.monopoly.Model.GameTiles.GameTile;
 import org.monopoly.Model.GameTiles.PropertySpace;
 
 import java.util.*;
@@ -18,18 +16,7 @@ import java.util.*;
  *
  */
 public class ComputerPlayer extends Player {
-    private final String name;
-    private int position;
-    private int balance;
-    private boolean inJail;
-    private final Token token;
-    private final ArrayList<String> propertiesOwned;
-    private final ArrayList<String> propertiesMortgaged;
-    private final ArrayList<Monopoly> monopolies;
-    private final ArrayList<ColorGroup> colorGroups;
-    private final ArrayList<String> cards;
-    private int jailTurns;
-
+    private final Random random;
     /**
      * Constructor for a HumanPlayer
      *
@@ -38,123 +25,8 @@ public class ComputerPlayer extends Player {
      * @author walshj05
      */
     public ComputerPlayer(String name, Token token) {
-        this.name = name;
-        this.token = token;
-        this.balance = 1500; // Starting balance
-        this.inJail = false;
-        this.jailTurns = 0;
-        token.setOwner(this);
-        this.position = 0;
-        this.propertiesOwned = new ArrayList<>();
-        this.propertiesMortgaged = new ArrayList<>();
-        this.monopolies = new ArrayList<>();
-        this.cards = new ArrayList<>();
-        this.colorGroups = new ArrayList<>();
-    }
-
-    /**
-     * Getters and Setters
-     *
-     * @author walshj05
-     */
-    public String getName() {
-        return name;
-    }
-
-    public Token getToken() {
-        return token;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    /**
-     * Gets the properties owned by the player.
-     *
-     * Developed by: shifmans
-     */
-    public ArrayList<String> getPropertiesOwned() {
-        return propertiesOwned;
-    }
-
-    /**
-     * Gets the properties that are mortgaged.
-     * @return Properties that are mortgaged.
-     *
-     * Developed by: shifmans
-     */
-    public ArrayList<String> getPropertiesMortgaged() {
-        return propertiesMortgaged;
-    }
-
-    /**
-     * Gets the monopolies a player has.
-     * @return Monopolies a player has.
-     *
-     * Developed by: shifmans
-     */
-    public ArrayList<Monopoly> getMonopolies() {
-        return monopolies;
-    }
-
-    /**
-     * Moves player a certain number of spaces
-     * Also checks if they are in jail or not
-     *
-     * @param spaces num spaces moved
-     * @author walshj05
-     */
-    public void move(int spaces) {
-        GameBoard.getInstance().removeToken(this.token, position); // Remove token from old position
-        if (!inJail) {
-            position += spaces; // Move the player
-            System.out.println(name + " moved " + spaces + " spaces to position " + position);
-
-        } else {
-            System.out.println(name + " is in jail and cannot move.");
-        }
-        GameBoard.getInstance().addToken(this.token, position); // Remove token from old position
-    }
-
-    /**
-     * Puts player in jail
-     *
-     * @author walshj05
-     */
-    public void goToJail() {
-        inJail = true;
-        position = 10;
-        System.out.println(name + " has been sent to jail!");
-    }
-
-    /**
-     * Checks to see if the player is in jail
-     *
-     * @return boolean
-     * @author walshj05
-     */
-    public boolean isInJail() {
-        return inJail;
-    }
-
-    /**
-     * Releases player from jail
-     *
-     * @author walshj05
-     */
-    public void releaseFromJail() {
-        inJail = false;
-        jailTurns = 0;
-        System.out.println(name + " has been released from jail!");
+        super(name, token);
+        random = new Random(System.nanoTime());
     }
 
     /**
@@ -163,21 +35,34 @@ public class ComputerPlayer extends Player {
      * @param dice Dice object
      * @author walshj05
      */
-    public void takeTurn(Dice dice) {
-        if (inJail) {
-            System.out.println(name + " is in jail and cannot roll.");
+    public void takeTurn(Dice dice) { //NOTE make all usages of dice as parameter singleton
+        if (isInJail()) {
+            jailTurnLogic();
+            if (isInJail()) {
+                // todo add end of turn process here
+                return; // player is still in jail, so they cannot take a turn
+            }
         }
+        int numDoublesNeeded = 0;
+        while(dice.getNumDoubles() == numDoublesNeeded){ // go until player no longer rolls a double
+            int[] rollResult = dice.roll();
+            int total = rollResult[0] + rollResult[1];
+            if (dice.getNumDoubles() == 3){ // if player rolls three consecutive doubles, they go to jail
+                goToJail();
+                // end of turn process
+            }
+            move(total);
 
-        int[] rollResult = dice.roll();
-        int die1 = rollResult[0];
-        int die2 = rollResult[1];
-        int total = die1 + die2;
-
-        System.out.println(name + " rolled a " + die1 + " and a " + die2 + " (Total: " + total + ")");
-
-        move(total);
-
-
+            int positionBeforeStrategy = getPosition();
+            int positionAfterStrategy = 100; // cannot ever be this value, so it will check at least once
+            while (positionBeforeStrategy != positionAfterStrategy) { // logic for when executing strategy changes player position
+                positionBeforeStrategy = getPosition();
+                GameBoard.getInstance().executeStrategyType(this, "tile");
+                positionAfterStrategy = getPosition();
+            }
+            numDoublesNeeded++;
+        }
+        // todo end of turn process here
     }
 
     /**
@@ -192,87 +77,52 @@ public class ComputerPlayer extends Player {
     public void purchaseProperty(String property, int price) throws InsufficientFundsException {
         boolean decision;
 
-        if (balance > 500) {
+        if (getBalance() > 500) {
             decision = runOdds(0.85);
         } else {
             decision = runOdds(0.50);
         }
 
-        if (!decision) {
-            System.out.println("Player has decided not to purchase " + property);
-            return;
-        }
-
-        if (balance >= price) {
-            propertiesOwned.add(property);
-            balance -= price;
+        if (decision) {
+            if (getBalance() - price < 0) {
+                throw new InsufficientFundsException("Insufficient funds to purchase " + property);
+            }
+            getPropertiesOwned().add(property);
+            TitleDeedCards.getInstance().getProperty(property).setOwner(getName());
+            subtractFromBalance(price);
             updateMonopolies();
         } else {
-            throw new InsufficientFundsException("Insufficient funds to purchase " + property);
+            // todo start auction process
+            return;
         }
     }
 
     /**
      * Player mortgages a property
      *
-     * @param property String
+     * @param propertyName String
      * @throws NoSuchPropertyException exception
      * @author crevelings
      * Modified by: shifmans
      */
-    public void mortgageProperty(String property, int mortgageCost) throws NoSuchPropertyException {
-        boolean decision;
-
-        if (balance > 500) {
-            decision = runOdds(0.35);
-        } else {
-            decision = runOdds(0.65);
-        }
-
-        if (!decision) {
-            System.out.println("Player has decided not to mortgage " + property);
-            return;
-        }
-
-        if (propertiesOwned.contains(property)) {
-            propertiesOwned.remove(property);
-            propertiesMortgaged.add(property);
-            balance += mortgageCost;
-        } else {
-            throw new NoSuchPropertyException("You do not own " + property);
-        }
+    public void mortgageProperty(String propertyName, int mortgageCost) {
+        getPropertiesOwned().remove(propertyName);
+        getPropertiesMortgaged().add(propertyName);
+        addToBalance(mortgageCost);
     }
 
     /**
      * Unmortgages a property for the player.
      * @param property The name of the property.
-     * @param mortgageValue The value to unmortgage the property.
+     * @param unmortgageValue The value to unmortgage the property.
      * @throws NoSuchPropertyException If the property is not owned or has not been mortgaged.
      * @author crevelings
      * Modified by: shifmans
      */
-    public void unmortgageProperty(String property, int mortgageValue) throws NoSuchPropertyException {
-        boolean decision;
-
-        if (balance > 500) {
-            decision = runOdds(0.65);
-        } else {
-            decision = runOdds(0.35);
-        }
-
-        if (!decision) {
-            System.out.println("Player has decided not to unmortgage " + property);
-            return;
-        }
-
-        if (propertiesMortgaged.contains(property)) {
-            propertiesMortgaged.remove(property);
-            propertiesOwned.add(property);
-            balance -= mortgageValue; // Deduct the mortgage value from the player's balance
-            System.out.println(name + " unmortgaged " + property + " for $" + mortgageValue);
-        } else {
-            throw new NoSuchPropertyException("You do not have this property mortgaged.");
-        }
+    public void unmortgageProperty(String property, int unmortgageValue){
+        getPropertiesMortgaged().remove(property);
+        getPropertiesOwned().add(property);
+        subtractFromBalance(unmortgageValue); // Deduct the mortgage value from the player's balance
     }
 
     /**
@@ -286,7 +136,7 @@ public class ComputerPlayer extends Player {
     public void sellProperty(String property, int propertyCost) throws NoSuchPropertyException {
         boolean decision;
 
-        if (balance > 500) {
+        if (getBalance() > 500) {
             decision = runOdds(0.35);
         } else {
             decision = runOdds(0.65);
@@ -297,38 +147,13 @@ public class ComputerPlayer extends Player {
             return;
         }
 
-        if (propertiesOwned.contains(property)) {
-            propertiesOwned.remove(property);
-            balance += propertyCost;
+        if (getPropertiesOwned().contains(property)) {
+            getPropertiesOwned().remove(property);
+            addToBalance(propertyCost);
             updateMonopolies();
         } else {
             throw new NoSuchPropertyException("You do not own " + property);
         }
-    }
-
-    /**
-     * Checks if the player has a monopoly
-     *
-     * @return boolean
-     * @author walshj05
-     */
-    public boolean hasMonopoly(ColorGroup colorGroup) {
-        for (Monopoly monopoly : monopolies) {
-            if (monopoly.getColorGroup() == colorGroup) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Adds a certain amount to the player's balance
-     *
-     * @param amount int amount
-     * @author walshj05
-     */
-    public void addToBalance(int amount) {
-        this.balance += amount;
     }
 
     /**
@@ -337,102 +162,27 @@ public class ComputerPlayer extends Player {
      * @param amount int
      * @author walshj05
      */
+    @Override
     public void subtractFromBalance(int amount) {
-        if (this.balance - amount < 0) {
-            this.balance = 0;
+        if (getBalance() < amount) {
+            // add logic for selling something until you have enough money
             return;
         }
-        this.balance -= amount;
-    }
-
-    /**
-     * Checks if the player has a certain property
-     *
-     * @param property String
-     * @return boolean
-     * @author walshj05
-     */
-    public boolean hasProperty(String property) {
-        return propertiesOwned.contains(property);
-    }
-
-    /**
-     * Adds a card to the player's hand
-     *
-     * @param card String
-     * @author walshj05
-     */
-    public void addCard(String card) {
-        cards.add(card);
-    }
-
-    /**
-     * Removes a card from the player's hand
-     *
-     * @param card String
-     * @author walshj05
-     */
-    public void removeCard(String card) {
-        cards.remove(card);
-    }
-
-    /**
-     * Checks if the player has a certain community chest card
-     *
-     * @param card String
-     * @return boolean
-     * @author walshj05
-     */
-    public boolean hasCard(String card) {
-        return cards.contains(card);
-    }
-
-    /**
-     * Checks if the player is bankrupt
-     *
-     * @return boolean
-     * @author walshj05
-     */
-    public boolean isBankrupt() {
-        return balance == 0;
+        setBalance(getBalance() - amount);
     }
 
     /**
      * Modified by: shifmans
+     * Modified by: walshj05
      */
     @Override
-    public void buyHouse(String propertyName, ColorGroup colorGroup, int price) throws InsufficientFundsException {
-        boolean decision;
-
-        if (balance > 500) {
-            decision = runOdds(0.75);
-        } else {
-            decision = runOdds(0.25);
-        }
-
-        if (!decision) {
-            System.out.println("Player has decided not to buy a house on " + propertyName);
+    public void buyHouse(String propertyName, ColorGroup colorGroup, int price){
+        if ((getBalance() - price < 0) || !getPropertiesOwned().contains(propertyName)) {
             return;
         }
-
-        if (balance - price < 0) {
-            throw new InsufficientFundsException("Insufficient funds to buy a house");
-        }
-        if (!propertiesOwned.contains(propertyName)) {
-            throw new RuntimeException("Property not registered to player.");
-        }
-
-        int index = colorGroups.indexOf(colorGroup);
-        try {
-            monopolies.get(index).buildHouse(propertyName);
-        } catch (Exception e) {
-            if (e.getMessage().equals("Index -1 out of bounds for length 0")) {
-                throw new RuntimeException("Player does not have all properties in this monopoly.");
-            }
-            throw new RuntimeException(e.getMessage());
-        }
-
-        balance -= price;
+        int index = getColorGroups().indexOf(colorGroup);
+        getMonopolies().get(index).buildHouse(propertyName);
+        subtractFromBalance(price);
     }
 
     /**
@@ -442,7 +192,7 @@ public class ComputerPlayer extends Player {
     public void sellHouse(String propertyName, ColorGroup colorGroup) {
         boolean decision;
 
-        if (balance > 500) {
+        if (getBalance() > 500) {
             decision = runOdds(0.35);
         } else {
             decision = runOdds(0.65);
@@ -453,55 +203,33 @@ public class ComputerPlayer extends Player {
             return;
         }
 
-        if (!propertiesOwned.contains(propertyName) || !colorGroups.contains(colorGroup)) {
+        if (!getPropertiesOwned().contains(propertyName) || !getColorGroups().contains(colorGroup)) {
             throw new RuntimeException("Property not registered to player.");
         }
 
-        int index = colorGroups.indexOf(colorGroup);
+        int index = getColorGroups().indexOf(colorGroup);
         try {
-            monopolies.get(index).sellHouse(propertyName);
+            getMonopolies().get(index).sellHouse(propertyName);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
 
         TitleDeedCards cards = TitleDeedCards.getInstance();
         PropertySpace property = (PropertySpace) cards.getProperty(propertyName);
-        balance += property.getHousePrice()/2;
+        addToBalance(property.getHousePrice()/2);
     }
 
     /**
      * Modified by: shifmans
      */
     @Override
-    public void buyHotel(String propertyName, ColorGroup colorGroup, int price) throws InsufficientFundsException {
-        boolean decision;
-
-        if (balance > 750) {
-            decision = runOdds(0.75);
-        } else {
-            decision = runOdds(0.25);
-        }
-
-        if (!decision) {
-            System.out.println("Player has decided not to buy a hotel on " + propertyName);
+    public void buyHotel(String propertyName, ColorGroup colorGroup, int price){
+        if ((getBalance() - price < 0) || !getPropertiesOwned().contains(propertyName)) {
             return;
         }
-
-        if (balance - price < 0) {
-            throw new InsufficientFundsException("Insufficient funds to buy a hotel");
-        }
-        if (!propertiesOwned.contains(propertyName) || !colorGroups.contains(colorGroup)) {
-            throw new RuntimeException("Property not registered to player.");
-        }
-
-        int index = colorGroups.indexOf(colorGroup);
-        try {
-            monopolies.get(index).buildHotel(propertyName);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-
-        balance -= price;
+        int index = getColorGroups().indexOf(colorGroup);
+        getMonopolies().get(index).buildHotel(propertyName);
+        subtractFromBalance(price);
     }
 
     /**
@@ -511,7 +239,7 @@ public class ComputerPlayer extends Player {
     public void sellHotel(String propertyName, ColorGroup colorGroup) {
         boolean decision;
 
-        if (balance > 750) {
+        if (getBalance() > 750) {
             decision = runOdds(0.35);
         } else {
             decision = runOdds(0.65);
@@ -522,74 +250,81 @@ public class ComputerPlayer extends Player {
             return;
         }
 
-        if (!propertiesOwned.contains(propertyName) || !colorGroups.contains(colorGroup)) {
+        if (!getPropertiesOwned().contains(propertyName) || !getColorGroups().contains(colorGroup)) {
             throw new RuntimeException("Property not registered to player.");
         }
 
-        int index = colorGroups.indexOf(colorGroup);
+        int index = getColorGroups().indexOf(colorGroup);
         try {
-            monopolies.get(index).sellHotel(propertyName);
+            getMonopolies().get(index).sellHotel(propertyName);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
 
         TitleDeedCards cards = TitleDeedCards.getInstance();
         PropertySpace property = (PropertySpace) cards.getProperty(propertyName);
-        balance += property.getHotelPrice()/2;
+        addToBalance(property.getHotelPrice()/2);
+    }
+
+
+    /**
+     * Allows the current player to take their turn
+     * @author walshj05
+     * Modified by: crevelings (4/1/25)
+     * Modified by: walshj05
+     */
+    public void jailTurnLogic(){
+        Dice dice = Dice.getInstance();
+        if (getJailTurns() == 3){
+            releaseFromJail();
+        } else if (hasCard("community:Get Out of Jail Free")){ // use card
+            removeCard("community:Get Out of Jail Free");
+            GameBoard.getInstance().executeStrategyType(this, "community:Get Out of Jail Free");
+        } else if (hasCard("chance:Get Out of Jail Free.")){ // use card
+            removeCard("chance:Get Out of Jail Free.");
+            GameBoard.getInstance().executeStrategyType(this, "chance:Get Out of Jail Free.");
+        } else if (getBalance() > 250) { // pay to get out of jail
+            subtractFromBalance(50);
+            releaseFromJail();
+        } else { // attempt to roll
+            dice.roll();
+            if (dice.isDouble()){
+                releaseFromJail();
+            } else {
+                incrementJailTurns();
+            }
+        }
     }
 
     /**
-     * Returns a string representation of the player
-     * @return String
+     * Runs logic for selling and purchasing things based on current state of player
      * @author walshj05
      */
-    @Override
-    public String toString() {
-        return name + " (Token: " + token.getName() + ")";
-    }
-
-    /**
-     * Gets the number of turns the player has been in jail
-     *
-     * @return int
-     * @author walshj05
-     */
-    @Override
-    public int getJailTurns() {
-        return jailTurns;
-    }
-
-    /**
-     * Resets the number of turns the player has been in jail
-     *
-     * @author walshj05
-     */
-    @Override
-    public void resetJailTurns() {
-        this.jailTurns = 0;
-    }
-
-    /**
-     * Increments the number of turns the player has been in jail
-     *
-     * @author walshj05
-     */
-    @Override
-    public void incrementJailTurns() {
-        this.jailTurns++;
-    }
-
-    /**
-     * Updates the monopolies of the player
-     *
-     * @author walshj05
-     */
-    private void updateMonopolies() {
-        Banker banker = Banker.getInstance();
-        banker.checkForMonopolies(propertiesOwned, monopolies, colorGroups);
-        for (Monopoly monopoly : monopolies) {
-            if (!colorGroups.contains(monopoly.getColorGroup())) {
-                colorGroups.add(monopoly.getColorGroup());
+    public void endOfTurnProcess(){
+        String propertyName = getRandomPropertyOwned();
+        boolean hasAtLeastOneMonopoly = getColorGroups().isEmpty();
+        if (getPropertiesOwned().isEmpty()) {
+            return; // No properties owned
+        }
+        else if (getBalance() > 500 && runOdds(0.75)) {
+            if (hasAtLeastOneMonopoly) {
+                // tries to do one and then the other
+                buyHouse(propertyName, getColorGroupOfProperty(propertyName), getPriceOfProperty(propertyName));
+                buyHotel(propertyName, getColorGroupOfProperty(propertyName), getPriceOfProperty(propertyName));
+            }
+            if (!getPropertiesMortgaged().isEmpty()) {
+                int value = TitleDeedCards.getInstance().getProperty(getPropertiesMortgaged().getFirst()).getUnmortgageValue();
+                unmortgageProperty(getPropertiesMortgaged().getFirst(), value);
+            }
+        }
+        else if (runOdds(0.50)){
+            if (hasAtLeastOneMonopoly) {
+                // todo fix sell house or hotel
+            } else if (getNumHotels() + getNumHouses() == 0) {
+                int value = TitleDeedCards.getInstance().getProperty(propertyName).getMortgageValue();
+                mortgageProperty(propertyName, value);
+            } else {
+                // todo fix sell property
             }
         }
     }
@@ -603,151 +338,20 @@ public class ComputerPlayer extends Player {
      * Developed by: shifmans
      */
     public boolean runOdds(double odd) {
-        Random rand = new Random(System.nanoTime());
-
-        return rand.nextDouble() <= odd;
+        return random.nextDouble() <= odd;
     }
 
     /**
-     * Handles the computer player landing on a property space
-     * @param rentPrices list of prices for rent of a space
-     * @author crevelings (4/7/25)
+     * Gets a random property the player owns
+     * @return String property name
+     * @author walshj05
      */
-    public void handleLanding( ArrayList<Integer> rentPrices) {
-        GameTile space = GameBoard.getInstance().getTile(position);
-        Banker banker = Banker.getInstance();
-        TurnManager turnManager = TurnManager.getInstance();
-        System.out.println(name + " landed on " + space.getName());
-
-        // Check if property is owned
-        if (Objects.equals(space.getOwner(), "")) {
-            try {
-                purchaseProperty(space.getName(), space.getPrice());
-                System.out.println(name + " bought " + space.getName() + " for $" + space.getPrice());
-                space.setOwner(name);
-            } catch (InsufficientFundsException e) {
-                System.out.println(name + " could not afford " + space.getName() + ". Property will be auctioned.");
-                banker.auctionProperty(space.getName(), turnManager.getPlayers());
-            }
-        } else if (!space.getOwner().equals(name)) {
-            int baseRent = rentPrices.getFirst();
-            System.out.println(name + " pays rent of $" + baseRent + " to " + space.getOwner());
-            subtractFromBalance(baseRent);
-        } else {
-            System.out.println(name + " already owns " + space.getName());
+    private String getRandomPropertyOwned(){
+        List<String> properties = getPropertiesOwned();
+        if (properties.isEmpty()) {
+            return ""; // No properties owned
         }
-    }
-
-    /**
-     * Gives the number of hotels the player owns
-     * @return numHotels
-     * @author crevelings and walshj05
-     */
-    @Override
-    public int getNumHotels() {
-        int numHotels = 0;
-        for (Monopoly monopoly : monopolies) {
-            int[] buildings = monopoly.getBuildings();
-            for (int i = 0; i < buildings.length; i++) {
-                if (buildings[i] == 5) {
-                    numHotels++;
-                }
-            }
-        }
-        return numHotels;
-    }
-
-    /**
-     * Gives the number of houses the player owns
-     * @return numHouses
-     * @author crevelings and walshj05
-     */
-    @Override
-    public int getNumHouses() {
-        int numHouses = 0;
-        for (Monopoly monopoly : monopolies) {
-            int[] buildings = monopoly.getBuildings();
-            for (int i = 0; i < buildings.length; i++) {
-                if (buildings[i] > 0 && buildings[i] < 5) {
-                    numHouses += buildings[i];
-                }
-            }
-        }
-        return numHouses;
-    }
-
-    /**
-     * Process for having players mortgage their assets off when they are in debt
-     * @param amount
-     * @throws BankruptcyException
-     * @author crevelings
-     */
-    @Override
-    public void mortgageAssetsToRaiseFunds(int amount) throws BankruptcyException {
-        for (String propertyName : propertiesOwned) {
-            PropertySpace property = (PropertySpace) TitleDeedCards.getInstance().getProperty(propertyName);
-            if (!property.isMortgaged()) {
-                try {
-                    System.out.println("Mortgaging " + property.getName());
-                    mortgageProperty(property.getName(), property.getMortgageValue()); // defined in subclass
-                    if (getBalance() >= amount) return;
-                } catch (Exception e) {
-                    System.out.println("Error mortgaging property: " + e.getMessage());
-                }
-            }
-        }
-
-        if (getBalance() < amount) {
-            throw new BankruptcyException(getName() + " could not raise enough funds by mortgaging.");
-        }
-    }
-
-    /**
-     * Process for having players sell their buildings off when they are in debt
-     * @param amount
-     * @throws BankruptcyException
-     * @author crevelings
-     */
-    @Override
-    public void sellBuildingsToRaiseFunds(int amount) throws BankruptcyException {
-        for (String propertyName : propertiesOwned) {
-            PropertySpace property = (PropertySpace) TitleDeedCards.getInstance().getProperty(propertyName);
-
-            while (getBalance() < amount && property.getNumHotels() > 0) {
-                try {
-                    System.out.println("Selling hotel on " + property.getName());
-                    sellHotel(property.getName(), property.getColorGroup()); // defined in subclass
-                } catch (Exception e) {
-                    System.out.println("Error selling hotel: " + e.getMessage());
-                }
-            }
-
-            while (getBalance() < amount && property.getNumHouses() > 0) {
-                try {
-                    System.out.println("Selling house on " + property.getName());
-                    sellHouse(property.getName(), property.getColorGroup()); // defined in subclass
-                } catch (Exception e) {
-                    System.out.println("Error selling house: " + e.getMessage());
-                }
-            }
-
-            if (getBalance() >= amount) return;
-        }
-
-        if (getBalance() < amount) {
-            throw new BankruptcyException(getName() + " could not raise enough funds by selling buildings.");
-        }
-    }
-
-    /**
-     * Calls both debt helper methods
-     * @param amount
-     * @throws BankruptcyException
-     * @author crevelings
-     */
-    @Override
-    public void attemptToRaiseFunds(int amount) throws BankruptcyException {
-        sellBuildingsToRaiseFunds(amount);
-        mortgageAssetsToRaiseFunds(amount);
+        int randomIndex = random.nextInt(properties.size());
+        return properties.get(randomIndex);
     }
 }

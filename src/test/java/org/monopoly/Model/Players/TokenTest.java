@@ -27,6 +27,7 @@ class TokenTest {
 
     @Test
     void testTokenOwner() {
+        token.setOwner(humanPlayer);
         assertEquals(humanPlayer, token.getOwner(), "Token owner should be Alice.");
         assertEquals("Alice", token.getOwner().getName(), "Token owner's name should be Alice.");
     }

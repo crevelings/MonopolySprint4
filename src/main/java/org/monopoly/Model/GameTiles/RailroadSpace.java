@@ -186,50 +186,9 @@ public class RailroadSpace extends GameTile {
      */
     @Override
     public void executeStrategy(Player player) {
-        System.out.println(player.getName() + " landed on " + getName());
-
-        if (player.hasProperty(getName())) {
-            System.out.println("You already own " + getName() + "!");
+        if (PropertySpace.doNothingCondition(player, isMortgaged, getName())) { // mortgaged or you own it
             return;
         }
-
-        if (owner == null || owner.isEmpty()) {
-            System.out.println(getName() + " is unowned.");
-
-            if (player instanceof HumanPlayer) {
-                try {
-                    player.purchaseProperty(getName(), price);
-                    setOwner(player.getName());
-                    System.out.println("You bought " + getName() + "!");
-                } catch (InsufficientFundsException e) {
-                    System.out.println("Not enough money to purchase. Starting auction...");
-                    Banker banker = Banker.getInstance();
-                    TurnManager turnManager = TurnManager.getInstance();
-                    banker.auctionProperty(getName(), turnManager.getPlayers());
-                }
-            } else if (player instanceof ComputerPlayer) {
-                ((ComputerPlayer) player).handleLanding(rentPrices);
-            }
-
-        } else {
-            if (isMortgaged) {
-                System.out.println("Property is mortgaged. No rent due.");
-                return;
-            }
-
-            int rent = getRentPrice(rentPrices.size());
-            System.out.println("Owned by " + owner + ". Rent is $" + rent);
-
-            try {
-                if (!(player.getBalance() >= rent)) {
-                    System.out.println("Not enough funds. Attempting to raise money...");
-                    player.attemptToRaiseFunds(rent);
-                }
-
-                player.subtractFromBalance(rent);
-            } catch (BankruptcyException e) {
-                System.out.println(player.getName() + " is bankrupt!");
-            }
-        }
+        WaterWorksSpace.utilityStrategy(this, player, isMortgaged, rentPrices.size()); // Call the utility strategy for the player
     }
 }
