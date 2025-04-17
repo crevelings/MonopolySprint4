@@ -2,6 +2,7 @@ package org.monopoly.Model.GameTiles;
 
 import org.monopoly.Exceptions.InsufficientFundsException;
 import org.monopoly.Model.Cards.ColorGroup;
+import org.monopoly.Model.Game;
 import org.monopoly.Model.Players.Player;
 
 import java.util.ArrayList;
@@ -251,29 +252,39 @@ public class PropertySpace extends GameTile {
      * Executes the strategy for the PropertySpace.
      * @author crevelings
      * Modified by: crevelings (4/8/25), (4/9/25)
+     * Modified by: walshj05 (4/17/25)
      * 4/8/25: Configured for CPU
      * 4/9/25: Added full implementation for strategy
+     * 4/17/25: Refactored method for more general usage
      */
     @Override
     public void executeStrategy(Player player) {
-        if (player.hasProperty(getName())) {
+        if (PropertySpace.doNothingCondition(player, isMortgaged, getName())) { // mortgaged or you own it
             return;
         }
-
-        if (owner.isEmpty()) {
+        if (owner.isEmpty()) { // no one owns it
             try {
                 player.purchaseProperty(this.getName(), price);
             } catch (InsufficientFundsException e) {
                 throw new RuntimeException(e);
             }
         } else {
-            if (isMortgaged || player.getName().equals(owner)) {
-                return;
-            }
-            //todo make it so you can just reference numHouses or numHotels class variables
             int buildings = numHotels > 0 ? 5 : numHouses;
             int rent = getRentPrice(buildings);
             player.subtractFromBalance(rent);
         }
     }
+
+    /**
+     * Checks if the player can do nothing on the PropertySpace.
+     * @param player The player who landed on the PropertySpace.
+     * @param isMortgaged The mortgaged status of the PropertySpace.
+     * @param tileName The name of the PropertySpace.
+     * @return True if the player can do nothing, false otherwise.
+     * @author walshj05
+     */
+    public static boolean doNothingCondition(Player player, boolean isMortgaged, String tileName) {
+        return isMortgaged || player.hasProperty(tileName);
+    }
+
 }

@@ -188,55 +188,13 @@ public class ElectricCompanySpace extends GameTile {
      * Executes the strategy for the ElectricCompanySpace.
      * @author crevelings
      * Modified by: crevelings (4/8/25), (4/9/25)
+     * Modified by: walshj05 (4/17/25)
      * 4/8/25: Configured for CPU
      * 4/9/25: Added full implementation for strategy
+     * 4/17/25: Refactored method for more general usage
      */
     @Override
     public void executeStrategy(Player player) {
-        System.out.println(player.getName() + " landed on " + getName());
-
-        if (player.hasProperty(getName())) {
-            System.out.println("You already own " + getName() + "!");
-            return;
-        }
-
-        if (owner == null || owner.isEmpty()) {
-            System.out.println(getName() + " is unowned.");
-
-            if (player instanceof HumanPlayer) {
-                try {
-                    player.purchaseProperty(getName(), price);
-                    setOwner(player.getName());
-                    System.out.println("You bought " + getName() + "!");
-                } catch (InsufficientFundsException e) {
-                    System.out.println("Not enough money to purchase. Starting auction...");
-                    Banker banker = Banker.getInstance();
-                    TurnManager turnManager = TurnManager.getInstance();
-                    banker.auctionProperty(getName(), turnManager.getPlayers());
-                }
-            } else if (player instanceof ComputerPlayer) {
-                ((ComputerPlayer) player).handleLanding(rentPriceMultiplier);
-            }
-
-        } else {
-            if (isMortgaged) {
-                System.out.println("Property is mortgaged. No rent due.");
-                return;
-            }
-
-            int rent = getRentPrice(rentPriceMultiplier.size());
-            System.out.println("Owned by " + owner + ". Rent is $" + rent);
-
-            try {
-                if (!(player.getBalance() >= rent)) {
-                    System.out.println("Not enough funds. Attempting to raise money...");
-                    player.attemptToRaiseFunds(rent);
-                }
-
-                player.subtractFromBalance(rent);
-            } catch (BankruptcyException e) {
-                System.out.println(player.getName() + " is bankrupt!");
-            }
-        }
+        WaterWorksSpace.utilityStrategy(this, player, isMortgaged, rentPriceMultiplier.size());
     }
 }
