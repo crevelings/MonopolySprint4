@@ -6,6 +6,7 @@ import org.monopoly.Model.Cards.ColorGroup;
 import org.monopoly.Model.Cards.TitleDeedCards;
 import org.monopoly.Model.Dice;
 import org.monopoly.Model.GameBoard;
+import org.monopoly.Model.GameTiles.GameTile;
 import org.monopoly.Model.Monopoly;
 
 import java.util.ArrayList;
@@ -324,19 +325,6 @@ public abstract class Player {
 
     public ArrayList<ColorGroup> getColorGroups() {
         return colorGroups;
-    }
-
-    /**
-     * Gets the colorgroup of a given property
-     * @param property String property name
-     * @return ColorGroup
-     */
-    public ColorGroup getColorGroupOfProperty(String property) {
-        return TitleDeedCards.getInstance().getProperty(property).getColorGroup();
-    }
-
-    public int getPriceOfProperty(String property){
-        return TitleDeedCards.getInstance().getProperty(property).getPrice();
     }
 
     public abstract void buyHouse(String propertyName, ColorGroup colorGroup, int price) throws InsufficientFundsException, RuntimeException;

@@ -44,6 +44,9 @@ public class TurnManager {
      * @author walshj05
      */
     public void nextPlayer() {
+        if (numPlayers == 0) { // on get instance where game never initializes
+            return;
+        }
         currentPlayerIndex = (currentPlayerIndex + 1) % numPlayers;
     }
 
