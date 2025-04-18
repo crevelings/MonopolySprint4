@@ -1,10 +1,10 @@
 package org.monopoly.Model.Players;
 
 import org.monopoly.Exceptions.InsufficientFundsException;
-import org.monopoly.Exceptions.NoSuchPropertyException;
 import org.monopoly.Model.*;
 import org.monopoly.Model.Cards.ColorGroup;
 import org.monopoly.Model.Cards.TitleDeedCards;
+import org.monopoly.Model.GameTiles.GameTile;
 import org.monopoly.Model.GameTiles.PropertySpace;
 
 import java.util.*;
@@ -39,7 +39,7 @@ public class ComputerPlayer extends Player {
         if (isInJail()) {
             jailTurnLogic();
             if (isInJail()) {
-                // todo add end of turn process here
+                endOfTurnProcess();
                 return; // player is still in jail, so they cannot take a turn
             }
         }
@@ -62,7 +62,7 @@ public class ComputerPlayer extends Player {
             }
             numDoublesNeeded++;
         }
-        // todo end of turn process here
+        endOfTurnProcess();
     }
 
     /**
@@ -101,7 +101,6 @@ public class ComputerPlayer extends Player {
      * Player mortgages a property
      *
      * @param propertyName String
-     * @throws NoSuchPropertyException exception
      * @author crevelings
      * Modified by: shifmans
      */
@@ -115,7 +114,6 @@ public class ComputerPlayer extends Player {
      * Unmortgages a property for the player.
      * @param property The name of the property.
      * @param unmortgageValue The value to unmortgage the property.
-     * @throws NoSuchPropertyException If the property is not owned or has not been mortgaged.
      * @author crevelings
      * Modified by: shifmans
      */
@@ -129,31 +127,14 @@ public class ComputerPlayer extends Player {
      * Player sells a property
      *
      * @param property String
-     * @throws NoSuchPropertyException exception
      * @author crevelings
      * Modified by: shifmans
+     * Modified by: walshj05 4/17/25
      */
-    public void sellProperty(String property, int propertyCost) throws NoSuchPropertyException {
-        boolean decision;
-
-        if (getBalance() > 500) {
-            decision = runOdds(0.35);
-        } else {
-            decision = runOdds(0.65);
-        }
-
-        if (!decision) {
-            System.out.println("Player has decided not to sell " + property);
-            return;
-        }
-
-        if (getPropertiesOwned().contains(property)) {
-            getPropertiesOwned().remove(property);
-            addToBalance(propertyCost);
-            updateMonopolies();
-        } else {
-            throw new NoSuchPropertyException("You do not own " + property);
-        }
+    public void sellProperty(String property, int propertyCost) {
+        getPropertiesOwned().remove(property);
+        addToBalance(propertyCost);
+        updateMonopolies();
     }
 
     /**
@@ -190,33 +171,18 @@ public class ComputerPlayer extends Player {
      */
     @Override
     public void sellHouse(String propertyName, ColorGroup colorGroup) {
-        boolean decision;
-
-        if (getBalance() > 500) {
-            decision = runOdds(0.35);
-        } else {
-            decision = runOdds(0.65);
-        }
-
-        if (!decision) {
-            System.out.println("Player has decided not to sell a house on " + propertyName);
+        int index = getColorGroups().indexOf(colorGroup);
+        if (index == -1) {
             return;
         }
-
-        if (!getPropertiesOwned().contains(propertyName) || !getColorGroups().contains(colorGroup)) {
-            throw new RuntimeException("Property not registered to player.");
-        }
-
-        int index = getColorGroups().indexOf(colorGroup);
         try {
             getMonopolies().get(index).sellHouse(propertyName);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-
         TitleDeedCards cards = TitleDeedCards.getInstance();
         PropertySpace property = (PropertySpace) cards.getProperty(propertyName);
-        addToBalance(property.getHousePrice()/2);
+        addToBalance(property.getHotelPrice()/2);
     }
 
     /**
@@ -237,30 +203,15 @@ public class ComputerPlayer extends Player {
      */
     @Override
     public void sellHotel(String propertyName, ColorGroup colorGroup) {
-        boolean decision;
-
-        if (getBalance() > 750) {
-            decision = runOdds(0.35);
-        } else {
-            decision = runOdds(0.65);
-        }
-
-        if (!decision) {
-            System.out.println("Player has decided not to sell a hotel on " + propertyName);
+        int index = getColorGroups().indexOf(colorGroup);
+        if (index == -1) {
             return;
         }
-
-        if (!getPropertiesOwned().contains(propertyName) || !getColorGroups().contains(colorGroup)) {
-            throw new RuntimeException("Property not registered to player.");
-        }
-
-        int index = getColorGroups().indexOf(colorGroup);
         try {
             getMonopolies().get(index).sellHotel(propertyName);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
-
         TitleDeedCards cards = TitleDeedCards.getInstance();
         PropertySpace property = (PropertySpace) cards.getProperty(propertyName);
         addToBalance(property.getHotelPrice()/2);
@@ -302,31 +253,35 @@ public class ComputerPlayer extends Player {
      */
     public void endOfTurnProcess(){
         String propertyName = getRandomPropertyOwned();
-        boolean hasAtLeastOneMonopoly = getColorGroups().isEmpty();
+        GameTile property = TitleDeedCards.getInstance().getProperty(propertyName);
+        boolean hasAtLeastOneMonopoly = !getColorGroups().isEmpty();
         if (getPropertiesOwned().isEmpty()) {
             return; // No properties owned
         }
         else if (getBalance() > 500 && runOdds(0.75)) {
             if (hasAtLeastOneMonopoly) {
                 // tries to do one and then the other
-                buyHouse(propertyName, getColorGroupOfProperty(propertyName), getPriceOfProperty(propertyName));
-                buyHotel(propertyName, getColorGroupOfProperty(propertyName), getPriceOfProperty(propertyName));
+                buyHouse(propertyName, property.getColorGroup(), property.getPrice());
+                buyHotel(propertyName, property.getColorGroup(), property.getPrice());
             }
             if (!getPropertiesMortgaged().isEmpty()) {
-                int value = TitleDeedCards.getInstance().getProperty(getPropertiesMortgaged().getFirst()).getUnmortgageValue();
-                unmortgageProperty(getPropertiesMortgaged().getFirst(), value);
+                int unmortgageCost = TitleDeedCards.getInstance().getProperty(getPropertiesMortgaged().getFirst()).getUnmortgageValue();
+                unmortgageProperty(getPropertiesMortgaged().getFirst(), unmortgageCost);
             }
         }
         else if (runOdds(0.50)){
-            if (hasAtLeastOneMonopoly) {
-                // todo fix sell house or hotel
-            } else if (getNumHotels() + getNumHouses() == 0) {
-                int value = TitleDeedCards.getInstance().getProperty(propertyName).getMortgageValue();
+            if (getNumHotels() + getNumHouses() == 0) {
+                int value = property.getMortgageValue();
                 mortgageProperty(propertyName, value);
-            } else {
-                // todo fix sell property
+            } else if (getNumHouses() > 0){ // sell house
+                sellHouse(propertyName, property.getColorGroup());
+            } else if (getNumHotels() > 0){ // sell hotel
+                sellHotel(propertyName, property.getColorGroup());
+            } else {//
+                sellProperty(propertyName, property.getPrice());
             }
         }
+        TurnManager.getInstance().nextPlayer();
     }
 
     /**
