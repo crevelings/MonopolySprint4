@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="740.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="175.0" layoutX="120.0" layoutY="24.0" opacity="0.9" stroke="#ffffff00" strokeType="INSIDE" width="500.0" />
+      <Pane layoutX="245.0" layoutY="14.0" prefHeight="150.0" prefWidth="250.0">
+         <children>
+            <ImageView fitHeight="125.0" fitWidth="200.0" layoutX="25.0" layoutY="10.0" opacity="0.5" pickOnBounds="true">
+               <image>
+                  <Image url="@BankIcon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <VBox alignment="TOP_CENTER" layoutX="245.0" layoutY="149.0" prefHeight="125.0" prefWidth="250.0" spacing="25.0">
+         <children>
+            <Label text="Bank" textAlignment="CENTER" textFill="#61605fd8">
+               <font>
+                  <Font name="Futura Bold" size="35.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_CENTER" layoutY="100.0" prefHeight="40.0" prefWidth="250.0" text="Balance: $Infinity" textFill="#61605f">
+               <font>
+                  <Font name="Futura Medium" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Pane layoutY="304.0" prefHeight="250.0" prefWidth="740.0">
+         <children>
+            <HBox prefHeight="250.0" prefWidth="740.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="245.0" spacing="5.0">
+                     <children>
+                        <Label contentDisplay="CENTER" text="Houses" textAlignment="CENTER">
+                           <font>
+                              <Font name="Futura Medium" size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Pane prefHeight="150.0" prefWidth="245.0">
+                           <children>
+                              <Circle fill="#e8e8e8" layoutX="123.0" layoutY="75.0" radius="75.0" stroke="#ffffff00" strokeType="INSIDE" />
+                              <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="64.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@BankHouse.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#000000a6">
+                           <font>
+                              <Font name="Futura Bold" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="2.5" top="5.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" layoutX="13.0" layoutY="15.0" prefHeight="200.0" prefWidth="245.0" spacing="5.0">
+                     <children>
+                        <Label contentDisplay="CENTER" text="Hotels" textAlignment="CENTER">
+                           <font>
+                              <Font name="Futura Medium" size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Pane prefHeight="150.0" prefWidth="245.0">
+                           <children>
+                              <Circle fill="#e8e8e8" layoutX="123.0" layoutY="75.0" radius="75.0" stroke="#ffffff00" strokeType="INSIDE" />
+                              <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="63.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@BankHotel.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="12" textAlignment="CENTER" textFill="#000000a6">
+                           <font>
+                              <Font name="Futura Bold" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" layoutX="258.0" layoutY="10.0" prefHeight="200.0" prefWidth="245.0" spacing="5.0">
+                     <children>
+                        <Label contentDisplay="CENTER" text="Properties" textAlignment="CENTER">
+                           <font>
+                              <Font name="Futura Medium" size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Pane prefHeight="150.0" prefWidth="245.0">
+                           <children>
+                              <Circle fill="#e8e8e8" layoutX="123.0" layoutY="75.0" radius="75.0" stroke="#ffffff00" strokeType="INSIDE" />
+                              <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="63.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@BankProperties.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="28" textAlignment="CENTER" textFill="#000000a6">
+                           <font>
+                              <Font name="Futura Bold" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cacbcd" height="50.0" layoutY="700.0" stroke="#ffffff00" strokeType="INSIDE" width="740.0" />
+      <Button layoutX="666.0" layoutY="705.0" mnemonicParsing="false" text="Exit">
+         <font>
+            <Font name="Futura Medium" size="15.0" />
+         </font>
+      </Button>
+   </children>
+</Pane>
