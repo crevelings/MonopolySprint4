@@ -5,7 +5,9 @@ import org.monopoly.Model.*;
 import org.monopoly.Model.Cards.ColorGroup;
 import org.monopoly.Model.Cards.TitleDeedCards;
 import org.monopoly.Model.GameTiles.PropertySpace;
+import org.monopoly.View.GUI;
 import org.monopoly.View.GameScene.GameScene;
+import org.monopoly.View.HumanPlayerController;
 
 /**
  * A class representing a player in the Monopoly game.
@@ -13,6 +15,7 @@ import org.monopoly.View.GameScene.GameScene;
  * @author walshj05, crevelings
  */
 public class HumanPlayer extends Player {
+    private HumanPlayerController controller;
 
     /**
      * Constructor for a HumanPlayer
@@ -24,6 +27,9 @@ public class HumanPlayer extends Player {
         super(name, token);
     }
 
+    public void setController(HumanPlayerController controller) {
+        this.controller = controller;
+    }
 
     /**
      * A method for a player to take a turn in the game
@@ -31,7 +37,10 @@ public class HumanPlayer extends Player {
      * @author walshj05
      */
     public void takeTurn (Dice dice) {
-        rollDice(dice);
+        if (GUI.getInstance() != null) {
+            controller.startTurn();
+        }
+        //todo make it players turn
     }
 
     /**
