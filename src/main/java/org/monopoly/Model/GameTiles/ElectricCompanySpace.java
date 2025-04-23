@@ -1,14 +1,8 @@
 package org.monopoly.Model.GameTiles;
 
-import org.monopoly.Exceptions.BankruptcyException;
-import org.monopoly.Exceptions.InsufficientFundsException;
-import org.monopoly.Model.Banker;
 import org.monopoly.Model.Cards.ColorGroup;
 import org.monopoly.Model.Dice;
-import org.monopoly.Model.Players.ComputerPlayer;
-import org.monopoly.Model.Players.HumanPlayer;
 import org.monopoly.Model.Players.Player;
-import org.monopoly.Model.TurnManager;
 
 import java.util.ArrayList;
 

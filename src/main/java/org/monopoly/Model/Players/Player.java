@@ -3,10 +3,8 @@ package org.monopoly.Model.Players;
 import org.monopoly.Exceptions.*;
 import org.monopoly.Model.Banker;
 import org.monopoly.Model.Cards.ColorGroup;
-import org.monopoly.Model.Cards.TitleDeedCards;
 import org.monopoly.Model.Dice;
 import org.monopoly.Model.GameBoard;
-import org.monopoly.Model.GameTiles.GameTile;
 import org.monopoly.Model.Monopoly;
 
 import java.util.ArrayList;
@@ -327,8 +325,8 @@ public abstract class Player {
         return colorGroups;
     }
 
-    public abstract void buyHouse(String propertyName, ColorGroup colorGroup, int price) throws InsufficientFundsException, RuntimeException;
-    public abstract void sellHouse(String propertyName, ColorGroup colorGroup) throws NoSuchPropertyException;
-    public abstract void buyHotel(String propertyName, ColorGroup colorGroup, int price) throws InsufficientFundsException, RuntimeException;
-    public abstract void sellHotel(String propertyName, ColorGroup colorGroup) throws NoSuchPropertyException;
+    public abstract void buyHouse(String propertyName, ColorGroup colorGroup, int price);
+    public abstract void sellHouse(String propertyName, ColorGroup colorGroup);
+    public abstract void buyHotel(String propertyName, ColorGroup colorGroup, int price);
+    public abstract void sellHotel(String propertyName, ColorGroup colorGroup);
 }

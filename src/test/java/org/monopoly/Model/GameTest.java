@@ -7,8 +7,6 @@ import org.monopoly.Model.Players.Player;
 import org.monopoly.Model.Players.Token;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Tests for the Game class.
@@ -77,19 +75,6 @@ class GameTest {
             tm.playerTakeTurn();
         }
         assertNotEquals(0, currentPlayer.getPosition());
-    }
-
-    @Test
-    void playerInJailGoesThroughInJailProcess(){
-        Token[] tokens = {new Token("John Doe","BattleShip.png"), new Token("Jane Doe","Car.png")};
-        Game game = new Game(2, tokens);
-        TurnManager tm = TurnManager.getInstance().getTurnManager();
-        Player currentPlayer = tm.getCurrentPlayer();
-        currentPlayer.goToJail();
-        tm.jailTurnLogic(currentPlayer);
-        currentPlayer.releaseFromJail();
-        tm.playerTakeTurn();
-        assertNotEquals(10, currentPlayer.getPosition());
     }
 
     @Test

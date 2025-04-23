@@ -3,7 +3,6 @@ package org.monopoly.Model;
 import org.monopoly.Model.Players.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Manages the turns of the players in the game.
@@ -67,74 +66,7 @@ public class TurnManager {
      * 4/9/25: Moved from game to TurnManager
      */
     public void playerTakeTurn(){
-        Dice dice = Dice.getInstance();
-        int doublesNeeded = 0;
-        Player currentPlayer = getCurrentPlayer();
-
-        // Check to see if a player is in jail
-        if (currentPlayer.isInJail()){
-            jailTurnLogic(currentPlayer);
-            if (currentPlayer.isInJail()){
-                doublesNeeded = 1; // passes the base turn logic
-            } else {
-                dice.resetNumDoubles(); // allows base turn logic
-            }
-        }
-
-        // Player takes standard turn
-        while (dice.getNumDoubles() == doublesNeeded) {
-            currentPlayer.takeTurn(dice);
-            int currentPosition = currentPlayer.getPosition();
-            gameBoard.executeStrategyType(currentPlayer, "tile");
-
-            // Execute strategy of tile in new position if the player moved due to an action
-            while (currentPlayer.getPosition() != currentPosition) {
-                if (currentPlayer.isInJail()){ // turn ends if player moves to jail
-                    return;
-                }
-                currentPosition = currentPlayer.getPosition();
-                gameBoard.executeStrategyType(currentPlayer, "tile");
-            }
-
-            if (dice.isDouble()) {
-                dice.incrementNumDoubles();
-            }
-            doublesNeeded++;
-
-            if (dice.getNumDoubles() == 3) {
-                currentPlayer.goToJail();
-                break;
-            }
-        }
-        dice.resetNumDoubles();
-    }
-
-
-    /**
-     * Logic for a player's turn while in jail
-     * @param player Player object
-     * @author walshj05
-     * Modified by: crevelings (4/9/25)
-     * Moved from Game to TurnManager
-     */
-    public void jailTurnLogic(Player player){
-        Dice dice = Dice.getInstance();
-        if (player.getJailTurns() == 3){
-            player.releaseFromJail();
-        } else if (player.hasCard("community:Get Out of Jail Free")){
-            player.removeCard("community:Get Out of Jail Free");
-            gameBoard.executeStrategyType(player, "community:Get Out of Jail Free");
-        } else if (player.hasCard("chance:Get Out of Jail Free.")){
-            player.removeCard("chance:Get Out of Jail Free.");
-            gameBoard.executeStrategyType(player, "chance:Get Out of Jail Free.");
-        } else {
-            dice.roll();
-            if (dice.isDouble()){
-                player.releaseFromJail();
-            } else {
-                player.incrementJailTurns();
-            }
-        }
+        players.get(currentPlayerIndex).takeTurn(Dice.getInstance());
     }
 
     /**

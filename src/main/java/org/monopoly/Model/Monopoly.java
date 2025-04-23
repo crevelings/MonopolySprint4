@@ -1,6 +1,7 @@
 package org.monopoly.Model;
 
 import org.monopoly.Model.Cards.ColorGroup;
+import org.monopoly.View.GameScene.GameScene;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,20 +51,19 @@ public class Monopoly {
      * @param propertyName The name of the property to build a house on.
      * @author walshj05
      */
-    public void buildHouse(String propertyName) throws IllegalArgumentException {
+    public void buildHouse(String propertyName){
         // Check if the property exists
         if (!properties.contains(propertyName)) {
-            throw new IllegalArgumentException("Property not a part of this monopoly.");
+            GameScene.sendAlert("Property not a part of this monopoly.");
+            return;
         }
 
         int index = properties.indexOf(propertyName);
         Banker banker = Banker.getInstance();
 
-        try
-        {checkValidHouseBuild(banker, index);}
-        catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid build: " + e.getMessage());
-        }
+        if (!checkValidHouseBuild(banker, index))
+            return;
+
         // Build the house
         buildings[index]++;
         banker.buyHouse();
@@ -75,21 +75,25 @@ public class Monopoly {
      * @param index The index of the property in the properties list.
      * @author walshj05
      */
-    private void checkValidHouseBuild(Banker banker, int index) {
+    private boolean checkValidHouseBuild(Banker banker, int index) {
         // Check if there are houses available
         if (banker.getHouses() <= 0) {
-            throw new IllegalArgumentException("No houses available.");
+            GameScene.sendAlert("No houses available.");
+            return false;
         }
 
         // Check if the property already has 4 houses
         if (buildings[index] >= 4) {
-            throw new IllegalArgumentException("Property already has 4 houses.");
+            GameScene.sendAlert("Property already has 4 houses.");
+            return false;
         }
 
         // Check if the building rule is being followed
         if (violatesEvenBuildingRule(index, true)){
-            throw new IllegalArgumentException("Even building rule not being followed.");
+            GameScene.sendAlert("Even building rule not being followed.");
+            return false;
         }
+        return true;
     }
 
     /**
@@ -98,10 +102,10 @@ public class Monopoly {
      * @return The number of houses on the property
      * @author walshj05
      */
-    public int getNumberOfHouses(String propertyName) throws IllegalArgumentException {
+    public int getNumberOfHouses(String propertyName){
         // Check if the property exists
         if (!properties.contains(propertyName)) {
-            throw new IllegalArgumentException("Property not a part of this monopoly.");
+            return -1;
         }
         int index = properties.indexOf(propertyName);
         return buildings[index];
@@ -112,20 +116,18 @@ public class Monopoly {
      * @param propertyName The name of the property to build a hotel on.
      * @author walshj05
      */
-    public void buildHotel(String propertyName) throws IllegalArgumentException {
+    public void buildHotel(String propertyName){
         // Check if the property exists
         if (!properties.contains(propertyName)) {
-            throw new IllegalArgumentException("Property not a part of this monopoly.");
+            GameScene.sendAlert("Property not a part of this monopoly.");
+            return;
         }
 
         int index = properties.indexOf(propertyName);
         Banker banker = Banker.getInstance();
 
-        try
-        {checkValidHotelBuild(banker, index);}
-        catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid build: " + e.getMessage());
-        }
+        if (!checkValidHotelBuild(banker, index))
+            return;
 
         // Build the hotel
         buildings[index] = 5;
@@ -141,21 +143,25 @@ public class Monopoly {
      * @param index The index of the property in the properties list.
      * @author walshj05
      */
-    private void checkValidHotelBuild(Banker banker, int index) {
+    private boolean checkValidHotelBuild(Banker banker, int index) {
         // Check if there are hotels available
         if (banker.getHotels() <= 0) {
-            throw new IllegalArgumentException("No hotels available.");
+            GameScene.sendAlert("No hotels available.");
+            return false;
         }
 
         // Check if the property already has a hotel
         if (buildings[index] != 4) {
-            throw new IllegalArgumentException("Property does not have 4 houses.");
+            GameScene.sendAlert("Property already has 4 hotels.");
+            return false;
         }
 
         // Check if the building rule is being followed
         if (violatesEvenBuildingRule(index, true)){
-            throw new IllegalArgumentException("Even building rule not being followed.");
+            GameScene.sendAlert("Even building rule not being followed.");
+            return false;
         }
+        return true;
     }
 
     /**
@@ -191,10 +197,11 @@ public class Monopoly {
      * @param propertyName The name of the property to sell a house on.
      * @author walshj05
      */
-    public void sellHouse(String propertyName) throws IllegalArgumentException {
+    public void sellHouse(String propertyName){
         // Check if the property exists
         if (!properties.contains(propertyName)) {
-            throw new IllegalArgumentException("Property not a part of this monopoly.");
+            GameScene.sendAlert("Property not a part of this monopoly.");
+            return;
         }
 
         int index = properties.indexOf(propertyName);
@@ -202,11 +209,12 @@ public class Monopoly {
 
         // Check if the property has houses
         if (buildings[index] <= 0) {
-            throw new IllegalArgumentException("Property does not have any houses.");
+            GameScene.sendAlert("Property does not have any houses.");
+            return;
         }
         // Check if the building rule is being followed
         if (violatesEvenBuildingRule(index, false)){
-            throw new IllegalArgumentException("Even building rule not being followed.");
+            GameScene.sendAlert("Even building rule not being followed.");
         }
 
         // Sell the house
@@ -219,10 +227,11 @@ public class Monopoly {
      * @param propertyName The name of the property to sell a hotel on.
      * @author walshj05
      */
-    public void sellHotel(String propertyName) throws IllegalArgumentException {
+    public void sellHotel(String propertyName){
         // Check if the property exists
         if (!properties.contains(propertyName)) {
-            throw new IllegalArgumentException("Property not a part of this monopoly.");
+            GameScene.sendAlert("Property not a part of this monopoly.");
+            return;
         }
 
         int index = properties.indexOf(propertyName);
@@ -230,17 +239,20 @@ public class Monopoly {
 
         // Check if the property has a hotel
         if (buildings[index] != 5) {
-            throw new IllegalArgumentException("Property does not have a hotel.");
+            GameScene.sendAlert("Property does not have a hotel.");
+            return;
         }
 
         // Check if bank has at least four houses available
         if (banker.getHouses() < 4) {
-            throw new IllegalArgumentException("Not enough houses available in the bank.");
+            GameScene.sendAlert("Not enough houses available in the bank.");
+            return;
         }
 
         // Check if the building rule is being followed
         if (violatesEvenBuildingRule(index, false)){
-            throw new IllegalArgumentException("Even building rule not being followed.");
+            GameScene.sendAlert("Even building rule not being followed.");
+            return;
         }
 
         // Sell the hotel

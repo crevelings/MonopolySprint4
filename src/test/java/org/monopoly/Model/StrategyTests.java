@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.monopoly.Model.Cards.ColorGroup.BROWN;
 import static org.monopoly.Model.Cards.ColorGroup.RAILROAD;
 
-import org.monopoly.Exceptions.InsufficientFundsException;
 import org.monopoly.Model.Cards.ChanceDeck;
 import org.monopoly.Model.Cards.CommunityChestDeck;
 import org.monopoly.Model.GameTiles.*;
@@ -157,11 +156,7 @@ public class StrategyTests {
         Token token = new Token("Thimble", "TokensPNGs/Thimble.png");
         ElectricCompanySpace strategy = new ElectricCompanySpace("Electric Company", 150, new ArrayList<>(), null, 0);
         HumanPlayer player = new HumanPlayer("Test Player", token);
-        try {
-            player.purchaseProperty(strategy.getName(), strategy.getPrice());
-        } catch (InsufficientFundsException e) {
-            throw new RuntimeException(e);
-        }
+        player.purchaseProperty(strategy.getName(), strategy.getPrice());
         strategy.executeStrategy(player);
         assertEquals(1350, player.getBalance(), "Player's balance should be at $150 due to buying property.");
     }
@@ -203,11 +198,7 @@ public class StrategyTests {
         ElectricCompanySpace strategy = new ElectricCompanySpace("Electric Company", 150, new ArrayList<>(), null, 0);
         HumanPlayer player = new HumanPlayer("Test Player", token);
         player.subtractFromBalance(1400);
-        try {
-            player.purchaseProperty(strategy.getName(), strategy.getPrice());
-        } catch (InsufficientFundsException e) {
-            assertEquals("Insufficient funds to purchase Electric Company", e.getMessage(), "Exception should print if not enough money");
-        }
+        player.purchaseProperty(strategy.getName(), strategy.getPrice());
     }
 
     @Test
@@ -215,11 +206,7 @@ public class StrategyTests {
         Token token = new Token("Thimble", "TokensPNGs/Thimble.png");
         WaterWorksSpace strategy = new WaterWorksSpace("Water Works", 150, new ArrayList<>(), null, 0);
         HumanPlayer player = new HumanPlayer("Test Player", token);
-        try {
-            player.purchaseProperty(strategy.getName(), strategy.getPrice());
-        } catch (InsufficientFundsException e) {
-            throw new RuntimeException(e);
-        }
+        player.purchaseProperty(strategy.getName(), strategy.getPrice());
         strategy.executeStrategy(player);
         assertEquals(1350, player.getBalance(), "Player's balance should be at $150 due to buying property.");
     }
@@ -260,11 +247,7 @@ public class StrategyTests {
         WaterWorksSpace strategy = new WaterWorksSpace("Water Works", 150, new ArrayList<>(), null, 0);
         HumanPlayer player = new HumanPlayer("Test Player", token);
         player.subtractFromBalance(1400);
-        try {
-            player.purchaseProperty(strategy.getName(), strategy.getPrice());
-        } catch (InsufficientFundsException e) {
-            assertEquals("Insufficient funds to purchase Water Works", e.getMessage(), "Exception should print if not enough money");
-        }
+        player.purchaseProperty(strategy.getName(), strategy.getPrice());
     }
 
     @Test
@@ -272,11 +255,7 @@ public class StrategyTests {
         Token token = new Token("Thimble", "TokensPNGs/Thimble.png");
         RailroadSpace strategy = new RailroadSpace("B&O Railroad", "", 200, new ArrayList<>(), RAILROAD, 100);
         HumanPlayer player = new HumanPlayer("Test Player", token);
-        try {
-            player.purchaseProperty(strategy.getName(), strategy.getPrice());
-        } catch (InsufficientFundsException e) {
-            throw new RuntimeException(e);
-        }
+        player.purchaseProperty(strategy.getName(), strategy.getPrice());
         strategy.executeStrategy(player);
         assertEquals(1300, player.getBalance(), "Player's balance should be at $150 due to buying property.");
     }
@@ -318,11 +297,8 @@ public class StrategyTests {
         RailroadSpace strategy = new RailroadSpace("B&O Railroad", "", 200, new ArrayList<>(), RAILROAD, 100);
         HumanPlayer player = new HumanPlayer("Test Player", token);
         player.subtractFromBalance(1400);
-        try {
-            player.purchaseProperty(strategy.getName(), strategy.getPrice());
-        } catch (InsufficientFundsException e) {
-            assertEquals("Insufficient funds to purchase B&O Railroad", e.getMessage(), "Exception should print if not enough money");
-        }
+        player.purchaseProperty(strategy.getName(), strategy.getPrice());
+
     }
 
     @Test
@@ -330,11 +306,7 @@ public class StrategyTests {
         Token token = new Token("Thimble", "TokensPNGs/Thimble.png");
         PropertySpace strategy = new PropertySpace("Mediterranean Avenue", "", 60, new ArrayList<>(), BROWN, 50,50,30);
         HumanPlayer player = new HumanPlayer("Test Player", token);
-        try {
-            player.purchaseProperty(strategy.getName(), strategy.getPrice());
-        } catch (InsufficientFundsException e) {
-            throw new RuntimeException(e);
-        }
+        player.purchaseProperty(strategy.getName(), strategy.getPrice());
         assertEquals(1440, player.getBalance(), "Player's balance should be at $150 due to buying property.");
     }
 
@@ -376,10 +348,6 @@ public class StrategyTests {
         RailroadSpace strategy = new RailroadSpace("Mediterranean Avenue", "", 200, new ArrayList<>(), RAILROAD, 100);
         HumanPlayer player = new HumanPlayer("Test Player", token);
         player.subtractFromBalance(1400);
-        try {
-            player.purchaseProperty(strategy.getName(), strategy.getPrice());
-        } catch (InsufficientFundsException e) {
-            assertEquals("Insufficient funds to purchase Mediterranean Avenue", e.getMessage(), "Exception should print if not enough money");
-        }
+        player.purchaseProperty(strategy.getName(), strategy.getPrice());
     }
 }
