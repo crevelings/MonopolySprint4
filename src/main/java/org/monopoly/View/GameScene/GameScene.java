@@ -142,10 +142,12 @@ public class GameScene {
      * Developed by: shifmans
      */
     public static void sendAlert(String message) {
+        if (instance != null){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("\u26A0 Alert!");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+        }
     }
 }

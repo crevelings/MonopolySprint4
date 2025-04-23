@@ -51,7 +51,7 @@ public class MonopolyTest {
         assertEquals(1, monopoly.getNumberOfHouses("A"));
 
         // Build a house on property B
-        assertThrows(IllegalArgumentException.class, () -> monopoly2.buildHouse("B"));
+        monopoly2.buildHouse("B");
         assertEquals(1, monopoly2.getNumberOfHouses("B"));
 
         // Build a house on property C
@@ -72,7 +72,7 @@ public class MonopolyTest {
         System.out.println("Before alterations:\n" + monopoly);
 
         // Build a house on property C
-        assertThrows(IllegalArgumentException.class, () -> monopoly.buildHouse("C"));
+        monopoly.buildHouse("C");
         assertEquals(1, monopoly.getNumberOfHouses("C"));
         System.out.println("Attempted to build on C, but did not follow rule:\n" + monopoly);
         // Build a house on property B
@@ -98,12 +98,12 @@ public class MonopolyTest {
         System.out.println("Before alterations:\n" + monopoly);
 
         // Build a house on property C
-        assertThrows(IllegalArgumentException.class, () -> monopoly.buildHouse("C"));
+        monopoly.buildHouse("C");
         assertEquals(1, monopoly.getNumberOfHouses("C"));
         System.out.println("Attempted to build on C, but did not follow rule:\n" + monopoly);
 
         // Build a house on property B
-        assertThrows(IllegalArgumentException.class, () -> monopoly.buildHouse("B"));
+        monopoly.buildHouse("B");
         assertEquals(1, monopoly.getNumberOfHouses("B"));
         System.out.println("Attempted to build on B but failed:\n" + monopoly);
 
@@ -130,7 +130,7 @@ public class MonopolyTest {
 
         System.out.println("Before alterations:\n" + monopoly);
         // Build a house on property C
-        assertThrows(IllegalArgumentException.class, () -> monopoly.buildHouse("C"));
+        monopoly.buildHouse("C");
         assertEquals(4, monopoly.getNumberOfHouses("C"));
         System.out.println("Attempted to build on C, but did not follow rule:\n" + monopoly);
     }
@@ -175,7 +175,7 @@ public class MonopolyTest {
         System.out.println("Before alterations:\n" + monopoly);
 
         // Build a hotel on property C
-        assertThrows(IllegalArgumentException.class, () -> monopoly.sellHouse("C"));
+        monopoly.sellHouse("C");
         assertEquals(0, monopoly.getNumberOfHouses("C"));
         System.out.println("Attempted to sell house on C, but did not have any houses:\n" + monopoly);
     }
@@ -192,7 +192,7 @@ public class MonopolyTest {
         System.out.println("Before alterations:\n" + monopoly);
 
         // Build a hotel on property C
-        assertThrows(IllegalArgumentException.class, () -> monopoly.sellHotel("C"));
+        monopoly.sellHotel("C");
         assertEquals(0, monopoly.getNumberOfHouses("C"));
         System.out.println("Attempted to sell hotel on C, but did not have any hotels:\n" + monopoly);
     }
