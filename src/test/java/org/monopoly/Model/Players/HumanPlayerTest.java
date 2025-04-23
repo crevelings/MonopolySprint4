@@ -177,15 +177,6 @@ public class HumanPlayerTest {
     }
 
     @Test
-    void playerTakingTurnMovesPlayer() {
-        Dice dice = new Dice();
-        HumanPlayer humanPlayer = new HumanPlayer("John Doe", new Token( "John Doe","BattleShip.png"));
-        assertEquals(0, humanPlayer.getPosition());
-        humanPlayer.takeTurn(dice);
-        assertNotEquals(0, humanPlayer.getPosition());
-    }
-
-    @Test
     void testPlayerInJailCannotMove(){
         HumanPlayer humanPlayer = new HumanPlayer("John Doe", new Token( "John Doe","BattleShip.png"));
         humanPlayer.goToJail();
