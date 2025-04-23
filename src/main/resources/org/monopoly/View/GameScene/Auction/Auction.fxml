@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="740.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d7d1c8" height="110.0" stroke="TRANSPARENT" strokeType="INSIDE" width="740.0" />
+      <Pane prefHeight="110.0" prefWidth="740.0" style="-fx-border-color: grey;">
+         <children>
+            <HBox prefHeight="110.0" prefWidth="740.0" spacing="98.0">
+               <children>
+                  <ImageView fitHeight="100.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="50.0" top="15.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@CardPlaceHolder.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Countdown: 100" textAlignment="CENTER" textFill="#000000a6">
+                     <font>
+                        <Font name="Futura Bold" size="25.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="30.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Current Bid: $1" textAlignment="CENTER" textFill="#000000a6">
+                     <font>
+                        <Font name="Futura Bold" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="50.0" top="35.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <HBox layoutY="110.0" prefHeight="290.0" prefWidth="740.0" style="-fx-border-color: grey; -fx-border-width: 0.5;">
+         <children>
+            <Pane prefHeight="290.0" prefWidth="185.0">
+               <children>
+                  <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="30.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../TokenPNGs/BattleShip.png" />
+                     </image></ImageView>
+                  <Button layoutX="66.0" layoutY="218.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="53.0" text="Bid">
+                     <font>
+                        <Font name="Futura Medium" size="13.0" />
+                     </font>
+                  </Button>
+                  <Line endX="185.0" startX="184.99998474121094" startY="289.5" stroke="#0000008c" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Pane>
+            <Pane layoutX="11.0" layoutY="11.0" prefHeight="290.0" prefWidth="185.0">
+               <children>
+                  <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="30.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../TokenPNGs/RaceCar.png" />
+                     </image></ImageView>
+                  <Button layoutX="66.0" layoutY="218.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="53.0" text="Bid">
+                     <font>
+                        <Font name="Futura Medium" size="13.0" />
+                     </font>
+                  </Button>
+                  <Line endX="185.0" startX="184.99998474121094" startY="289.5" stroke="#0000008c" />
+               </children>
+            </Pane>
+            <Pane layoutX="196.0" layoutY="11.0" prefHeight="290.0" prefWidth="185.0">
+               <children>
+                  <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="44.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../TokenPNGs/Thimble.png" />
+                     </image></ImageView>
+                  <Button layoutX="66.0" layoutY="218.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="53.0" text="Bid">
+                     <font>
+                        <Font name="Futura Medium" size="13.0" />
+                     </font>
+                  </Button>
+                  <Line endX="185.0" startX="184.99998474121094" startY="289.5" stroke="#0000008c" />
+               </children>
+            </Pane>
+            <Pane layoutX="381.0" layoutY="11.0" prefHeight="290.0" prefWidth="185.0">
+               <children>
+                  <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="30.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../TokenPNGs/TopHat.png" />
+                     </image></ImageView>
+                  <Button layoutX="66.0" layoutY="218.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="53.0" text="Bid">
+                     <font>
+                        <Font name="Futura Medium" size="13.0" />
+                     </font>
+                  </Button>
+                  <Line endX="185.0" startX="184.99998474121094" startY="289.5" stroke="#0000008c" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+   </children>
+</Pane>
