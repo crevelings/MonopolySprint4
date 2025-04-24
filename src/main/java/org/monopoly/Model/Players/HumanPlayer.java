@@ -226,13 +226,33 @@ public class HumanPlayer extends Player {
         }
 
         if (answer == 'Y' || answer == 'y') {
+            System.out.println("Game Over! The winner is " + getWealthiestPlayer().getName() + " with $" + getWealthiestPlayer().getBalance() + "!");
             removePlayersFromGame();
-            System.out.println("Game Over!");
         }
         else
         {
             System.out.println("Not all players voted to end the game. The game will continue.");
         }
+    }
+
+    /**
+     * Gets the wealthiest player in the game.
+     * @return The wealthiest player.'
+     *
+     * Developed by: shifmans
+     */
+    private Player getWealthiestPlayer() {
+        TurnManager tm = TurnManager.getInstance();
+        ArrayList<Player> players = tm.getPlayers();
+        Player wealthiestPlayer = players.getFirst();
+
+        for (Player player : players) {
+            if (wealthiestPlayer.getBalance() < player.getBalance()) {
+                wealthiestPlayer = player;
+            }
+        }
+
+        return wealthiestPlayer;
     }
 
     /**
@@ -274,7 +294,7 @@ public class HumanPlayer extends Player {
             System.out.println("What property do you want to trade? ");
             item = keyboard.nextLine();
 
-            while (!TitleDeedCards.getInstance().getProperties().containsKey(item)) {
+            while (!hasItem(trader, item)) {
                 System.out.println("Invalid property! What property do you want to trade? ");
                 item = keyboard.nextLine();
             }
@@ -332,11 +352,9 @@ public class HumanPlayer extends Player {
         if (item.equalsIgnoreCase("Get Out of Jail Free Card")) {
             return trader.hasCard("Get Out of Jail Free.");
         }
-        else if (TitleDeedCards.getInstance().getProperties().containsKey(item)) {
+        else {
             return trader.getPropertiesOwned().contains(item) || trader.getPropertiesMortgaged().contains(item);
         }
-
-        return false;
     }
 
     /**

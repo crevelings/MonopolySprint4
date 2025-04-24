@@ -769,6 +769,14 @@ public class HumanPlayerTest {
 
         assertEquals(3, tm.getPlayers().size());
 
+        tm.getPlayers().get(0).subtractFromBalance(500);
+        tm.getPlayers().get(1).subtractFromBalance(300);
+        tm.getPlayers().get(2).subtractFromBalance(600);
+
+        assertEquals(1000, tm.getPlayers().get(0).getBalance());
+        assertEquals(1200, tm.getPlayers().get(1).getBalance());
+        assertEquals(900, tm.getPlayers().get(2).getBalance());
+
         String simulatedInput = "Y\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
