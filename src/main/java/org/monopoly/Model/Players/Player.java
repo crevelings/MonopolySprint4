@@ -1,11 +1,8 @@
 package org.monopoly.Model.Players;
 
 import org.monopoly.Exceptions.*;
-import org.monopoly.Model.Banker;
+import org.monopoly.Model.*;
 import org.monopoly.Model.Cards.ColorGroup;
-import org.monopoly.Model.Dice;
-import org.monopoly.Model.GameBoard;
-import org.monopoly.Model.Monopoly;
 
 import java.util.ArrayList;
 
@@ -53,7 +50,7 @@ public abstract class Player {
      */
     public String getName(){
         return name;
-    };
+    }
 
     public Token getToken() {
         return token;
@@ -329,4 +326,14 @@ public abstract class Player {
     public abstract void sellHouse(String propertyName, ColorGroup colorGroup);
     public abstract void buyHotel(String propertyName, ColorGroup colorGroup, int price);
     public abstract void sellHotel(String propertyName, ColorGroup colorGroup);
+
+    /**
+     * Quits the game for the player.
+     * @param player The player who is quitting the game.
+     *
+     * Developed by: shifmans
+     */
+    public void quitGame(Player player) {
+        TurnManager.getInstance().removePlayer(player);
+    }
 }

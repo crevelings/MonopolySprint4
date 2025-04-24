@@ -4,12 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.monopoly.Exceptions.InsufficientFundsException;
 import org.monopoly.Exceptions.NoSuchPropertyException;
-import org.monopoly.Model.Banker;
+import org.monopoly.Model.*;
 import org.monopoly.Model.Cards.ColorGroup;
 import org.monopoly.Model.Cards.TitleDeedCards;
-import org.monopoly.Model.Dice;
-import org.monopoly.Model.GameBoard;
 
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -732,4 +732,73 @@ public class HumanPlayerTest {
 //
 //        assertThrows(BankruptcyException.class, () -> humanPlayer.sellBuildingsToRaiseFunds(1000));
 //    }
+
+    /**
+     * Developed by: shifmans
+     */
+    @Test
+    public void testQuitGame() {
+        Token[] tokens = {new Token("Player 1", "BattleShip.png"), new Token("Player 2", "Car.png"), new Token("CPU 1", "Hat.png")};
+        Game game = new Game(2, tokens);
+        TurnManager tm = new TurnManager(2, new ArrayList<>(List.of(
+                new HumanPlayer("Player 1", tokens[0]),
+                new HumanPlayer("Player 2", tokens[1]),
+                new ComputerPlayer("CPU 1", tokens[2])
+        )), game, GameBoard.getInstance());
+        assertEquals(3, tm.getPlayers().size());
+
+        HumanPlayer player = (HumanPlayer) tm.getPlayers().get(0);
+        player.quitGame(player);
+
+        assertEquals(2, tm.getPlayers().size());
+        assertFalse(tm.getPlayers().contains(player));
+    }
+
+    /**
+     * Developed by: shifmans
+     */
+    @Test
+    public void testEndGameSuccessful() {
+        Token[] tokens = {new Token("Player 1", "BattleShip.png"), new Token("Player 2", "Car.png"), new Token("CPU 1", "Hat.png")};
+        Game game = new Game(2, tokens);
+        TurnManager tm = new TurnManager(2, new ArrayList<>(List.of(
+                new HumanPlayer("Player 1", tokens[0]),
+                new HumanPlayer("Player 2", tokens[1]),
+                new ComputerPlayer("CPU 1", tokens[2])
+        )), game, GameBoard.getInstance());
+
+        assertEquals(3, tm.getPlayers().size());
+
+        String simulatedInput = "Y\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+
+        HumanPlayer player = (HumanPlayer) tm.getPlayers().get(0);
+        player.endGame();
+
+        assertEquals(0, tm.getPlayers().size());
+    }
+
+    /**
+     * Developed by: shifmans
+     */
+    @Test
+    public void testEndGameFail() {
+        Token[] tokens = {new Token("Player 1", "BattleShip.png"), new Token("Player 2", "Car.png"), new Token("CPU 1", "Hat.png")};
+        Game game = new Game(2, tokens);
+        TurnManager tm = new TurnManager(2, new ArrayList<>(List.of(
+                new HumanPlayer("Player 1", tokens[0]),
+                new HumanPlayer("Player 2", tokens[1]),
+                new ComputerPlayer("CPU 1", tokens[2])
+        )), game, GameBoard.getInstance());
+
+        assertEquals(3, tm.getPlayers().size());
+
+        String simulatedInput = "N\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+
+        HumanPlayer player = (HumanPlayer) tm.getPlayers().get(0);
+        player.endGame();
+
+        assertEquals(3, tm.getPlayers().size());
+    }
 }
