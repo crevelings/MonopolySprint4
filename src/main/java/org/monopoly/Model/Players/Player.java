@@ -34,7 +34,7 @@ public abstract class Player {
         this.name = name;
         this.token = token;
         this.position = 0;
-        this.balance = 1300;
+        this.balance = 1500;
         this.inJail = false;
         this.propertiesOwned = new ArrayList<>();
         this.propertiesMortgaged = new ArrayList<>();
