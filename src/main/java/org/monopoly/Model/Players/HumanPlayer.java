@@ -7,6 +7,9 @@ import org.monopoly.Model.Cards.TitleDeedCards;
 import org.monopoly.Model.GameTiles.PropertySpace;
 import org.monopoly.View.GameScene.GameScene;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  * A class representing a player in the Monopoly game.
  * More functionality will be added
@@ -203,5 +206,44 @@ public class HumanPlayer extends Player {
         getMonopolies().get(index).sellHotel(propertyName);
         if (numHotelsBefore != getNumHotels())
             addToBalance(property.getHotelPrice()/2);
+    }
+
+    /**
+     * Ends the Monopoly game.
+     *
+     * Developed by: shifmans
+     */
+    public void endGame() {
+        Scanner keyboard = new Scanner(System.in);
+
+        System.out.println("Do all players want to end the game (Y/N)? ");
+        char answer = keyboard.next().charAt(0);
+
+        while (answer != 'Y' && answer != 'y' && answer != 'N' && answer != 'n') {
+            System.out.println("Invalid response, do all players want to end the game (Y/N)? ");
+            answer = keyboard.next().charAt(0);
+        }
+
+        if (answer == 'Y' || answer == 'y') {
+            removePlayersFromGame();
+            System.out.println("Game Over!");
+        }
+        else
+        {
+            System.out.println("Not all players voted to end the game. The game will continue.");
+        }
+    }
+
+    /**
+     * Quits the game for all players when game is ended.
+     *
+     * Developed by: shifmans
+     */
+    private void removePlayersFromGame() {
+        TurnManager tm = TurnManager.getInstance();
+
+        for (Player player : new ArrayList<>(tm.getPlayers())) {
+                quitGame(player);
+        }
     }
 }
