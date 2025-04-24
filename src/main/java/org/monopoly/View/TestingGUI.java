@@ -1,11 +1,15 @@
 package org.monopoly.View;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import org.monopoly.View.GameScene.GameScene;
+
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * A class that we can use to test features of JavaFX in a isolated environment.
@@ -20,15 +24,20 @@ public class TestingGUI extends Application {
      * @author walshj05
      */
     @Override
-    public void start(Stage stage) {
-
-        Scene scene = new Scene(new Pane());
-        stage.setTitle("Monopoly");
-        ((Pane) scene.getRoot()).setPrefSize(800,600);
-        stage.setScene(scene);
+    public void start(Stage stage) throws IOException {
+        //Bank Info
+        String fxmlPath = "/org/monopoly/View/GameScene/Bank/BankInfo.fxml";
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxmlPath)));
+        stage.setTitle("Bank Info");
+        stage.setScene(new Scene(root, 740, 740));
         stage.show();
 
-        GameScene.sendAlert("This is a test alert");
+        //Auction
+        //String fxmlPath2 = "/org/monopoly/View/GameScene/Auction/Auction.fxml";
+        //Parent root2 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxmlPath2)));
+        //stage.setTitle("Auction");
+        //stage.setScene(new Scene(root2, 740, 400));
+        //stage.show();
     }
 
     /**
