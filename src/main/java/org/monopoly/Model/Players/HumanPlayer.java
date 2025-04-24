@@ -9,6 +9,7 @@ import org.monopoly.View.GUI;
 import org.monopoly.View.GameScene.GameScene;
 import org.monopoly.View.HumanPlayerController;
 
+
 /**
  * A class representing a player in the Monopoly game.
  * More functionality will be added
@@ -40,12 +41,11 @@ public class HumanPlayer extends Player {
         if (GUI.getInstance() != null) {
             controller.startTurn();
         }
-        //todo make it players turn
     }
 
     /**
      * When the player rolls the dice it will move their player.
-     * @param dice
+     * @param dice Dice object
      */
     public void rollDice(Dice dice) {
         int[] rollResult = dice.roll();
@@ -65,6 +65,7 @@ public class HumanPlayer extends Player {
             getPropertiesOwned().add(property);
             subtractFromBalance(price);
             updateMonopolies();
+            controller.updatePlayerInfo();
         } else {
             GameScene.sendAlert("Insufficient funds to purchase " + property);
         }
@@ -81,6 +82,7 @@ public class HumanPlayer extends Player {
             getPropertiesOwned().remove(property);
             getPropertiesMortgaged().add(property);
             addToBalance(mortgageCost);
+            controller.updatePlayerInfo();
         } else {
             GameScene.sendAlert("You do not own " + property);
         }
@@ -112,6 +114,7 @@ public class HumanPlayer extends Player {
             getPropertiesOwned().remove(property);
             addToBalance(propertyCost);
             updateMonopolies();
+            controller.updatePlayerInfo();
         } else {
             GameScene.sendAlert("You do not own " + property);
         }
@@ -129,6 +132,7 @@ public class HumanPlayer extends Player {
             setBalance(0);
         } else {
             setBalance(getBalance() - amount);
+            controller.updatePlayerInfo();
         }
     }
 

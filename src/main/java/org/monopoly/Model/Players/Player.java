@@ -37,7 +37,7 @@ public abstract class Player {
         this.name = name;
         this.token = token;
         this.position = 0;
-        this.balance = 1500;
+        this.balance = 1300;
         this.inJail = false;
         this.propertiesOwned = new ArrayList<>();
         this.propertiesMortgaged = new ArrayList<>();
@@ -68,7 +68,10 @@ public abstract class Player {
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        GameBoard.getInstance().removeToken(this.token, this.position); // Remove token from old position
+        this.position = position; // Move the player
+        GameBoard.getInstance().addToken(this.token, this.position);
+        GameBoard.getInstance().executeStrategyType(this, "tile");
     }
     public void setBalance(int balance){
         this.balance = balance;
@@ -116,6 +119,7 @@ public abstract class Player {
             GameBoard.getInstance().removeToken(this.token, position); // Remove token from old position
             position = (spaces + position) % 40; // Move the player
             GameBoard.getInstance().addToken(this.token, position);
+            GameBoard.getInstance().executeStrategyType(this, "tile");
         }
     }
 
@@ -125,7 +129,7 @@ public abstract class Player {
      */
     public void goToJail() {
         inJail = true;
-        position = 10;
+        setPosition(10);
     }
 
     /** 
@@ -293,7 +297,7 @@ public abstract class Player {
         return numHouses;
     }
 
-    public abstract void takeTurn(Dice dice);
+    public abstract void takeTurn(Dice dice );
 
     public abstract void purchaseProperty(String property, int price) throws InsufficientFundsException;
 

@@ -13,6 +13,7 @@ import org.monopoly.Model.Players.HumanPlayer;
 import org.monopoly.Model.Players.Player;
 import org.monopoly.View.GameScene.GameScene;
 
+
 /**
  * Controller for the human player interface.
  * This class handles the player's actions and updates the UI accordingly.
@@ -72,7 +73,12 @@ public class HumanPlayerController {
      * Sets the token image for the player.
      * @author walshj05
      */
-    public void updateProperties(){}
+    public void updateProperties(){
+        properties.getChildren().clear();
+        for (String property : player.getPropertiesOwned()){
+            properties.getChildren().add(new Label(property));
+        }
+    }
 
     /**
      * Updates the players information
@@ -80,7 +86,7 @@ public class HumanPlayerController {
      */
     public void updatePlayerInfo(){
         money.setText("Balance: $" + player.getBalance());
-
+        updateProperties();
     }
 
     /**
@@ -90,6 +96,7 @@ public class HumanPlayerController {
      */
     public void onRollDice(ActionEvent actionEvent) {
         player.rollDice(Dice.getInstance());
+
     }
 
     /**

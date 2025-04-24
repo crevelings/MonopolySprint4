@@ -52,14 +52,6 @@ public class ComputerPlayer extends Player {
                 // end of turn process
             }
             move(total);
-
-            int positionBeforeStrategy = getPosition();
-            int positionAfterStrategy = 100; // cannot ever be this value, so it will check at least once
-            while (positionBeforeStrategy != positionAfterStrategy) { // logic for when executing strategy changes player position
-                positionBeforeStrategy = getPosition();
-                GameBoard.getInstance().executeStrategyType(this, "tile");
-                positionAfterStrategy = getPosition();
-            }
             numDoublesNeeded++;
         }
         endOfTurnProcess();
