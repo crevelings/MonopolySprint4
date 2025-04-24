@@ -5,6 +5,7 @@ import org.monopoly.Model.*;
 import org.monopoly.Model.Cards.ColorGroup;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Abstract class for the different types of players in the Monopoly game.
@@ -335,5 +336,22 @@ public abstract class Player {
      */
     public void quitGame(Player player) {
         TurnManager.getInstance().removePlayer(player);
+    }
+
+    /**
+     * Checks if the player has accepted a trade.
+     *
+     * Developed by: shifmans
+     */
+    public boolean hasAcceptedTrade(Player responder, Scanner keyboard) {
+        System.out.println(responder.getName() + ", do you accept the trade (Y/N)? ");
+        char answer = keyboard.next().charAt(0);
+
+        while (answer != 'Y' && answer != 'y' && answer != 'N' && answer != 'n') {
+            System.out.println("Invalid response, " + responder.getName() + " do you accept the trade (Y/N)? ");
+            answer = keyboard.next().charAt(0);
+        }
+
+        return (answer == 'Y') || (answer == 'y');
     }
 }

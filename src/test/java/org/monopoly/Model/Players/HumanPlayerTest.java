@@ -769,6 +769,14 @@ public class HumanPlayerTest {
 
         assertEquals(3, tm.getPlayers().size());
 
+        tm.getPlayers().get(0).subtractFromBalance(500);
+        tm.getPlayers().get(1).subtractFromBalance(300);
+        tm.getPlayers().get(2).subtractFromBalance(600);
+
+        assertEquals(1000, tm.getPlayers().get(0).getBalance());
+        assertEquals(1200, tm.getPlayers().get(1).getBalance());
+        assertEquals(900, tm.getPlayers().get(2).getBalance());
+
         String simulatedInput = "Y\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
@@ -800,5 +808,62 @@ public class HumanPlayerTest {
         player.endGame();
 
         assertEquals(3, tm.getPlayers().size());
+    }
+
+    /**
+     * Developed by: shifmans
+     */
+    @Test
+    public void testTradeProperty() {
+        Token[] tokens = {new Token("Player 1", "BattleShip.png"), new Token("Player 2", "Car.png")};
+        Game game = new Game(2, tokens);
+        TurnManager tm = new TurnManager(2, new ArrayList<>(List.of(
+                new HumanPlayer("Player 1", tokens[0]),
+                new HumanPlayer("Player 2", tokens[1])
+        )), game, GameBoard.getInstance());
+
+        HumanPlayer trader = (HumanPlayer) tm.getPlayers().get(0);
+        HumanPlayer responder = (HumanPlayer) tm.getPlayers().get(1);
+
+        String simulatedInput = "Player 2\nproperty\nPark Place\n200\nY\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+
+        trader.purchaseProperty("Park Place", 350);
+        assertTrue(trader.hasProperty("Park Place"));
+        assertEquals(1150, trader.getBalance());
+        assertEquals(1500, responder.getBalance());
+
+        trader.initiateTrade(trader);
+        assertFalse(trader.hasProperty("Park Place"));
+        assertTrue(responder.hasProperty("Park Place"));
+        assertEquals(1150, trader.getBalance());
+        assertEquals(1300, responder.getBalance());
+    }
+
+    /**
+     * Developed by: shifmans
+     */
+    @Test
+    public void testTradeCard() {
+        Token[] tokens = {new Token("Player 1", "BattleShip.png"), new Token("Player 2", "Car.png")};
+        Game game = new Game(2, tokens);
+        TurnManager tm = new TurnManager(2, new ArrayList<>(List.of(
+                new HumanPlayer("Player 1", tokens[0]),
+                new HumanPlayer("Player 2", tokens[1])
+        )), game, GameBoard.getInstance());
+
+        HumanPlayer trader = (HumanPlayer) tm.getPlayers().get(0);
+        HumanPlayer responder = (HumanPlayer) tm.getPlayers().get(1);
+
+        String simulatedInput = "Player 2\ncard\n200\nY\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+
+        trader.addCard("Get Out of Jail Free.");
+
+        trader.initiateTrade(trader);
+        assertFalse(trader.hasCard("Get Out of Jail Free."));
+        assertTrue(responder.hasCard("Get Out of Jail Free."));
+        assertEquals(1500, trader.getBalance());
+        assertEquals(1300, responder.getBalance());
     }
 }
