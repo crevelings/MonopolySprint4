@@ -6,6 +6,7 @@ import org.monopoly.Model.Cards.ColorGroup;
 import org.monopoly.Model.Cards.TitleDeedCards;
 import org.monopoly.Model.GameTiles.GameTile;
 import org.monopoly.Model.GameTiles.PropertySpace;
+import org.monopoly.View.ComputerPlayerController;
 
 import java.util.*;
 
@@ -17,6 +18,7 @@ import java.util.*;
  */
 public class ComputerPlayer extends Player {
     private final Random random;
+    private ComputerPlayerController controller;
     /**
      * Constructor for a HumanPlayer
      *
@@ -29,6 +31,9 @@ public class ComputerPlayer extends Player {
         random = new Random(System.nanoTime());
     }
 
+    public void setController(ComputerPlayerController controller) {
+        this.controller = controller;
+    }
     /**
      * A method for a player to take a turn in the game
      *
@@ -53,8 +58,18 @@ public class ComputerPlayer extends Player {
             }
             move(total);
             numDoublesNeeded++;
+            System.out.println(numDoublesNeeded);
+            System.out.println(dice.isDouble());
         }
         endOfTurnProcess();
+    }
+
+    @Override
+    public void addToBalance(int amount) {
+        setBalance(getBalance() + amount);
+        if (controller != null){// Check if controller is not null before updating
+            controller.updateBalance();
+        }
     }
 
     /**
@@ -83,6 +98,10 @@ public class ComputerPlayer extends Player {
             TitleDeedCards.getInstance().getProperty(property).setOwner(getName());
             subtractFromBalance(price);
             updateMonopolies();
+            if (controller != null) {
+                controller.updateProperties();
+            }
+
         } else {
             // todo start auction process
             return;
@@ -112,7 +131,7 @@ public class ComputerPlayer extends Player {
     public void unmortgageProperty(String property, int unmortgageValue){
         getPropertiesMortgaged().remove(property);
         getPropertiesOwned().add(property);
-        subtractFromBalance(unmortgageValue); // Deduct the mortgage value from the player's balance
+        subtractFromBalance(unmortgageValue);// Deduct the mortgage value from the player's balance
     }
 
     /**
@@ -127,6 +146,9 @@ public class ComputerPlayer extends Player {
         getPropertiesOwned().remove(property);
         addToBalance(propertyCost);
         updateMonopolies();
+        if (controller != null) {
+            controller.updateProperties();
+        }
     }
 
     /**
@@ -142,6 +164,9 @@ public class ComputerPlayer extends Player {
             return;
         }
         setBalance(getBalance() - amount);
+        if (controller != null){// Check if controller is not null before updating
+            controller.updateBalance();
+        }
     }
 
     /**
@@ -244,10 +269,12 @@ public class ComputerPlayer extends Player {
      * @author walshj05
      */
     public void endOfTurnProcess(){
+        System.out.println("At end of turn");
         String propertyName = getRandomPropertyOwned();
         GameTile property = TitleDeedCards.getInstance().getProperty(propertyName);
         boolean hasAtLeastOneMonopoly = !getColorGroups().isEmpty();
         if (getPropertiesOwned().isEmpty()) {
+            TurnManager.getInstance().nextPlayersTurn();
             return; // No properties owned
         }
         else if (getBalance() > 500 && runOdds(0.75)) {
@@ -273,7 +300,7 @@ public class ComputerPlayer extends Player {
                 sellProperty(propertyName, property.getPrice());
             }
         }
-        TurnManager.getInstance().nextPlayer();
+        TurnManager.getInstance().nextPlayersTurn();
     }
 
     /**

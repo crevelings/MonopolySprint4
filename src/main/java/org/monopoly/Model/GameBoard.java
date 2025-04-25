@@ -241,11 +241,11 @@ public class GameBoard {
             GameTile currTile = tiles.get(player.getPosition());
             if (currTile instanceof ChanceSpace) {
                 String card = drawChanceCard();
-                System.out.println(card);
+                GameScene.sendAlert(card);
                 chanceDeck.executeStrategy(player, card);
             } else if (currTile instanceof CommunityChestSpace) {
                 String card = drawCommunityChestCard();
-                System.out.println(card);
+                GameScene.sendAlert(card);
                 communityChestDeck.executeStrategy(player, card);
             } else {
             currTile.executeStrategy(player);

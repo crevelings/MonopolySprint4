@@ -76,6 +76,7 @@ public class GUI {
         game.start();
         stage.setScene(gameScene.getScene());
         stage.centerOnScreen();
+        stage.setResizable(false);
         stage.show();
     }
 
