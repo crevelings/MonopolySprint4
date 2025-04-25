@@ -4,7 +4,6 @@ import org.monopoly.Model.*;
 
 import org.monopoly.Model.Cards.ColorGroup;
 import org.monopoly.Model.Cards.TitleDeedCards;
-import org.monopoly.Model.Cards.TitleDeedDeck;
 import org.monopoly.Model.GameTiles.PropertySpace;
 import org.monopoly.View.GUI;
 import org.monopoly.View.GameScene.GameScene;
@@ -57,6 +56,12 @@ public class HumanPlayer extends Player {
         int die2 = rollResult[1];
         int total = die1 + die2;
         move(total);
+    }
+
+    @Override
+    public void addToBalance(int amount) {
+        super.addToBalance(amount);
+        updateObservers();
     }
 
     /**
