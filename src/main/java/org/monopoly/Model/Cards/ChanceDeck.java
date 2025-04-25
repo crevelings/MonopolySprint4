@@ -97,7 +97,6 @@ public class ChanceDeck extends CardDeck {
                 break;
             case "Advance to Go (Collect $200).":
                 player.setPosition(0);
-                player.addToBalance(200);
                 break;
             case "Advance to Illinois Avenue. If you pass Go, collect $200.":
                 if (player.getPosition() > 24) {

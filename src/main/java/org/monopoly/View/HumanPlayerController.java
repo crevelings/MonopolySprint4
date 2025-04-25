@@ -9,8 +9,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import org.monopoly.Model.Dice;
+import org.monopoly.Model.Players.HumanPlayer;
 import org.monopoly.Model.Players.Player;
 import org.monopoly.View.GameScene.GameScene;
+
 
 /**
  * Controller for the human player interface.
@@ -50,7 +52,7 @@ public class HumanPlayerController {
     private Label money;
     @FXML
     private VBox properties;
-    private Player player;
+    private HumanPlayer player;
 
 
     /**
@@ -59,18 +61,24 @@ public class HumanPlayerController {
      * @author walshj05
      */
     public void setPlayer(Player player) {
-        this.player = player;
+        this.player = (HumanPlayer)player;
         name.setText(player.getName());
         token.setImage(new Image(GameScene.addFilePath(player.getToken().getIcon())));
         name.setText(player.getName());
         money.setText("Balance: $" + player.getBalance());
+        this.player.setController(this);
     }
 
     /**
      * Sets the token image for the player.
      * @author walshj05
      */
-    public void updateProperties(){}
+    public void updateProperties(){
+        properties.getChildren().clear();
+        for (String property : player.getPropertiesOwned()){
+            properties.getChildren().add(new Label(property));
+        }
+    }
 
     /**
      * Updates the players information
@@ -78,7 +86,7 @@ public class HumanPlayerController {
      */
     public void updatePlayerInfo(){
         money.setText("Balance: $" + player.getBalance());
-
+        updateProperties();
     }
 
     /**
@@ -87,7 +95,8 @@ public class HumanPlayerController {
      * @author walshj05
      */
     public void onRollDice(ActionEvent actionEvent) {
-        player.takeTurn(Dice.getInstance());
+        player.rollDice(Dice.getInstance());
+
     }
 
     /**
@@ -178,5 +187,20 @@ public class HumanPlayerController {
      */
     public void onMortgageProperty(ActionEvent actionEvent) {
         System.out.println(player.getName() + " Mortgage Property button clicked");
+    }
+
+    public void startTurn(){
+        disableTurnButtons();
+        rollDice.setDisable(false);
+    }
+
+    private void disableTurnButtons(){
+        getOutOfJail.setDisable(true);
+        drawCard.setDisable(true);
+        buyProp.setDisable(true);
+        buyHouse.setDisable(true);
+        buyHotel.setDisable(true);
+        endTurn.setDisable(true);
+        rollDice.setDisable(true);
     }
 }

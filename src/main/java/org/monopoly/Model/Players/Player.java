@@ -3,6 +3,8 @@ package org.monopoly.Model.Players;
 import org.monopoly.Exceptions.*;
 import org.monopoly.Model.*;
 import org.monopoly.Model.Cards.ColorGroup;
+import org.monopoly.View.GUI;
+import org.monopoly.View.GameScene.GameScene;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -43,6 +45,7 @@ public abstract class Player {
         this.colorGroups = new ArrayList<>();
         this.cards = new ArrayList<>();
         this.jailTurns = 0;
+        GameBoard.getInstance().addToken(token, position);
     }
 
     /**
@@ -66,7 +69,10 @@ public abstract class Player {
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        GameBoard.getInstance().removeToken(this.token, this.position); // Remove token from old position
+        this.position = position; // Move the player
+        GameBoard.getInstance().addToken(this.token, this.position);
+        GameBoard.getInstance().executeStrategyType(this, "tile");
     }
     public void setBalance(int balance){
         this.balance = balance;
@@ -112,8 +118,14 @@ public abstract class Player {
     public void move(int spaces) {
         if (!inJail) {
             GameBoard.getInstance().removeToken(this.token, position); // Remove token from old position
-            position = (spaces + position) % 40; // Move the player
+            position += spaces; // Move the player
+            if (position > 40){
+                this.addToBalance(200);
+                GameScene.sendAlert("passed go!!!"); //todo REMOVE ME
+            }
+            position %= 40;
             GameBoard.getInstance().addToken(this.token, position);
+            GameBoard.getInstance().executeStrategyType(this, "tile");
         }
     }
 
@@ -123,7 +135,7 @@ public abstract class Player {
      */
     public void goToJail() {
         inJail = true;
-        position = 10;
+        setPosition(10);
     }
 
     /** 
@@ -291,7 +303,7 @@ public abstract class Player {
         return numHouses;
     }
 
-    public abstract void takeTurn(Dice dice);
+    public abstract void takeTurn(Dice dice );
 
     public abstract void purchaseProperty(String property, int price) throws InsufficientFundsException;
 

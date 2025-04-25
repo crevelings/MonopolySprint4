@@ -14,12 +14,10 @@ public class TurnManager {
     private final ArrayList<Player> players;
     private int numPlayers;
     private static TurnManager instance;
-    private Game game;
-    private GameBoard gameBoard;
 
     public static TurnManager getInstance() {
         if (instance == null) {
-            return new TurnManager(0, new ArrayList<>(), null, null);
+            return new TurnManager(0, new ArrayList<>());
         }
         return instance;
     }
@@ -29,12 +27,10 @@ public class TurnManager {
      * @param players the list of players in the game
      * @author walshj05
      */
-    public TurnManager(int numPlayers, ArrayList<Player> players, Game game, GameBoard gameBoard) {
+    public TurnManager(int numPlayers, ArrayList<Player> players) {
         this.numPlayers = numPlayers;
         this.currentPlayerIndex = 0;
         this.players = players;
-        this.game = game;
-        this.gameBoard = gameBoard;
         instance = this;
     }
 

@@ -37,7 +37,6 @@ public class ComputerPlayerController {
      */
     public void setPlayer(Player player) {
         this.player = player;
-        player.move(0);
         this.token.setImage(new Image(GameScene.addFilePath(player.getToken().getIcon())));
         name.setText(player.getName());
         balance.setText("Balance: $" + player.getBalance());
