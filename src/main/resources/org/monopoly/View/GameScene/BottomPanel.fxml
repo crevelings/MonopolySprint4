@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<HBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.monopoly.View.GameScene.Board.BottomPanelController"
+      spacing="10" style="-fx-padding: 10;">
+<Button fx:id="bankerInfo" text="Banker" onAction="#onBankerInfoClick" />
+    <Button fx:id="quitGame" text="Quit" onAction="#onQuitGameClick" />
+    <Button fx:id="settings" text="Settings" onAction="#onSettingsClick" />
+</HBox>
