@@ -5,7 +5,6 @@ import org.monopoly.Model.*;
 import org.monopoly.Model.Cards.ColorGroup;
 import org.monopoly.Model.Cards.TitleDeedCards;
 import org.monopoly.Model.GameTiles.PropertySpace;
-import org.monopoly.View.GUI;
 import org.monopoly.View.GameScene.GameScene;
 import org.monopoly.View.HumanPlayerController;
 
@@ -20,6 +19,7 @@ import java.util.Scanner;
  */
 public class HumanPlayer extends Player {
     private HumanPlayerController controller;
+    private boolean needsDecision;
 
     /**
      * Constructor for a HumanPlayer
@@ -29,10 +29,15 @@ public class HumanPlayer extends Player {
      */
     public HumanPlayer(String name, Token token) {
         super(name, token);
+        needsDecision = true;
     }
 
     public void setController(HumanPlayerController controller) {
         this.controller = controller;
+    }
+
+    public void resolveDecision() {
+        needsDecision = false;
     }
 
     /**
@@ -41,7 +46,8 @@ public class HumanPlayer extends Player {
      * @author walshj05
      */
     public void takeTurn (Dice dice) {
-        if (GUI.getInstance() != null) {
+        System.out.println("Testing");
+        if (controller != null) {
             controller.startTurn();
         }
     }
@@ -70,13 +76,23 @@ public class HumanPlayer extends Player {
      * @author walshj05
      */
     public void purchaseProperty(String property, int price){
-        if (getBalance() >= price) {
+        // todo player pays rent if they dont own the property
+        if (getPropertiesOwned().contains(property)) {
+            GameScene.sendAlert("You already own " + property);
+            return;
+        }
+        if (needsDecision && controller!= null){
+            controller.purchasingProperty();
+        } else if (getBalance() >= price) {
             getPropertiesOwned().add(property);
             subtractFromBalance(price);
             updateMonopolies();
             updateObservers();
+            needsDecision = true;
         } else {
             GameScene.sendAlert("Insufficient funds to purchase " + property);
+            needsDecision = true;
+            // todo start auction by default
         }
     }
 

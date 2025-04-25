@@ -42,7 +42,7 @@ public class TurnManager {
         if (numPlayers == 0) { // on get instance where game never initializes
             return;
         }
-        currentPlayerIndex = (currentPlayerIndex + 1) % numPlayers;
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
 
     /**
@@ -62,6 +62,8 @@ public class TurnManager {
      * 4/9/25: Moved from game to TurnManager
      */
     public void playerTakeTurn(){
+        System.out.println("Current Player: " + players.get(currentPlayerIndex).getName());
+        Dice.getInstance().resetNumDoubles();
         players.get(currentPlayerIndex).takeTurn(Dice.getInstance());
     }
 
@@ -73,6 +75,7 @@ public class TurnManager {
      */
     public void nextPlayersTurn(){
         nextPlayer();
+        playerTakeTurn();
     }
 
     /**

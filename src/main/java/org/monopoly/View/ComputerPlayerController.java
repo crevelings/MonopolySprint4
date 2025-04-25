@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import org.monopoly.Model.Players.ComputerPlayer;
 import org.monopoly.Model.Players.Player;
 import org.monopoly.View.GameScene.GameScene;
 
@@ -35,11 +36,24 @@ public class ComputerPlayerController {
      * @param player The player to initialize the interface for.
      * @author walshj05
      */
-    public void setPlayer(Player player) {
+    public void setPlayer(ComputerPlayer player) {
         this.player = player;
         this.token.setImage(new Image(GameScene.addFilePath(player.getToken().getIcon())));
         name.setText(player.getName());
         balance.setText("Balance: $" + player.getBalance());
+        player.setController(this);
         // Update properties list if needed
+    }
+
+    public void updateBalance() {
+        balance.setText("Balance: $" + player.getBalance());
+    }
+
+    public void updateProperties() {
+        properties.getChildren().clear();
+        for (String property : player.getPropertiesOwned()) {
+            Label propertyLabel = new Label(property);
+            properties.getChildren().add(propertyLabel);
+        }
     }
 }

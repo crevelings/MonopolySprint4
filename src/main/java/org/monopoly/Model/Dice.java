@@ -45,7 +45,10 @@ public class Dice {
     public int[] roll() {
         int die1 = random.nextInt(SIDES) + 1; // Random number between 1 and 6
         int die2 = random.nextInt(SIDES) + 1;
-        isDouble = (die1 == die2); // Check if it's a double
+        isDouble = (die1 == die2);
+        if (isDouble){
+            incrementNumDoubles();// Check if it's a double
+        }
         if (GameScene.getInstance() != null){ // Updates the dice in the GUI if it has been initialized
             GameScene.getInstance().updateDice(die1, die2);
         }

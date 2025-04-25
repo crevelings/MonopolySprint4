@@ -40,7 +40,7 @@
                         <Font name="Futura Bold" size="10.0" />
                     </font>
                 </Button>
-                <Button onAction="#onEndTurn" fx:id="endTurn" layoutX="110.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="End Turn">
+                <Button onAction="#onQuit" fx:id="quit" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Quit">
                     <font>
                         <Font name="Futura Bold" size="10.0" />
                     </font>
@@ -49,11 +49,6 @@
         </HBox>
         <HBox layoutX="10.0" layoutY="156.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="450.0" spacing="10.0">
             <children>
-                <Button onAction="#onDrawCard" fx:id="drawCard" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Draw Card">
-                    <font>
-                        <Font name="Futura Bold" size="10.0" />
-                    </font>
-                </Button>
                 <Button onAction="#onAuction" fx:id="auction" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Auction">
                     <font>
                         <Font name="Futura Bold" size="10.0" />
@@ -70,6 +65,11 @@
                     </font>
                 </Button>
                 <Button onAction="#onMortgageProperty" fx:id="mortProp" layoutX="110.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Mortgage Property">
+                    <font>
+                        <Font name="Futura Bold" size="10.0" />
+                    </font>
+                </Button>
+                <Button onAction="#onEndTurn" fx:id="endTurn" layoutX="110.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="End Turn">
                     <font>
                         <Font name="Futura Bold" size="10.0" />
                     </font>

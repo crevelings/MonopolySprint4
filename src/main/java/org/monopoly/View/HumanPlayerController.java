@@ -9,8 +9,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import org.monopoly.Model.Dice;
+import org.monopoly.Model.GameBoard;
+import org.monopoly.Model.GameTiles.GameTile;
 import org.monopoly.Model.Players.HumanPlayer;
 import org.monopoly.Model.Players.Player;
+import org.monopoly.Model.TurnManager;
 import org.monopoly.View.GameScene.GameScene;
 
 
@@ -21,15 +24,15 @@ import org.monopoly.View.GameScene.GameScene;
  */
 public class HumanPlayerController {
     @FXML
-    public Button mortProp;
+    private Button mortProp;
     @FXML
-    public Button getOutOfJail;
+    private Button getOutOfJail;
     @FXML
-    public Button trade;
+    private Button trade;
     @FXML
-    public Button auction;
+    private Button auction;
     @FXML
-    public Button drawCard;
+    private Button quit;
     @FXML
     private AnchorPane playerPane;
     @FXML
@@ -66,6 +69,8 @@ public class HumanPlayerController {
         token.setImage(new Image(GameScene.addFilePath(player.getToken().getIcon())));
         name.setText(player.getName());
         money.setText("Balance: $" + player.getBalance());
+        rollDice.setDisable(true);
+        disableTurnButtons();
         this.player.setController(this);
     }
 
@@ -96,7 +101,9 @@ public class HumanPlayerController {
      */
     public void onRollDice(ActionEvent actionEvent) {
         player.rollDice(Dice.getInstance());
-
+        rollDice.setDisable(true);
+        System.out.println(Dice.getInstance().getNumDoubles());
+        checkForDouble();
     }
 
     /**
@@ -114,7 +121,11 @@ public class HumanPlayerController {
      * @author walshj05
      */
     public void onBuyProperty(ActionEvent actionEvent) {
-        System.out.println(player.getName() + " Buy Property button clicked");
+        player.resolveDecision();
+        GameTile tile = GameBoard.getInstance().getTile(player.getPosition());
+        player.purchaseProperty(tile.getName(), tile.getPrice());
+        buyProp.setDisable(true);
+        checkForDouble();
     }
 
     /**
@@ -141,16 +152,8 @@ public class HumanPlayerController {
      * @author walshj05
      */
     public void onEndTurn(ActionEvent actionEvent) {
-        System.out.println(player.getName() + " End Turn button clicked");
-    }
-
-    /**
-     * Handles the action when the player clicks the "Mortgage Property" button.
-     * @param actionEvent The action event triggered by the button click.
-     * @author walshj05
-     */
-    public void onDrawCard(ActionEvent actionEvent) {
-        System.out.println(player.getName() + " Draw Card button clicked");
+        TurnManager.getInstance().nextPlayersTurn();
+        disableTurnButtons();
     }
 
     /**
@@ -159,6 +162,9 @@ public class HumanPlayerController {
      * @author walshj05
      */
     public void onAuction(ActionEvent actionEvent) {
+        player.resolveDecision();
+        buyProp.setDisable(true);
+        checkForDouble();
         System.out.println(player.getName() + " Auction button clicked");
     }
 
@@ -190,17 +196,42 @@ public class HumanPlayerController {
     }
 
     public void startTurn(){
+        //todo jail
         disableTurnButtons();
         rollDice.setDisable(false);
+        System.out.println(rollDice.isDisable());
+    }
+
+    public void purchasingProperty(){
+        disableTurnButtons();
+        buyProp.setDisable(false);
+        auction.setDisable(false);
     }
 
     private void disableTurnButtons(){
         getOutOfJail.setDisable(true);
-        drawCard.setDisable(true);
         buyProp.setDisable(true);
         buyHouse.setDisable(true);
         buyHotel.setDisable(true);
         endTurn.setDisable(true);
-        rollDice.setDisable(true);
+//        rollDice.setDisable(true);
+    }
+    private void checkForDouble(){
+        System.out.println("Testing: This is the curr num doubles: " + Dice.getInstance().getNumDoubles());
+        if (Dice.getInstance().isDouble() && Dice.getInstance().getNumDoubles() < 3 && buyProp.isDisable()){
+            GameScene.sendAlert("You still need to roll again!");
+            System.out.println("TEST doubles register");
+            startTurn();
+        } else if (Dice.getInstance().getNumDoubles() == 3){
+            GameScene.sendAlert("You rolled doubles 3 times in a row! Go to jail!");
+            player.goToJail();
+        }
+        else if (buyProp.isDisable()){
+            endTurn.setDisable(false);
+            GameScene.sendAlert("No more rolls! Manage your assets or end your turn!");
+        }
+    }
+
+    public void onQuit(ActionEvent actionEvent) {
     }
 }
