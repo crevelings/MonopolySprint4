@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
+import org.monopoly.Model.Players.ComputerPlayer;
 import org.monopoly.Model.Players.Player;
 import org.monopoly.Model.Players.Token;
 import org.monopoly.View.GameScene.Board.BoardController;
@@ -46,6 +47,8 @@ public class GameScene {
         root.getChildren().add(boardRoot);
         initializePlayerInterfaces(humanPlayers, computerPlayers, root);
         this.scene = new Scene(root, 1190, 740);
+        root.prefWidthProperty().bind(scene.widthProperty());
+        root.prefHeightProperty().bind(scene.heightProperty());
     }
 
     /**
@@ -75,7 +78,7 @@ public class GameScene {
             Parent playerRoot = playerLoader.load();
             ComputerPlayerController playerController = playerLoader.getController();
             // todo add controller to players observer list
-            playerController.setPlayer(player);
+            playerController.setPlayer((ComputerPlayer) player);
             playerRoot.setLayoutY(yStart);
             playerRoot.setLayoutX(740);
             root.getChildren().add(playerRoot);
