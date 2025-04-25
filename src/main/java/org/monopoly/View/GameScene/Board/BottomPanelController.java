@@ -10,8 +10,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.net.URL;
 
+/**
+ * Controller class for the bottom panel of the game.
+ */
 public class BottomPanelController {
     @FXML
     private Button bankerInfo;
@@ -20,6 +22,10 @@ public class BottomPanelController {
     @FXML
     private Button settings;
 
+    /**
+     * Configures and has the pop-up for the Banker Info screen to show the houses and hotels owned.
+     * Along with the exit button to close the pop-up.
+     */
     @FXML
     public void onBankerInfoClick() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/monopoly/View/GameScene/Bank/BankInfo.fxml"));
@@ -39,7 +45,7 @@ public class BottomPanelController {
 
     @FXML
     public void onQuitGameClick() {
-        System.out.println("Quit Game Clicked");
+
     }
 
     @FXML
