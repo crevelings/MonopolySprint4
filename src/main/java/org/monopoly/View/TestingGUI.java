@@ -26,11 +26,11 @@ public class TestingGUI extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         //Bank Info
-        String fxmlPath = "/org/monopoly/View/GameScene/Bank/BankInfo.fxml";
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxmlPath)));
-        stage.setTitle("Bank Info");
-        stage.setScene(new Scene(root, 740, 740));
-        stage.show();
+        //String fxmlPath = "/org/monopoly/View/GameScene/Bank/BankInfo.fxml";
+        //Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxmlPath)));
+        //stage.setTitle("Bank Info");
+        //stage.setScene(new Scene(root, 740, 740));
+        //stage.show();
 
         //Auction
         //String fxmlPath2 = "/org/monopoly/View/GameScene/Auction/Auction.fxml";
@@ -38,6 +38,13 @@ public class TestingGUI extends Application {
         //stage.setTitle("Auction");
         //stage.setScene(new Scene(root2, 740, 400));
         //stage.show();
+
+        //Trade
+        String fxmlPath3 = "/org/monopoly/View/GameScene/Trade/Trade.fxml";
+        Parent root3 = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(fxmlPath3)));
+        stage.setTitle("Trade");
+        stage.setScene(new Scene(root3, 370, 400));
+        stage.show();
     }
 
     /**
