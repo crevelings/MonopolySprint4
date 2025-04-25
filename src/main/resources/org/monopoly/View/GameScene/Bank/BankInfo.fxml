@@ -140,7 +140,7 @@
          </children>
       </Pane>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cacbcd" height="50.0" layoutY="700.0" stroke="#ffffff00" strokeType="INSIDE" width="740.0" />
-      <Button layoutX="666.0" layoutY="705.0" mnemonicParsing="false" text="Exit">
+      <Button fx:id="bankInfoExitButton" layoutX="666.0" layoutY="705.0" mnemonicParsing="false" text="Exit">
          <font>
             <Font name="Futura Medium" size="15.0" />
          </font>

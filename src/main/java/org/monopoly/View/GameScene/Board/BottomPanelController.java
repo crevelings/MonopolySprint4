@@ -22,7 +22,19 @@ public class BottomPanelController {
 
     @FXML
     public void onBankerInfoClick() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/monopoly/View/GameScene/Bank/BankInfo.fxml"));
+        Parent root1 = fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setTitle("ABC");
+        stage.setScene(new Scene(root1));
+        stage.show();
 
+        Button exitButton = (Button) root1.lookup("#bankInfoExitButton");
+        if (exitButton != null) {
+            exitButton.setOnAction(event -> stage.close());
+        }
     }
 
     @FXML
