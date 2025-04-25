@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.monopoly.Model.Game;
 import org.monopoly.Model.Players.Player;
 import org.monopoly.View.GameScene.GameScene;
 
@@ -71,6 +72,8 @@ public class GUI {
     public void setGameScene(ArrayList<Player> humanPlayers, ArrayList<Player> computerPlayers) throws IOException {
         // Create a new game scene and set it as the current scene
         GameScene gameScene = new GameScene(humanPlayers, computerPlayers);
+        Game game = new Game(humanPlayers, computerPlayers);
+        game.start();
         stage.setScene(gameScene.getScene());
         stage.centerOnScreen();
         stage.show();

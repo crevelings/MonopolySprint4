@@ -933,6 +933,75 @@ public class ComputerPlayerTests {
     }
 
 
+    @Test
+    void testComputerPlayerJailPaysToLeave(){
+        ComputerPlayer cpu = new ComputerPlayer("CPU", new Token( "CPU","BattleShip.png"));
+        cpu.goToJail();
+        assertTrue(cpu.isInJail());
+        cpu.jailTurnLogic();
+        assertFalse(cpu.isInJail()); // player pays to get out of jail
+
+        cpu.goToJail();
+        assertTrue(cpu.isInJail());
+        cpu.setBalance(0);
+        while (cpu.isInJail()){
+            cpu.jailTurnLogic(); // player released from jail after 3 turns in jail
+        }
+        assertFalse(cpu.isInJail());
+
+        cpu.goToJail();
+        assertTrue(cpu.isInJail());
+        while (cpu.isInJail()){
+            cpu.jailTurnLogic(); // player released from jail after 3 turns in jail
+            cpu.resetJailTurns();
+        }
+        assertFalse(cpu.isInJail());
+    }
+
+    @Test
+    void testComputerPlayerRollsToLeave(){
+        ComputerPlayer cpu = new ComputerPlayer("CPU", new Token( "CPU","BattleShip.png"));
+        cpu.goToJail();
+        assertTrue(cpu.isInJail());
+        while (cpu.isInJail()){
+            cpu.jailTurnLogic(); // player released from jail rolling doubles
+            cpu.resetJailTurns();
+        }
+        assertFalse(cpu.isInJail());
+    }
+
+    @Test
+    void testPlayerJailTurnWithCards(){
+        ComputerPlayer cpu = new ComputerPlayer("CPU", new Token( "CPU","BattleShip.png"));
+        cpu.goToJail();
+        assertTrue(cpu.isInJail());
+        cpu.addCard("community:Get Out of Jail Free");
+        cpu.addCard("chance:Get Out of Jail Free.");
+        cpu.jailTurnLogic();
+        assertFalse(cpu.isInJail());
+        cpu.goToJail();
+        assertTrue(cpu.isInJail());
+        cpu.jailTurnLogic();
+        assertFalse(cpu.isInJail());
+    }
+
+    @Test
+    void testPlayerJailTurnReleasedAfterThreeTurns(){
+        ComputerPlayer cpu = new ComputerPlayer("CPU", new Token( "CPU","BattleShip.png"));
+
+        cpu.goToJail();
+        assertTrue(cpu.isInJail());
+        cpu.setBalance(0);
+        while (cpu.isInJail()){
+            Dice.getInstance().resetNumDoubles();
+            cpu.jailTurnLogic(); // player released from jail after 3 turns in jail
+            if (Dice.getInstance().getNumDoubles() > 0) {
+                cpu.goToJail();
+            }
+        }
+        assertFalse(cpu.isInJail());
+    }
+
 //    /**
 //     * Developed by: shifmans
 //     */

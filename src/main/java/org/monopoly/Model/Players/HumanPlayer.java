@@ -4,9 +4,11 @@ import org.monopoly.Model.*;
 
 import org.monopoly.Model.Cards.ColorGroup;
 import org.monopoly.Model.Cards.TitleDeedCards;
-import org.monopoly.Model.Cards.TitleDeedDeck;
 import org.monopoly.Model.GameTiles.PropertySpace;
+import org.monopoly.View.GUI;
 import org.monopoly.View.GameScene.GameScene;
+import org.monopoly.View.HumanPlayerController;
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,6 +19,7 @@ import java.util.Scanner;
  * @author walshj05, crevelings
  */
 public class HumanPlayer extends Player {
+    private HumanPlayerController controller;
 
     /**
      * Constructor for a HumanPlayer
@@ -28,6 +31,9 @@ public class HumanPlayer extends Player {
         super(name, token);
     }
 
+    public void setController(HumanPlayerController controller) {
+        this.controller = controller;
+    }
 
     /**
      * A method for a player to take a turn in the game
@@ -35,7 +41,9 @@ public class HumanPlayer extends Player {
      * @author walshj05
      */
     public void takeTurn (Dice dice) {
-        rollDice(dice);
+        if (GUI.getInstance() != null) {
+            controller.startTurn();
+        }
     }
 
     /**
@@ -50,6 +58,12 @@ public class HumanPlayer extends Player {
         move(total);
     }
 
+    @Override
+    public void addToBalance(int amount) {
+        super.addToBalance(amount);
+        updateObservers();
+    }
+
     /**
      * Player buys a property
      * @param property String
@@ -60,6 +74,7 @@ public class HumanPlayer extends Player {
             getPropertiesOwned().add(property);
             subtractFromBalance(price);
             updateMonopolies();
+            updateObservers();
         } else {
             GameScene.sendAlert("Insufficient funds to purchase " + property);
         }
@@ -76,6 +91,7 @@ public class HumanPlayer extends Player {
             getPropertiesOwned().remove(property);
             getPropertiesMortgaged().add(property);
             addToBalance(mortgageCost);
+            updateObservers();
         } else {
             GameScene.sendAlert("You do not own " + property);
         }
@@ -107,10 +123,12 @@ public class HumanPlayer extends Player {
             getPropertiesOwned().remove(property);
             addToBalance(propertyCost);
             updateMonopolies();
+            updateObservers();
         } else {
             GameScene.sendAlert("You do not own " + property);
         }
     }
+
 
     /**
      * Subtracts a certain amount from the player's balance
@@ -124,6 +142,7 @@ public class HumanPlayer extends Player {
             setBalance(0);
         } else {
             setBalance(getBalance() - amount);
+            updateObservers();
         }
     }
 
@@ -265,6 +284,12 @@ public class HumanPlayer extends Player {
 
         for (Player player : new ArrayList<>(tm.getPlayers())) {
                 quitGame(player);
+        }
+    }
+
+    private void updateObservers() {
+        if (controller != null) {
+            controller.updatePlayerInfo();
         }
     }
 

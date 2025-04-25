@@ -51,12 +51,6 @@ public class GameScene {
         Parent boardRoot = boardLoader.load();
         this.boardController = boardLoader.getController();
         root.getChildren().addAll(boardRoot, bottomRoot);
-        for (Player player : humanPlayers) {
-            player.move(0);
-        }
-        for (Player player : computerPlayers) {
-            player.move(0);
-        }
         initializePlayerInterfaces(humanPlayers, computerPlayers, root);
         this.scene = new Scene(root, 1190, 1000);
     }

@@ -177,15 +177,6 @@ public class HumanPlayerTest {
     }
 
     @Test
-    void playerTakingTurnMovesPlayer() {
-        Dice dice = new Dice();
-        HumanPlayer humanPlayer = new HumanPlayer("John Doe", new Token( "John Doe","BattleShip.png"));
-        assertEquals(0, humanPlayer.getPosition());
-        humanPlayer.takeTurn(dice);
-        assertNotEquals(0, humanPlayer.getPosition());
-    }
-
-    @Test
     void testPlayerInJailCannotMove(){
         HumanPlayer humanPlayer = new HumanPlayer("John Doe", new Token( "John Doe","BattleShip.png"));
         humanPlayer.goToJail();
@@ -739,13 +730,13 @@ public class HumanPlayerTest {
     @Test
     public void testQuitGame() {
         Token[] tokens = {new Token("Player 1", "BattleShip.png"), new Token("Player 2", "Car.png"), new Token("CPU 1", "Hat.png")};
-        Game game = new Game(2, tokens);
-        TurnManager tm = new TurnManager(2, new ArrayList<>(List.of(
-                new HumanPlayer("Player 1", tokens[0]),
-                new HumanPlayer("Player 2", tokens[1]),
-                new ComputerPlayer("CPU 1", tokens[2])
-        )), game, GameBoard.getInstance());
-        assertEquals(3, tm.getPlayers().size());
+        ArrayList<Player> human = new ArrayList<>();
+        human.add(new HumanPlayer("Player 1", tokens[0]));
+        human.add(new HumanPlayer("Player 2", tokens[1]));
+        ArrayList<Player> computer = new ArrayList<>();
+        computer.add(new ComputerPlayer("CPU 1", tokens[2]));
+        Game game = new Game(human, computer);
+        TurnManager tm = TurnManager.getInstance();
 
         HumanPlayer player = (HumanPlayer) tm.getPlayers().get(0);
         player.quitGame(player);
@@ -760,12 +751,13 @@ public class HumanPlayerTest {
     @Test
     public void testEndGameSuccessful() {
         Token[] tokens = {new Token("Player 1", "BattleShip.png"), new Token("Player 2", "Car.png"), new Token("CPU 1", "Hat.png")};
-        Game game = new Game(2, tokens);
-        TurnManager tm = new TurnManager(2, new ArrayList<>(List.of(
-                new HumanPlayer("Player 1", tokens[0]),
-                new HumanPlayer("Player 2", tokens[1]),
-                new ComputerPlayer("CPU 1", tokens[2])
-        )), game, GameBoard.getInstance());
+        ArrayList<Player> human = new ArrayList<>();
+        human.add(new HumanPlayer("Player 1", tokens[0]));
+        human.add(new HumanPlayer("Player 2", tokens[1]));
+        ArrayList<Player> computer = new ArrayList<>();
+        computer.add(new ComputerPlayer("CPU 1", tokens[2]));
+        Game game = new Game(human, computer);
+        TurnManager tm = TurnManager.getInstance();
 
         assertEquals(3, tm.getPlayers().size());
 
@@ -792,12 +784,13 @@ public class HumanPlayerTest {
     @Test
     public void testEndGameFail() {
         Token[] tokens = {new Token("Player 1", "BattleShip.png"), new Token("Player 2", "Car.png"), new Token("CPU 1", "Hat.png")};
-        Game game = new Game(2, tokens);
-        TurnManager tm = new TurnManager(2, new ArrayList<>(List.of(
-                new HumanPlayer("Player 1", tokens[0]),
-                new HumanPlayer("Player 2", tokens[1]),
-                new ComputerPlayer("CPU 1", tokens[2])
-        )), game, GameBoard.getInstance());
+        ArrayList<Player> human = new ArrayList<>();
+        human.add(new HumanPlayer("Player 1", tokens[0]));
+        human.add(new HumanPlayer("Player 2", tokens[1]));
+        ArrayList<Player> computer = new ArrayList<>();
+        computer.add(new ComputerPlayer("CPU 1", tokens[2]));
+        Game game = new Game(human, computer);
+        TurnManager tm = TurnManager.getInstance();
 
         assertEquals(3, tm.getPlayers().size());
 
@@ -816,11 +809,12 @@ public class HumanPlayerTest {
     @Test
     public void testTradeProperty() {
         Token[] tokens = {new Token("Player 1", "BattleShip.png"), new Token("Player 2", "Car.png")};
-        Game game = new Game(2, tokens);
-        TurnManager tm = new TurnManager(2, new ArrayList<>(List.of(
-                new HumanPlayer("Player 1", tokens[0]),
-                new HumanPlayer("Player 2", tokens[1])
-        )), game, GameBoard.getInstance());
+        ArrayList<Player> human = new ArrayList<>();
+        human.add(new HumanPlayer("Player 1", tokens[0]));
+        human.add(new HumanPlayer("Player 2", tokens[1]));
+        ArrayList<Player> computer = new ArrayList<>();
+        Game game = new Game(human, computer);
+        TurnManager tm = TurnManager.getInstance();
 
         HumanPlayer trader = (HumanPlayer) tm.getPlayers().get(0);
         HumanPlayer responder = (HumanPlayer) tm.getPlayers().get(1);
@@ -846,11 +840,12 @@ public class HumanPlayerTest {
     @Test
     public void testTradeCard() {
         Token[] tokens = {new Token("Player 1", "BattleShip.png"), new Token("Player 2", "Car.png")};
-        Game game = new Game(2, tokens);
-        TurnManager tm = new TurnManager(2, new ArrayList<>(List.of(
-                new HumanPlayer("Player 1", tokens[0]),
-                new HumanPlayer("Player 2", tokens[1])
-        )), game, GameBoard.getInstance());
+        ArrayList<Player> human = new ArrayList<>();
+        human.add(new HumanPlayer("Player 1", tokens[0]));
+        human.add(new HumanPlayer("Player 2", tokens[1]));
+        ArrayList<Player> computer = new ArrayList<>();
+        Game game = new Game(human, computer);
+        TurnManager tm = TurnManager.getInstance();
 
         HumanPlayer trader = (HumanPlayer) tm.getPlayers().get(0);
         HumanPlayer responder = (HumanPlayer) tm.getPlayers().get(1);
