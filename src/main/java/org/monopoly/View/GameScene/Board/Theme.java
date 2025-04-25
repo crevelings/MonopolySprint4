@@ -1,7 +1,8 @@
 package org.monopoly.View.GameScene.Board;
 
 public enum Theme {
-    CLASSIC("Classic", ""),
+    NORMAL("Normal", ""),
+    CLASSIC("Classic", "classic-theme.css"),
     DARK("Dark Mode", "dark-theme.css"),
     MODERN("Modern", "modern-theme.css"),
     RETRO("Retro", "retro-theme.css");

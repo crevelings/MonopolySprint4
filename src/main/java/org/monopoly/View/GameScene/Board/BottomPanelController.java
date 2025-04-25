@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -32,6 +33,35 @@ public class BottomPanelController implements Initializable {
 
     private final ThemeManager themeManager = ThemeManager.getInstance();
 
+    @FXML
+    private CheckBox animationsCheckBox;
+    @FXML
+    private CheckBox soundEffectsCheckBox;
+
+    private boolean animationsEnabled = true;
+    private boolean soundEffectsEnabled = true;
+
+    // Add these methods:
+    public boolean areAnimationsEnabled() {
+        return animationsEnabled;
+    }
+
+    public boolean areSoundEffectsEnabled() {
+        return soundEffectsEnabled;
+    }
+
+    @FXML
+    private void handleAnimationsToggle() {
+        animationsEnabled = animationsCheckBox.isSelected();
+        // You can add animation-specific logic here
+    }
+
+    @FXML
+    private void handleSoundEffectsToggle() {
+        soundEffectsEnabled = soundEffectsCheckBox.isSelected();
+        // You can add sound-specific logic here
+    }
+
     /**
      * Starts up the theme manager and applies theme to all windows
      */
@@ -39,10 +69,10 @@ public class BottomPanelController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         if (themeComboBox != null) {
             themeComboBox.getItems().addAll(Theme.values());
-            themeComboBox.setValue(Theme.CLASSIC);
+            themeComboBox.setValue(Theme.NORMAL);
 
-            themeManager.setTheme(Theme.CLASSIC, themeComboBox.getScene());
-            applyThemeToAllWindows(Theme.CLASSIC);
+            themeManager.setTheme(Theme.NORMAL, themeComboBox.getScene());
+            applyThemeToAllWindows(Theme.NORMAL);
 
             themeComboBox.setOnAction(_ -> {
                 Theme selectedTheme = themeComboBox.getValue();

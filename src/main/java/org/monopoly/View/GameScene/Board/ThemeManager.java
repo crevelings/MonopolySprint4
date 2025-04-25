@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 
 public class ThemeManager {
     private static ThemeManager instance;
-    private Theme currentTheme = Theme.CLASSIC;
+    private Theme currentTheme = Theme.NORMAL;
 
 
     public static ThemeManager getInstance() {
