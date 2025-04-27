@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:controller="org.monopoly.View.JailTurnController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="tokenView" fitHeight="100.0" fitWidth="100.0" layoutX="56.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true"/>
+      <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@TokenPNGs/jailBars.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="279.0" layoutY="14.0" prefHeight="33.0" prefWidth="142.0" text="You Are In Jail">
+         <font>
+            <Font name="Futura Medium" size="18.0" />
+         </font>
+      </Label>
+         <Button fx:id="payButton" onAction="#onPay" layoutX="250.0" layoutY="55.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Pay $50 To Leave" wrapText="true">
+         <font>
+            <Font name="Futura Medium" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="rollButton" onAction="#onRoll" layoutX="250.0" layoutY="100.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Roll for doubles!" wrapText="true">
+         <font>
+            <Font name="Futura Medium" size="13.0" />
+         </font>
+      </Button>
+      <Button onAction="#onUseCard" fx:id="getOutOfJailCard" layoutX="250.0" layoutY="146.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Use get out of jail free card!" wrapText="true">
+         <font>
+            <Font name="Futura Medium" size="13.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

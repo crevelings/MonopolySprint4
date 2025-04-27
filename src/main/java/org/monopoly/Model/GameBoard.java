@@ -239,13 +239,14 @@ public class GameBoard {
     public void executeStrategyType(Player player, String type) {
         if (Objects.equals(type, "tile")) {
             GameTile currTile = tiles.get(player.getPosition());
+            GameScene.sendAlert(currTile.landOn(), player.getName() + " landed on " + currTile.getName());
             if (currTile instanceof ChanceSpace) {
                 String card = drawChanceCard();
-                GameScene.sendAlert(card);
+                GameScene.sendAlert(card, "Chance Card!");
                 chanceDeck.executeStrategy(player, card);
             } else if (currTile instanceof CommunityChestSpace) {
                 String card = drawCommunityChestCard();
-                GameScene.sendAlert(card);
+                GameScene.sendAlert(card, "Community Chest Card!");
                 communityChestDeck.executeStrategy(player, card);
             } else {
             currTile.executeStrategy(player);
