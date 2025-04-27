@@ -226,7 +226,6 @@ public class BoardController {
         rt.setCycleCount(4);
         rt.setAutoReverse(true);
         rt.setInterpolator(Interpolator.LINEAR);
-        rt.setAxis(javafx.geometry.Point3D.ZERO.add(5, 5, 5));
         rt.play();
         rt.setOnFinished(event -> {
             switch (dieValue) {

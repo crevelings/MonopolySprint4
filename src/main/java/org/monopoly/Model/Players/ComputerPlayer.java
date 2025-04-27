@@ -300,7 +300,9 @@ public class ComputerPlayer extends Player {
                 sellProperty(propertyName, property.getPrice());
             }
         }
-        TurnManager.getInstance().nextPlayersTurn();
+        if (!TurnManager.getInstance().getPlayers().isEmpty()){
+            TurnManager.getInstance().nextPlayersTurn();
+        }
     }
 
     /**

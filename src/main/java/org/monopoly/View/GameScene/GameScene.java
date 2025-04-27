@@ -4,6 +4,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import org.monopoly.Model.Players.ComputerPlayer;
 import org.monopoly.Model.Players.Player;
@@ -139,12 +141,20 @@ public class GameScene {
      * Developed by: shifmans
      */
     public static void sendAlert(String message) {
+        sendAlert(message, "Turn Event!");
+    }
+
+
+    public static void sendAlert(String message, String title) {
         if (instance != null){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("\u26A0 Alert!");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("\u26A0 " + title);
+            alert.setGraphic(new ImageView(new Image(addFilePath("monopolyMan.png"), 200, 200, false, false)));
+            alert.setHeaderText(null);
+            alert.setContentText(message);
+            alert.setX(650);
+            alert.setY(400);
+            alert.showAndWait();
         }
     }
 }

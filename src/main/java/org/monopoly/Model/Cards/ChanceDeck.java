@@ -148,7 +148,6 @@ public class ChanceDeck extends CardDeck {
                 }
                 break;
             case "Go to Jail. Go directly to Jail, do not pass Go, do not collect $200.":
-                player.setPosition(10);
                 player.goToJail();
                 break;
             case "Make general repairs on all your property. For each house pay $25. For each hotel pay $100.":
