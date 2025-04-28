@@ -10,6 +10,10 @@ import org.monopoly.Model.GameBoard;
 import org.monopoly.Model.Players.HumanPlayer;
 import org.monopoly.View.GameScene.GameScene;
 
+/**
+ * Controller for the JailTurn view.
+ * @author walshj05
+ */
 public class JailTurnController {
     @FXML
     private Button payButton;
@@ -21,6 +25,10 @@ public class JailTurnController {
     private Button rollButton;
     private HumanPlayer player;
 
+    /**
+     * Sets the player for the JailTurnController
+     * @author walshj05
+     */
     public void setPlayer(HumanPlayer player) {
         this.player = player;
         String tokenIcon = player.getToken().getIcon();
@@ -33,6 +41,10 @@ public class JailTurnController {
         }
     }
 
+    /**
+     * Handles the action when the player clicks the "Pay" button.
+     * @author walshj05
+     */
     public void onPay(ActionEvent actionEvent) {
         if (player.getBalance() >= 50) {
             player.subtractFromBalance(50);

@@ -16,6 +16,10 @@ public class BankInfoController {
     private Label numProperties;
 
     /**
+     * Updates the counts of houses, hotels, and properties owned by the banker.
+     * @author shifmans, crevelings
+     */
+    /**
      * Update the counts of houses, hotels, and properties in the BankInfo view.
      * @param houses Houses the banker has.
      * @param hotels Hotels the banker has.

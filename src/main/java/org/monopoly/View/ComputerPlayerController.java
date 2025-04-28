@@ -45,6 +45,10 @@ public class ComputerPlayerController {
         // Update properties list if needed
     }
 
+    /**
+     * Updates the balance on the player interface.
+     * @author walshj05
+     */
     public void updateBalance() {
         balance.setText("Balance: $" + player.getBalance());
     }

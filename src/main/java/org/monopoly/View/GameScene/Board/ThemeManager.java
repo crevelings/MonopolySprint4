@@ -2,11 +2,16 @@ package org.monopoly.View.GameScene.Board;
 
 import javafx.scene.Scene;
 
+/**
+ * Class for managing themes
+ * @author crevelings
+ */
 public class ThemeManager {
     private static ThemeManager instance;
-    private Theme currentTheme = Theme.NORMAL;
 
-
+    /**
+     * Singleton pattern setup
+     */
     public static ThemeManager getInstance() {
         if (instance == null) {
             instance = new ThemeManager();
@@ -14,9 +19,12 @@ public class ThemeManager {
         return instance;
     }
 
+    /**
+     * Sets the theme for a given scene
+     * @author crevelings
+     */
     public void setTheme(Theme theme, Scene scene) {
         if (scene != null) {
-            currentTheme = theme;
             // Clear existing theme stylesheets
             scene.getStylesheets().clear();
             // Add new theme stylesheet
@@ -31,9 +39,4 @@ public class ThemeManager {
             }
         }
     }
-
-    public Theme getCurrentTheme() {
-        return currentTheme;
-    }
-
 }

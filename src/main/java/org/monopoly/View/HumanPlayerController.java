@@ -244,6 +244,10 @@ public class HumanPlayerController {
         System.out.println(player.getName() + " Mortgage Property button clicked");
     }
 
+    /**
+     * Starts the player's turn.
+     * @author walshj05
+     */
     public void startTurn(){
         if (player.isInJail()){
             GameScene.sendAlert("You are in jail! Attempt to get out of jail, manage your assets, or end your turn.");
@@ -256,12 +260,20 @@ public class HumanPlayerController {
         }
     }
 
+    /**
+     * Enables the "Buy Property" and "Auction" buttons for the player.
+     * @author walshj05
+     */
     public void purchasingProperty(){
         disableTurnButtons();
         buyProp.setDisable(false);
         auction.setDisable(false);
     }
 
+    /**
+     * Disables the turn buttons for the player.
+     * @author walshj05
+     */
     private void disableTurnButtons(){
         getOutOfJail.setDisable(true);
         buyProp.setDisable(true);
@@ -271,6 +283,10 @@ public class HumanPlayerController {
 //        rollDice.setDisable(true);
     }
 
+    /**
+     * Checks if the player has rolled doubles and updates the UI accordingly.
+     * @author walshj05
+     */
     private void checkForDouble(){
         System.out.println("Testing: This is the curr num doubles: " + Dice.getInstance().getNumDoubles());
         if (Dice.getInstance().isDouble() && Dice.getInstance().getNumDoubles() < 3 && buyProp.isDisable()){
