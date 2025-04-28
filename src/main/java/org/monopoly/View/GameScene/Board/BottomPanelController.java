@@ -3,19 +3,13 @@ package org.monopoly.View.GameScene.Board;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
+import javafx.scene.*;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.Window;
+import javafx.stage.*;
+import org.monopoly.Model.Banker;
 
-import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -95,6 +89,15 @@ public class BottomPanelController implements Initializable {
     public void onBankerInfoClick() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/monopoly/View/GameScene/Bank/BankInfo.fxml"));
         Parent root1 = fxmlLoader.load();
+
+        BankInfoController controller = fxmlLoader.getController();
+        Banker banker = Banker.getInstance();
+        controller.updateCounts(
+                banker.getHouses(),
+                banker.getHotels(),
+                banker.getBankNumProperties()
+        );
+
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.UNDECORATED);
@@ -107,6 +110,7 @@ public class BottomPanelController implements Initializable {
             exitButton.setOnAction(_ -> stage.close());
         }
     }
+
 
     @FXML
     public void onQuitGameClick() {
