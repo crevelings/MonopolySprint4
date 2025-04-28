@@ -27,7 +27,8 @@ To install the code, follow these steps:
 ### Steps to run through as a stand-alone program.
 1. Clone the repository to your desired place of storage.
 2. Open your terminal at the file location where the repository was cloned.
-3. Run the following command to launch the application: `bin/MonopolyGame`
+3. Run the following command to build the project: `mvn clean javafx:jlink`
+4. Run the following command to launch the application: `target/MonopolyGameRuntime/bin/MonopolyGame`
 
 ### Design Patterns Used:
 - Singleton: Used for Banker, Dice, GameScene, GUI, TurnManager, and TitleDeedCards
@@ -58,6 +59,7 @@ To install the code, follow these steps:
 - Logic for players going bankrupt and thus losing the game.
 - Computer player attempts to sell items if they run out of money
 - Computer player completes their turn incredibly fast; sometimes messing with the end frame of the dice roll animation (like on several doubles)
+- If there is a tie at the end of the game, the game currently just picks a random player from the tie.
 
 ### Project Purpose
 The Monopoly Game Project is designed to provide a fun and interactive way to play the classic board game 
