@@ -48,6 +48,10 @@ public class HumanPlayer extends Player {
     public void takeTurn (Dice dice) {
         System.out.println("Testing");
         if (controller != null) {
+            if (getJailTurns() == 3) {
+                GameScene.sendAlert("You have been in jail for three turns, you're free to go.");
+                releaseFromJail();
+            }
             controller.startTurn();
         }
     }

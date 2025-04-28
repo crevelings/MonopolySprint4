@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.monopoly.View.GameScene.Board.BottomPanelController">
+    <TitledPane stylesheets="styles.css" layoutY="29.0" text="Visual &amp; Audio Settings">
+        <VBox spacing="10">
+            <!-- Theme Selection -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="Game Theme:" />
+                <ComboBox fx:id="themeComboBox" promptText="Select theme" />
+            </HBox>
+
+            <!-- Animation Settings -->
+            <CheckBox fx:id="animationsCheckBox" selected="true" text="Enable Animations" />
+            <CheckBox fx:id="soundEffectsCheckBox" selected="true" text="Enable Sound Effects" />
+        </VBox>
+    </TitledPane>
+   <Button layoutX="-0.25" layoutY="-1.75" mnemonicParsing="false" onAction="#handleClose" styleClass="close-button" text="X" />
+
+</AnchorPane>

@@ -151,6 +151,7 @@ public abstract class Player {
      * @author walshj05
      */
     public void releaseFromJail() {
+        GameScene.sendAlert(name + " was released from jail!");
         inJail = false;
         jailTurns = 0;
     }

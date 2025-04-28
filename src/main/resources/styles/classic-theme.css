@@ -1,0 +1,26 @@
+.root {
+    -fx-background-color: #f0f0f0;
+    -fx-font-family: "Arial";
+}
+
+.button {
+    -fx-background-color: #C41E3A; /* Monopoly red */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: derive(#C41E3A, 20%);
+}
+
+.label {
+    -fx-text-fill: #2B2B2B;
+    -fx-font-size: 14px;
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #C41E3A;
+}

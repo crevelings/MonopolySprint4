@@ -7,12 +7,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PopupControl;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.monopoly.Model.Dice;
 import org.monopoly.Model.GameBoard;
 import org.monopoly.Model.GameTiles.GameTile;
@@ -160,8 +164,11 @@ public class HumanPlayerController {
      * @author walshj05
      */
     public void onEndTurn(ActionEvent actionEvent) {
-        TurnManager.getInstance().nextPlayersTurn();
+        if (player.isInJail()){
+            player.incrementJailTurns();
+        }
         disableTurnButtons();
+        TurnManager.getInstance().nextPlayersTurn();
     }
 
     /**
@@ -214,7 +221,19 @@ public class HumanPlayerController {
      * @author walshj05
      */
     public void onGetOutOfJail(ActionEvent actionEvent) {
-        System.out.println(player.getName() + " Get Out of Jail button clicked");
+        FXMLLoader fxmlLoader = new FXMLLoader(GameScene.class.getResource("jailInterface.fxml"));
+        try {
+            Parent pane = fxmlLoader.load();
+            JailTurnController controller = fxmlLoader.getController();
+            controller.setPlayer(player);
+            Stage stage = new Stage();
+            stage.setTitle("Get Out of Jail");
+            stage.setScene(new javafx.scene.Scene(pane));
+            stage.show();
+            getOutOfJail.setDisable(true);
+        } catch (IOException e) {
+            return;
+        }
     }
 
     /**
@@ -227,10 +246,15 @@ public class HumanPlayerController {
     }
 
     public void startTurn(){
-        //todo jail
-        disableTurnButtons();
-        rollDice.setDisable(false);
-        System.out.println(rollDice.isDisable());
+        if (player.isInJail()){
+            GameScene.sendAlert("You are in jail! Attempt to get out of jail, manage your assets, or end your turn.");
+            getOutOfJail.setDisable(false);
+            endTurn.setDisable(false);
+        } else {
+            disableTurnButtons();
+            rollDice.setDisable(false);
+            System.out.println(rollDice.isDisable());
+        }
     }
 
     public void purchasingProperty(){
@@ -247,6 +271,7 @@ public class HumanPlayerController {
         endTurn.setDisable(true);
 //        rollDice.setDisable(true);
     }
+
     private void checkForDouble(){
         System.out.println("Testing: This is the curr num doubles: " + Dice.getInstance().getNumDoubles());
         if (Dice.getInstance().isDouble() && Dice.getInstance().getNumDoubles() < 3 && buyProp.isDisable()){
@@ -256,6 +281,7 @@ public class HumanPlayerController {
         } else if (Dice.getInstance().getNumDoubles() == 3){
             GameScene.sendAlert("You rolled doubles 3 times in a row! Go to jail!");
             player.goToJail();
+            endTurn.setDisable(false);
         }
         else if (buyProp.isDisable()){
             endTurn.setDisable(false);

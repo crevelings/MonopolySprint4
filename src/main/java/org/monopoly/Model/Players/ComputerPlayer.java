@@ -273,7 +273,7 @@ public class ComputerPlayer extends Player {
         String propertyName = getRandomPropertyOwned();
         GameTile property = TitleDeedCards.getInstance().getProperty(propertyName);
         boolean hasAtLeastOneMonopoly = !getColorGroups().isEmpty();
-        if (getPropertiesOwned().isEmpty()) {
+        if (getPropertiesOwned().isEmpty() && !TurnManager.getInstance().getPlayers().isEmpty()) {
             TurnManager.getInstance().nextPlayersTurn();
             return; // No properties owned
         }
@@ -300,7 +300,9 @@ public class ComputerPlayer extends Player {
                 sellProperty(propertyName, property.getPrice());
             }
         }
-        TurnManager.getInstance().nextPlayersTurn();
+        if (!TurnManager.getInstance().getPlayers().isEmpty()){
+            TurnManager.getInstance().nextPlayersTurn();
+        }
     }
 
     /**

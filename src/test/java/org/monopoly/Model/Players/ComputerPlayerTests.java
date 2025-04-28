@@ -126,6 +126,9 @@ public class ComputerPlayerTests {
         do {
             cpu.takeTurn(new Dice());
         } while (cpu.getPosition() == 0);
+        if (cpu.getPosition() == 0) {
+            cpu.move(5);
+        }
         assertNotEquals(0, cpu.getPosition());
     }
      */

@@ -1,0 +1,30 @@
+.root {
+    -fx-background-color: #ffffff;
+    -fx-font-family: "Roboto";
+}
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: normal;
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);
+}
+
+.button:hover {
+    -fx-background-color: derive(#4CAF50, 20%);
+    -fx-translate-y: -2;
+}
+
+.label {
+    -fx-text-fill: #424242;
+    -fx-font-size: 14px;
+}
+
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #4CAF50;
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+}

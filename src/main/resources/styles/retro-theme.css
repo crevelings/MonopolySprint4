@@ -1,0 +1,32 @@
+.root {
+    -fx-background-color: #98CF6F; /* Game Boy green */
+    -fx-font-family: "Press Start 2P", "Courier New";
+}
+
+.button {
+    -fx-background-color: #306230;
+    -fx-text-fill: #98CF6F;
+    -fx-font-weight: bold;
+    -fx-border-color: #0F380F;
+    -fx-border-width: 3;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    /*-fx-padding: 8 16 8 16;*/
+}
+
+.button:hover {
+    -fx-background-color: #0F380F;
+}
+
+.label {
+    -fx-text-fill: #0F380F;
+    -fx-font-size: 12px;
+}
+
+.combo-box {
+    -fx-background-color: #98CF6F;
+    -fx-border-color: #0F380F;
+    -fx-border-width: 3;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
