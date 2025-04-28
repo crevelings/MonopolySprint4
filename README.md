@@ -22,8 +22,42 @@ To install the code, follow these steps:
 
 ### Steps to run through IDE
 1. Go through the project directory (src/main/java/org/monopoly/View/Main.java) and run the Main class.
-2. If project is not running, and gives SDK error, go to File > Project Structure > Project > SDK > then select an SDK 22 or higher.
+2. If project is not running, and gives SDK error, go to File > Project Structure > Project > SDK > then select an **SDK 22** or higher.
 
+### Steps to run through as a stand-alone program.
+1. Clone the repository to your desired place of storage.
+2. Open your terminal at the file location where the repository was cloned.
+3. Run the following command to launch the application: `bin/MonopolyGame`
+
+### Design Patterns Used:
+- Singleton: Used for Banker, Dice, GameScene, GUI, TurnManager, and TitleDeedCards
+- Strategy: Used for all GameTiles as well as all Decks (chance and community chest)
+- Observer: Between Players and their respective interfaces, as well as tiles and the tokens displayed on them.
+
+### Working parts of code:
+- Start menu allows for users to select their token, the number of human/computer players, and has validation for repeat name/token usage
+- Players turn process works completely, and both human and computer players are able to:
+   - Move
+   - Roll doubles
+   - Draw cards
+   - Buy properties
+   - Trade Properties
+   - Go to Jail
+   - Get out of jail (use funds, get out of jail free card, or roll for doubles)
+- The board displays where each player is, moves their token when they move, and displays the accurate dice value rolled.
+- The Player interfaces show the players current information including their properties, token, the buttons they are allowed to use, and their balance.
+- Computer players turn is fully automated, and they make decisisons with weights based on their current balance.
+- Alerts are sent out to display the current game event taking place
+- Display the bankers current asset count
+- Players can collectively decide to end the game.
+- Players can individually quit the game (forfeit)
+
+### Non-working features:
+- Auction process does not interact with GUI as of now.
+- Players are not currently able to purchase houses and hotels from the GUI
+- Logic for players going bankrupt and thus losing the game.
+- Computer player attempts to sell items if they run out of money
+- Computer player completes their turn incredibly fast; sometimes messing with the end frame of the dice roll animation (like on several doubles)
 
 ### Project Purpose
 The Monopoly Game Project is designed to provide a fun and interactive way to play the classic board game 
