@@ -830,7 +830,7 @@ public class HumanPlayerTest {
         trader.initiateTrade(trader);
         assertFalse(trader.hasProperty("Park Place"));
         assertTrue(responder.hasProperty("Park Place"));
-        assertEquals(1150, trader.getBalance());
+        assertEquals(1350, trader.getBalance());
         assertEquals(1300, responder.getBalance());
     }
 
@@ -853,12 +853,14 @@ public class HumanPlayerTest {
         String simulatedInput = "Player 2\ncard\n200\nY\n";
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
+        assertEquals(0, trader.getCards().size());
         trader.addCard("Get Out of Jail Free.");
+        assertEquals(1, trader.getCards().size());
 
         trader.initiateTrade(trader);
         assertFalse(trader.hasCard("Get Out of Jail Free."));
         assertTrue(responder.hasCard("Get Out of Jail Free."));
-        assertEquals(1500, trader.getBalance());
+        assertEquals(1700, trader.getBalance());
         assertEquals(1300, responder.getBalance());
     }
 }

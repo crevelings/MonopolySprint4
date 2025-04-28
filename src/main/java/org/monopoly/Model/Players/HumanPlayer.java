@@ -410,12 +410,14 @@ public class HumanPlayer extends Player {
     private void performTrade(Player trader, Player responder, String item, int price) {
         if (item.equalsIgnoreCase("Get Out of Jail Free Card")) {
             trader.removeCard("Get Out of Jail Free.");
+            trader.addToBalance(price);
             responder.addCard("Get Out of Jail Free.");
             responder.subtractFromBalance(price);
         }
         else {
             TitleDeedCards.getInstance().getProperty(item).setOwner(responder.getName());
             trader.getPropertiesOwned().remove(item);
+            trader.addToBalance(price);
             responder.getPropertiesOwned().add(item);
             responder.subtractFromBalance(price);
         }

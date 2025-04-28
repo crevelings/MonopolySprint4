@@ -3,7 +3,6 @@ package org.monopoly.Model.Players;
 import org.monopoly.Exceptions.*;
 import org.monopoly.Model.*;
 import org.monopoly.Model.Cards.ColorGroup;
-import org.monopoly.View.GUI;
 import org.monopoly.View.GameScene.GameScene;
 
 import java.util.ArrayList;
@@ -339,6 +338,15 @@ public abstract class Player {
     public abstract void sellHouse(String propertyName, ColorGroup colorGroup);
     public abstract void buyHotel(String propertyName, ColorGroup colorGroup, int price);
     public abstract void sellHotel(String propertyName, ColorGroup colorGroup);
+
+    /**
+     * Gets the cards the player has.
+     *
+     * Developed by: shifmans
+     */
+    public ArrayList<String> getCards() {
+        return cards;
+    }
 
     /**
      * Quits the game for the player.

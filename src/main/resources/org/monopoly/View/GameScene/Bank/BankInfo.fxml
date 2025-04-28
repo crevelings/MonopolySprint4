@@ -12,7 +12,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="740.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="740.0" prefWidth="740.0"
+      style="-fx-background-color: #f4f4f4;"
+      xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.monopoly.View.GameScene.Board.BankInfoController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e8e8e8" height="175.0" layoutX="120.0" layoutY="24.0" opacity="0.9" stroke="#ffffff00" strokeType="INSIDE" width="500.0" />
       <Pane layoutX="245.0" layoutY="14.0" prefHeight="150.0" prefWidth="250.0">
@@ -62,7 +67,7 @@
                               </ImageView>
                            </children>
                         </Pane>
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#000000a6">
+                        <Label fx:id="numHouses" alignment="CENTER" contentDisplay="CENTER" text="32" textAlignment="CENTER" textFill="#000000a6">
                            <font>
                               <Font name="Futura Bold" size="25.0" />
                            </font>
@@ -95,7 +100,7 @@
                               </ImageView>
                            </children>
                         </Pane>
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="12" textAlignment="CENTER" textFill="#000000a6">
+                        <Label fx:id="numHotels" alignment="CENTER" contentDisplay="CENTER" text="12" textAlignment="CENTER" textFill="#000000a6">
                            <font>
                               <Font name="Futura Bold" size="25.0" />
                            </font>
@@ -125,7 +130,7 @@
                               </ImageView>
                            </children>
                         </Pane>
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="28" textAlignment="CENTER" textFill="#000000a6">
+                        <Label fx:id="numProperties" alignment="CENTER" contentDisplay="CENTER" text="28" textAlignment="CENTER" textFill="#000000a6">
                            <font>
                               <Font name="Futura Bold" size="25.0" />
                            </font>

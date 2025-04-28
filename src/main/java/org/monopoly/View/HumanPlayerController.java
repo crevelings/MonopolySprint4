@@ -2,19 +2,27 @@ package org.monopoly.View;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.monopoly.Model.Dice;
 import org.monopoly.Model.GameBoard;
 import org.monopoly.Model.GameTiles.GameTile;
 import org.monopoly.Model.Players.HumanPlayer;
 import org.monopoly.Model.Players.Player;
 import org.monopoly.Model.TurnManager;
+import org.monopoly.View.GameScene.Board.TradePaneController;
 import org.monopoly.View.GameScene.GameScene;
+
+import java.io.IOException;
 
 
 /**
@@ -175,6 +183,29 @@ public class HumanPlayerController {
      */
     public void onTrade(ActionEvent actionEvent) {
         System.out.println(player.getName() + " Trade button clicked");
+
+        try {
+            // Load the Trade.fxml file
+            String fxmlPath3 = "/org/monopoly/View/GameScene/Trade/Trade.fxml";
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath3));
+            Parent root3 = loader.load();
+
+            TurnManager turnManager = TurnManager.getInstance();
+            // Get the TradePaneController and pass player data
+            TradePaneController tradePaneController = loader.getController();
+            tradePaneController.initialize(player, turnManager.getPlayers());
+
+            // Create a new stage for the trade window
+            Stage tradeStage = new Stage();
+            tradeStage.setTitle("Trade");
+            tradeStage.setScene(new Scene(root3, 370, 400));
+
+            // Set the stage as modal to block interaction with the main window
+            tradeStage.initModality(Modality.APPLICATION_MODAL);
+            tradeStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
