@@ -3,6 +3,7 @@ package org.monopoly.View.GameScene.Board;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.monopoly.Model.Players.HumanPlayer;
 import org.monopoly.Model.Players.Player;
 
@@ -125,6 +126,20 @@ public class TradePaneController {
             return false;
         }
 
+        try {
+            int priceValue = Integer.parseInt(priceField);
+            if (priceValue <= 0) {
+                throw new NumberFormatException("Price must be greater than 1.");
+            }
+        } catch (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Invalid Price");
+            alert.setContentText("The price must be an integer and greater than 0.");
+            alert.showAndWait();
+            return false;
+        }
+
         return true;
     }
 
@@ -157,6 +172,9 @@ public class TradePaneController {
                 declineAlert.setContentText("The trade was declined.");
                 declineAlert.showAndWait();
             }
+
+            Stage stage = (Stage) traderName.getScene().getWindow();
+            stage.close();
         });
     }
 }
