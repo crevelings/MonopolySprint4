@@ -1,0 +1,18 @@
+.close-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 15;
+    -fx-pref-width: 30;
+    -fx-pref-height: 30;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.close-button:hover {
+    -fx-background-color: #c0392b;
+}
+
+.close-button:pressed {
+    -fx-background-color: #c0392b;
+}

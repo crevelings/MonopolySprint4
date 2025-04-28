@@ -12,6 +12,7 @@ import org.monopoly.Model.Players.Player;
 import org.monopoly.Model.Players.Token;
 import org.monopoly.View.GameScene.Board.BoardController;
 import org.monopoly.View.ComputerPlayerController;
+import org.monopoly.View.GameScene.Board.BottomPanelController;
 import org.monopoly.View.HumanPlayerController;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 public class GameScene {
     private final Scene scene;
     private final BoardController boardController;
+    private final BottomPanelController bottomController;
     private static GameScene instance;
     public static GameScene getInstance() {
         return  instance; // returns null if the GUI hasn't been made yet
@@ -39,18 +41,21 @@ public class GameScene {
      */
     public GameScene(ArrayList<Player> humanPlayers, ArrayList<Player> computerPlayers) throws IOException {
         AnchorPane root = new AnchorPane();
-        root.setPrefSize(1190, 740);
+        root.setPrefSize(1190, 1000);
         instance = this;
 
+        FXMLLoader bottomLoader = new FXMLLoader(GameScene.class.getResource("BottomPanel.fxml"));
+        Parent bottomRoot = bottomLoader.load();
+        this.bottomController = bottomLoader.getController();
+        AnchorPane.setBottomAnchor(bottomRoot, 0.0);
+        AnchorPane.setLeftAnchor(bottomRoot, 100.0);
         // Load the board
         FXMLLoader boardLoader = new FXMLLoader(GameScene.class.getResource("BoardPane.fxml"));
         Parent boardRoot = boardLoader.load();
         this.boardController = boardLoader.getController();
-        root.getChildren().add(boardRoot);
+        root.getChildren().addAll(boardRoot, bottomRoot);
         initializePlayerInterfaces(humanPlayers, computerPlayers, root);
-        this.scene = new Scene(root, 1190, 740);
-        root.prefWidthProperty().bind(scene.widthProperty());
-        root.prefHeightProperty().bind(scene.heightProperty());
+        this.scene = new Scene(root, 1190, 1000);
     }
 
     /**

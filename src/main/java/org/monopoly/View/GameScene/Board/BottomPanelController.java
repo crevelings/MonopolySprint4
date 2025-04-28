@@ -1,0 +1,179 @@
+package org.monopoly.View.GameScene.Board;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.Window;
+
+import javax.print.attribute.standard.Media;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+/**
+ * Controller class for the bottom panel of the game.
+ */
+public class BottomPanelController implements Initializable {
+    @FXML
+    private ComboBox<Theme> themeComboBox;
+    @FXML
+    private Button bankerInfo;
+    @FXML
+    private Button quitGame;
+    @FXML
+    private Button settings;
+
+    private final ThemeManager themeManager = ThemeManager.getInstance();
+
+    @FXML
+    private CheckBox animationsCheckBox;
+    @FXML
+    private CheckBox soundEffectsCheckBox;
+
+    private boolean animationsEnabled = true;
+    private boolean soundEffectsEnabled = true;
+
+    private MediaPlayer mediaPlayer;
+    private boolean isMusicPlaying = false;
+
+    // Add these methods:
+    public boolean areAnimationsEnabled() {
+        return animationsEnabled;
+    }
+
+    public boolean areSoundEffectsEnabled() {
+        return soundEffectsEnabled;
+    }
+
+    @FXML
+    private void handleAnimationsToggle() {
+        animationsEnabled = animationsCheckBox.isSelected();
+        // You can add animation-specific logic here
+    }
+
+    @FXML
+    private void handleSoundEffectsToggle() {
+        soundEffectsEnabled = soundEffectsCheckBox.isSelected();
+        // You can add sound-specific logic here
+    }
+
+    /**
+     * Starts up the theme manager and applies theme to all windows
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (themeComboBox != null) {
+            themeComboBox.getItems().addAll(Theme.values());
+            themeComboBox.setValue(Theme.NORMAL);
+
+            themeManager.setTheme(Theme.NORMAL, themeComboBox.getScene());
+            applyThemeToAllWindows(Theme.NORMAL);
+
+            themeComboBox.setOnAction(_ -> {
+                Theme selectedTheme = themeComboBox.getValue();
+                themeManager.setTheme(selectedTheme, themeComboBox.getScene());
+                applyThemeToAllWindows(selectedTheme);
+            });
+        }
+    }
+
+    /**
+     * Configures and has the pop-up for the Banker Info screen to show the houses and hotels owned.
+     * Along with the exit button to close the pop-up.
+     */
+    @FXML
+    public void onBankerInfoClick() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/monopoly/View/GameScene/Bank/BankInfo.fxml"));
+        Parent root1 = fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setTitle("ABC");
+        stage.setScene(new Scene(root1));
+        stage.show();
+
+        Button exitButton = (Button) root1.lookup("#bankInfoExitButton");
+        if (exitButton != null) {
+            exitButton.setOnAction(_ -> stage.close());
+        }
+    }
+
+    @FXML
+    public void onQuitGameClick() {
+        System.out.println("Quit Game Clicked");
+    }
+
+    @FXML
+    public void onSettingsClick() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/monopoly/View/GameScene/Settings/Settings.fxml"));
+        try {
+            Parent root1 = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setTitle("Settings");
+            stage.setScene(new Scene(root1));
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Applies the given theme to all open windows.
+     *
+     * @param theme The theme to apply.
+     */
+    private void applyThemeToAllWindows(Theme theme) {
+        for (Window window : Stage.getWindows()) {
+            if (window instanceof Stage) {
+                Scene scene = window.getScene();
+                if (scene != null) {
+                    scene.getStylesheets().clear();
+                    scene.getStylesheets().add(
+                            getClass().getResource(theme.getStylesheetPath()).toExternalForm()
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Closes settings window
+     * @param event
+     */
+    @FXML
+    public void handleClose(javafx.event.ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void toggleMusic() {
+        if (mediaPlayer != null) {
+            if (isMusicPlaying) {
+                mediaPlayer.pause();
+            } else {
+                mediaPlayer.play();
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+    }
+
+    @FXML
+    private void setVolume(double volume) {
+        if (mediaPlayer != null) {
+            mediaPlayer.setVolume(volume);
+        }
+    }
+}
