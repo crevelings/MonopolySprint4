@@ -44,18 +44,19 @@ public class GameScene {
         root.setPrefSize(1190, 1000);
         instance = this;
 
+        // Load the menu buttons for the bottom panel
         FXMLLoader bottomLoader = new FXMLLoader(GameScene.class.getResource("BottomPanel.fxml"));
         Parent bottomRoot = bottomLoader.load();
         this.bottomController = bottomLoader.getController();
-        AnchorPane.setBottomAnchor(bottomRoot, 0.0);
-        AnchorPane.setLeftAnchor(bottomRoot, 100.0);
         // Load the board
         FXMLLoader boardLoader = new FXMLLoader(GameScene.class.getResource("BoardPane.fxml"));
         Parent boardRoot = boardLoader.load();
         this.boardController = boardLoader.getController();
         root.getChildren().addAll(boardRoot, bottomRoot);
+        bottomRoot.setLayoutY(740);
+        bottomRoot.setLayoutX(50);
         initializePlayerInterfaces(humanPlayers, computerPlayers, root);
-        this.scene = new Scene(root, 1190, 1000);
+        this.scene = new Scene(root, 1190, 860);
     }
 
     /**

@@ -41,6 +41,10 @@ public class ComputerPlayer extends Player {
      * @author walshj05
      */
     public void takeTurn(Dice dice) { //NOTE make all usages of dice as parameter singleton
+        if (controller != null){// Check if controller is not null before updating
+            controller.updateBalance();
+            controller.updateProperties();
+        }
         if (isInJail()) {
             jailTurnLogic();
             if (isInJail()) {
