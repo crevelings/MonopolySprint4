@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.monopoly.Model.Banker;
 import org.monopoly.Model.Dice;
 import org.monopoly.Model.GameBoard;
 import org.monopoly.Model.GameTiles.GameTile;
@@ -133,11 +134,13 @@ public class HumanPlayerController {
      * @author walshj05
      */
     public void onBuyProperty(ActionEvent actionEvent) {
+        Banker banker = Banker.getInstance();
         player.resolveDecision();
         GameTile tile = GameBoard.getInstance().getTile(player.getPosition());
         player.purchaseProperty(tile.getName(), tile.getPrice());
         buyProp.setDisable(true);
         checkForDouble();
+        System.out.println(banker.getBankNumProperties());
     }
 
     /**

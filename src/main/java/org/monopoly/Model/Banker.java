@@ -15,6 +15,7 @@ import java.util.*;
 public class Banker {
     private double bankBalance;
     private TitleDeedDeck deck;
+    private int bankNumProperties;
     private int numHouses;
     private int numHotels;
     private static Banker instance;
@@ -23,8 +24,11 @@ public class Banker {
      * Constructor to initialize the Banker.
      *
      * Developed by: shifmans
+     * Edited by: crevelings (4/27/25)
+     * 4/27/25: Added number of properties for banker
      */
     public Banker() {
+        this.bankNumProperties = 28;
         this.bankBalance = Double.POSITIVE_INFINITY;
         this.deck = new TitleDeedDeck();
         this.numHouses = 32;
@@ -59,8 +63,11 @@ public class Banker {
      * @param player The player who is buying the property.
      *
      * Developed by: shifmans
+     * Edited by: crevelings (4/27/25)
+     * 4/27/25: Added number of properties for banker
      */
     public void sellProperty(String propertyName, Player player) {
+        int bankerNumProperties = getBankNumProperties();
         if (deck.getTitleDeeds().getProperty(propertyName).isMortgaged()) {
             throw new IllegalStateException("Property is mortgaged and cannot be sold.");
         }
@@ -68,6 +75,8 @@ public class Banker {
         deck.getTitleDeeds().getProperty(propertyName).setOwner(player.getName());
         player.subtractFromBalance(deck.getTitleDeeds().getProperty(propertyName).getPrice());
         deck.drawCard(propertyName);
+        // Must get rid of number of properties banker has
+        bankNumProperties--;
     }
 
     /**
@@ -94,6 +103,16 @@ public class Banker {
         else {
             throw new IllegalArgumentException("This property does not have houses.");
         }
+    }
+
+    /**
+     * Updates the bank's property count when a property returns to the bank
+     * @param propertyName The name of the property returning to the bank
+     * @author crevelings
+     */
+    public void returnPropertyToBank(String propertyName) {
+        deck.getTitleDeeds().getProperty(propertyName).setOwner("");
+        this.bankNumProperties++;
     }
 
     /**
@@ -240,6 +259,7 @@ public class Banker {
 
         deck.getTitleDeeds().getProperty(propertyName).setOwner(bidders.get(0).getName());
         bidders.get(0).subtractFromBalance(bidAmounts.get(0));
+        bankNumProperties--;
     }
 
     /**
@@ -452,6 +472,14 @@ public class Banker {
      */
     public double getBalance() {
         return this.bankBalance;
+    }
+
+    public int getBankNumProperties() {
+        return bankNumProperties;
+    }
+
+    public void setBankNumProperties(int bankNumProperties) {
+        this.bankNumProperties = bankNumProperties;
     }
 
     /**

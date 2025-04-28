@@ -87,6 +87,7 @@ public class ComputerPlayer extends Player {
      */
     public void purchaseProperty(String property, int price) throws InsufficientFundsException {
         boolean decision;
+        Banker banker = Banker.getInstance();
 
         if (getBalance() > 500) {
             decision = runOdds(0.85);
@@ -105,6 +106,7 @@ public class ComputerPlayer extends Player {
             if (controller != null) {
                 controller.updateProperties();
             }
+            banker.setBankNumProperties(banker.getBankNumProperties() - 1);
 
         } else {
             // todo start auction process

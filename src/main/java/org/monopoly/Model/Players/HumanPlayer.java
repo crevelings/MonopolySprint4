@@ -81,6 +81,8 @@ public class HumanPlayer extends Player {
      */
     public void purchaseProperty(String property, int price){
         // todo player pays rent if they dont own the property
+        Banker banker = Banker.getInstance();
+        int bankNumProperties = banker.getBankNumProperties();
         if (getPropertiesOwned().contains(property)) {
             GameScene.sendAlert("You already own " + property);
             return;
@@ -93,6 +95,7 @@ public class HumanPlayer extends Player {
             updateMonopolies();
             updateObservers();
             needsDecision = true;
+            banker.setBankNumProperties(bankNumProperties - 1);
         } else {
             GameScene.sendAlert("Insufficient funds to purchase " + property);
             needsDecision = true;
