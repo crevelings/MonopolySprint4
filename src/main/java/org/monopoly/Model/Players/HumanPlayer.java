@@ -1,5 +1,6 @@
 package org.monopoly.Model.Players;
 
+import javafx.scene.control.Alert;
 import org.monopoly.Model.*;
 
 import org.monopoly.Model.Cards.ColorGroup;
@@ -268,7 +269,10 @@ public class HumanPlayer extends Player {
         }
 
         if (answer == 'Y' || answer == 'y') {
-            System.out.println("Game Over! The winner is " + getWealthiestPlayer().getName() + " with $" + getWealthiestPlayer().getBalance() + "!");
+            Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
+            winnerAlert.setTitle("Game Results");
+            winnerAlert.setContentText("Game Over! The winner is " + getWealthiestPlayer().getName() + " with $" + getWealthiestPlayer().getBalance() + "!");
+            winnerAlert.showAndWait();
             removePlayersFromGame();
         }
         else
