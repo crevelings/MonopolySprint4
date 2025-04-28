@@ -9,11 +9,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
+import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,6 +42,9 @@ public class BottomPanelController implements Initializable {
 
     private boolean animationsEnabled = true;
     private boolean soundEffectsEnabled = true;
+
+    private MediaPlayer mediaPlayer;
+    private boolean isMusicPlaying = false;
 
     // Add these methods:
     public boolean areAnimationsEnabled() {
@@ -151,5 +156,24 @@ public class BottomPanelController implements Initializable {
     public void handleClose(javafx.event.ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void toggleMusic() {
+        if (mediaPlayer != null) {
+            if (isMusicPlaying) {
+                mediaPlayer.pause();
+            } else {
+                mediaPlayer.play();
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+    }
+
+    @FXML
+    private void setVolume(double volume) {
+        if (mediaPlayer != null) {
+            mediaPlayer.setVolume(volume);
+        }
     }
 }
