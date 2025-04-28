@@ -16,6 +16,10 @@ public class BankInfoController {
     @FXML
     private Label numProperties;
 
+    /**
+     * Updates the counts of houses, hotels, and properties owned by the banker.
+     * @author shifmans, crevelings
+     */
     public void updateCounts(int houses, int hotels, int properties) {
         numHouses.setText(String.valueOf(houses));
         numHotels.setText(String.valueOf(hotels));

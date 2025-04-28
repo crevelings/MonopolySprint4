@@ -151,6 +151,9 @@ public class GameScene {
     }
 
 
+    /**
+     * Sends an alert message to the user whether it's an error, or if it's tile information.
+     */
     public static void sendAlert(String message, String title) {
         if (instance != null){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
