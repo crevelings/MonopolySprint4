@@ -11,7 +11,12 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="370.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="370.0"
+      style="-fx-background-color: #f4f4f4;"
+      xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.monopoly.View.GameScene.Board.TradePaneController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d3dfe4" height="90.0" stroke="TRANSPARENT" strokeType="INSIDE" width="370.0" />
       <Pane prefHeight="90.0" prefWidth="370.0" style="-fx-border-color: grey;">
@@ -28,12 +33,12 @@
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="310.0" prefWidth="370.0" spacing="30.0">
                      <children>
-                        <Label text="Player 1" textAlignment="CENTER">
+                        <Label fx:id="traderName" text="Player 1" textAlignment="CENTER">
                            <font>
                               <Font name="Futura Medium" size="18.0" />
                            </font>
                         </Label>
-                        <TextField alignment="TOP_LEFT" layoutX="45.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0" prefWidth="300.0" promptText="Enter player you want to trade with:">
+                        <TextField fx:id="playerName" alignment="TOP_LEFT" layoutX="45.0" layoutY="150.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0" prefWidth="300.0" promptText="Enter player you want to trade with:">
                            <font>
                               <Font name="Futura Medium" size="13.0" />
                            </font>
@@ -41,12 +46,12 @@
                               <Insets />
                            </VBox.margin>
                         </TextField>
-                        <ComboBox prefWidth="150.0" promptText="Item">
+                        <ComboBox fx:id="item" prefWidth="150.0" promptText="Item">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </ComboBox>
-                        <TextField alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0" prefWidth="300.0" promptText="Enter your desired price for the item:">
+                        <TextField fx:id="price" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0" prefWidth="300.0" promptText="Enter your desired price for the item:">
                            <font>
                               <Font name="Futura Medium" size="13.0" />
                            </font>
@@ -54,7 +59,7 @@
                               <Insets />
                            </VBox.margin>
                         </TextField>
-                        <Button mnemonicParsing="false" text="Initiate Trade">
+                        <Button fx:id="initiateTrade" onAction="#onInitiateTrade" mnemonicParsing="false" text="Initiate Trade">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
