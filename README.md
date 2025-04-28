@@ -71,5 +71,8 @@ Building houses and hotels
 Note: This is a basic implementation of the game, and there may be some features that are not included. The project is intended to be a starting point for further development and customization.
 As of right now, there is a User Interface implemented, but not completed.
 
-### UML
+### Main UML
 ![alt text](UML.png)
+
+### View UML
+![alt text](ViewUML.png)
