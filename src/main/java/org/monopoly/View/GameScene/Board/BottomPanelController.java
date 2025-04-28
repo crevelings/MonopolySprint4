@@ -126,14 +126,16 @@ public class BottomPanelController implements Initializable {
                 .filter(player -> player instanceof HumanPlayer)
                 .count();
 
+        Alert winnerAlert = displayEndGameWinner(turnManager);
+
         if (humanPlayerCount == 1) {
             HumanPlayer player = (HumanPlayer) turnManager.getPlayers().get(0);
             String simulatedInput = "Y\n";
             System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
             player.endGame();
+            winnerAlert.showAndWait();
             System.exit(0);
-        }
-        else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("End Game Confirmation");
             alert.setContentText("Do all players want to end the game?");
@@ -147,9 +149,9 @@ public class BottomPanelController implements Initializable {
                     String simulatedInput = "Y\n";
                     System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
                     ((HumanPlayer) turnManager.getCurrentPlayer()).endGame();
+                    winnerAlert.showAndWait();
                     System.exit(0);
-                }
-                else if (response == noButton) {
+                } else if (response == noButton) {
                     Alert declineAlert = new Alert(Alert.AlertType.INFORMATION);
                     declineAlert.setTitle("End Game Declined");
                     declineAlert.setHeaderText(null);
@@ -158,6 +160,14 @@ public class BottomPanelController implements Initializable {
                 }
             });
         }
+    }
+
+    private Alert displayEndGameWinner(TurnManager turnManager) {
+        Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
+        winnerAlert.setTitle("Game Results");
+        winnerAlert.setContentText("Game Over! The winner is " + turnManager.getWealthiestPlayer().getName() + " with $" + turnManager.getWealthiestPlayer().getBalance() + "!");
+
+        return winnerAlert;
     }
 
     @FXML

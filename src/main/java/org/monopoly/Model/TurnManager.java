@@ -100,4 +100,24 @@ public class TurnManager {
     public TurnManager getTurnManager() {
         return instance;
     }
+
+    /**
+     * Gets the wealthiest player in the game.
+     * @return The wealthiest player.'
+     *
+     * Developed by: shifmans
+     */
+    public Player getWealthiestPlayer() {
+        TurnManager tm = TurnManager.getInstance();
+        ArrayList<Player> players = tm.getPlayers();
+        Player wealthiestPlayer = players.getFirst();
+
+        for (Player player : players) {
+            if (wealthiestPlayer.getBalance() < player.getBalance()) {
+                wealthiestPlayer = player;
+            }
+        }
+
+        return wealthiestPlayer;
+    }
 }

@@ -259,6 +259,7 @@ public class HumanPlayer extends Player {
      */
     public void endGame() {
         Scanner keyboard = new Scanner(System.in);
+        TurnManager turnManager = TurnManager.getInstance();
 
         System.out.println("Do all players want to end the game (Y/N)? ");
         char answer = keyboard.next().charAt(0);
@@ -269,36 +270,13 @@ public class HumanPlayer extends Player {
         }
 
         if (answer == 'Y' || answer == 'y') {
-            Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
-            winnerAlert.setTitle("Game Results");
-            winnerAlert.setContentText("Game Over! The winner is " + getWealthiestPlayer().getName() + " with $" + getWealthiestPlayer().getBalance() + "!");
-            winnerAlert.showAndWait();
+            System.out.println("Game Over! The winner is " + turnManager.getWealthiestPlayer().getName() + " with $" + turnManager.getWealthiestPlayer().getBalance() + "!");
             removePlayersFromGame();
         }
         else
         {
             System.out.println("Not all players voted to end the game. The game will continue.");
         }
-    }
-
-    /**
-     * Gets the wealthiest player in the game.
-     * @return The wealthiest player.'
-     *
-     * Developed by: shifmans
-     */
-    private Player getWealthiestPlayer() {
-        TurnManager tm = TurnManager.getInstance();
-        ArrayList<Player> players = tm.getPlayers();
-        Player wealthiestPlayer = players.getFirst();
-
-        for (Player player : players) {
-            if (wealthiestPlayer.getBalance() < player.getBalance()) {
-                wealthiestPlayer = player;
-            }
-        }
-
-        return wealthiestPlayer;
     }
 
     /**

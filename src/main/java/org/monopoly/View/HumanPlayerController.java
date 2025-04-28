@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PopupControl;
@@ -303,11 +304,17 @@ public class HumanPlayerController {
                 .filter(player -> player instanceof HumanPlayer)
                 .count();
 
+        Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
+        winnerAlert.setTitle("Game Results");
+        winnerAlert.setContentText("Game Over! The winner is " + turnManager.getWealthiestPlayer().getName() + " with $" + turnManager.getWealthiestPlayer().getBalance() + "!");
+
+
         if (humanPlayerCount == 1) {
             HumanPlayer player = (HumanPlayer) turnManager.getPlayers().get(0);
             String simulatedInput = "Y\n";
             System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
             player.endGame();
+            winnerAlert.showAndWait();
             System.exit(0);
         }
 
