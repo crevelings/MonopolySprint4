@@ -3,20 +3,18 @@ package org.monopoly.View;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PopupControl;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Popup;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 import org.monopoly.Model.Banker;
 import org.monopoly.Model.Dice;
 import org.monopoly.Model.GameBoard;
@@ -27,6 +25,7 @@ import org.monopoly.Model.TurnManager;
 import org.monopoly.View.GameScene.Board.TradePaneController;
 import org.monopoly.View.GameScene.GameScene;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 
@@ -189,28 +188,25 @@ public class HumanPlayerController {
     /**
      * Handles the action when the player clicks the "Trade" button.
      * @param actionEvent The action event triggered by the button click.
-     * @author walshj05
+     *
+     * Developed by: shifmans
      */
     public void onTrade(ActionEvent actionEvent) {
         System.out.println(player.getName() + " Trade button clicked");
 
         try {
-            // Load the Trade.fxml file
             String fxmlPath3 = "/org/monopoly/View/GameScene/Trade/Trade.fxml";
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath3));
             Parent root3 = loader.load();
 
             TurnManager turnManager = TurnManager.getInstance();
-            // Get the TradePaneController and pass player data
             TradePaneController tradePaneController = loader.getController();
             tradePaneController.initialize(player, turnManager.getPlayers());
 
-            // Create a new stage for the trade window
             Stage tradeStage = new Stage();
             tradeStage.setTitle("Trade");
             tradeStage.setScene(new Scene(root3, 370, 400));
 
-            // Set the stage as modal to block interaction with the main window
             tradeStage.initModality(Modality.APPLICATION_MODAL);
             tradeStage.showAndWait();
         } catch (IOException e) {
@@ -308,6 +304,57 @@ public class HumanPlayerController {
         }
     }
 
+    /**
+     * Removes the player from the game when they quit.
+     *
+     * Developed by: shifmans
+     */
     public void onQuit(ActionEvent actionEvent) {
+        GameScene.sendAlert(player.getName() + " quit the game.");
+        TurnManager turnManager = TurnManager.getInstance();
+        long humanPlayerCount = turnManager.getPlayers().stream()
+                .filter(player -> player instanceof HumanPlayer)
+                .count();
+
+        Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
+        winnerAlert.setTitle("Game Results");
+        winnerAlert.setContentText("Game Over! The winner is " + turnManager.getWealthiestPlayer().getName() + " with $" + turnManager.getWealthiestPlayer().getBalance() + "!");
+
+
+        if (humanPlayerCount == 1) {
+            HumanPlayer player = (HumanPlayer) turnManager.getPlayers().get(0);
+            String simulatedInput = "Y\n";
+            System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+            player.endGame();
+            winnerAlert.showAndWait();
+            System.exit(0);
+        }
+
+        player.quitGame(player);
+
+        Parent root = GameScene.getInstance().getScene().getRoot();
+        if (root instanceof AnchorPane rootPane) {
+            if (playerPane != null && rootPane.getChildren().contains(playerPane)) {
+                double quittingPlayerY = playerPane.getLayoutY();
+                rootPane.getChildren().remove(playerPane);
+                moveUpPlayerInterfaces(rootPane, quittingPlayerY);
+            }
+        }
     }
+
+    /**
+     * Moves the player interfaces up when a player quits.
+     * @param root The root pane containing the player interfaces.
+     * @param startingY The Y-coordinate of the quitting player interface.
+     *
+     * Developed by: shifmans
+     */
+    private void moveUpPlayerInterfaces(AnchorPane root, double startingY) {
+        for (Node node : root.getChildren()) {
+            if (node instanceof AnchorPane playerInterface && playerInterface.getLayoutY() > startingY) {
+                playerInterface.setLayoutY(playerInterface.getLayoutY() - 185);
+            }
+        }
+    }
+
 }

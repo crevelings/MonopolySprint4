@@ -2,7 +2,6 @@ package org.monopoly.View.GameScene.Board;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import org.monopoly.Model.Banker;
 
 /**
  * Controller class for the BankInfo view.
@@ -19,6 +18,15 @@ public class BankInfoController {
     /**
      * Updates the counts of houses, hotels, and properties owned by the banker.
      * @author shifmans, crevelings
+     */
+    /**
+     * Update the counts of houses, hotels, and properties in the BankInfo view.
+     * @param houses Houses the banker has.
+     * @param hotels Hotels the banker has.
+     * @param properties Properties the banker has.
+     *
+     * Developed by: shifmans
+     * Modified by: crevelings
      */
     public void updateCounts(int houses, int hotels, int properties) {
         numHouses.setText(String.valueOf(houses));

@@ -9,6 +9,8 @@ import org.monopoly.Model.Cards.ColorGroup;
 import org.monopoly.Model.Cards.TitleDeedCards;
 import org.monopoly.Model.Dice;
 import org.monopoly.Model.GameBoard;
+import org.monopoly.View.ComputerPlayerController;
+import org.monopoly.View.HumanPlayerController;
 
 import java.util.List;
 
@@ -1004,110 +1006,31 @@ public class ComputerPlayerTests {
         assertFalse(cpu.isInJail());
     }
 
-//    /**
-//     * Developed by: shifmans
-//     */
-//    @Test
-//    public void testMortgageAssetsToRaiseFunds() throws InsufficientFundsException, BankruptcyException {
-//        ComputerPlayer cpu = new ComputerPlayer("CPU", new Token("CPU", "BattleShip.png"));
-//        assertEquals(1500, cpu.getBalance());
-//
-//        while (!cpu.hasProperty("Park Place")) {
-//            cpu.purchaseProperty("Park Place", 350);
-//        }
-//        assertEquals(1150, cpu.getBalance());
-//        assertEquals(List.of(), cpu.getPropertiesMortgaged());
-//        assertEquals(List.of("Park Place"), cpu.getPropertiesOwned());
-//
-//        while (cpu.hasProperty("Park Place")) {
-//            cpu.mortgageAssetsToRaiseFunds(100);
-//        }
-//        // Mortgage value is 175
-//        assertEquals(1325, cpu.getBalance());
-//        assertEquals(List.of("Park Place"), cpu.getPropertiesMortgaged());
-//        assertEquals(List.of(), cpu.getPropertiesOwned());
-//    }
-//
-//    /**
-//     * Developed by: shifmans
-//     */
-//    @Test
-//    public void testSellBuildingsToRaiseFundsFail() throws InsufficientFundsException, BankruptcyException {
-//        ComputerPlayer cpu = new ComputerPlayer("CPU", new Token("CPU", "BattleShip.png"));
-//        assertEquals(1500, cpu.getBalance());
-//
-//        while (!cpu.hasProperty("Park Place")) {
-//            cpu.purchaseProperty("Park Place", 350);
-//        }
-//        while (!cpu.hasProperty("Boardwalk")) {
-//            cpu.purchaseProperty("Boardwalk", 400);
-//        }
-//        cpu.hasMonopoly(ColorGroup.DARK_BLUE);
-//        assertEquals(750, cpu.getBalance());
-//
-//        while (cpu.getNumHouses() != 1) {
-//            cpu.buyHouse("Park Place", ColorGroup.DARK_BLUE, 200);
-//        }
-//        while (cpu.getNumHouses() != 2) {
-//            cpu.buyHouse("Boardwalk", ColorGroup.DARK_BLUE, 200);
-//        }
-//        assertEquals(350, cpu.getBalance());
-//        assertEquals(2, cpu.getNumHouses());
-//
-//        assertThrows(BankruptcyException.class, () -> {
-//            while (cpu.getNumHouses() == 2) {
-//                cpu.sellBuildingsToRaiseFunds(1000);
-//            }});
-//    }
-//
-//    /**
-//     * Developed by: shifmans
-//     */
-//    @Test
-//    public void testAttemptToRaiseFunds() throws InsufficientFundsException, BankruptcyException {
-//        ComputerPlayer cpu = new ComputerPlayer("CPU", new Token("CPU", "BattleShip.png"));
-//        assertEquals(1500, cpu.getBalance());
-//
-//        while (!cpu.hasProperty("Park Place")) {
-//            cpu.purchaseProperty("Park Place", 350);
-//        }
-//        assertEquals(1150, cpu.getBalance());
-//        assertEquals(List.of(), cpu.getPropertiesMortgaged());
-//        assertEquals(List.of("Park Place"), cpu.getPropertiesOwned());
-//
-//        while (cpu.getBalance() != 1325) {
-//            cpu.attemptToRaiseFunds(100);
-//        }
-//        // Mortgage value is 175
-//        assertEquals(1325, cpu.getBalance());
-//        assertEquals(List.of("Park Place"), cpu.getPropertiesMortgaged());
-//        assertEquals(List.of(), cpu.getPropertiesOwned());
-//
-//        cpu.addToBalance(175);
-//        assertEquals(1500, cpu.getBalance());
-//
-//        while (!cpu.hasProperty("Park Place")) {
-//            cpu.purchaseProperty("Park Place", 350);
-//        }
-//        while (!cpu.hasProperty("Boardwalk")) {
-//            cpu.purchaseProperty("Boardwalk", 400);
-//        }
-//        cpu.hasMonopoly(ColorGroup.DARK_BLUE);
-//        assertEquals(750, cpu.getBalance());
-//
-//        while (cpu.getNumHouses() != 1) {
-//            cpu.buyHouse("Park Place", ColorGroup.DARK_BLUE, 200);
-//        }
-//        while (cpu.getNumHouses() != 2) {
-//            cpu.buyHouse("Boardwalk", ColorGroup.DARK_BLUE, 200);
-//        }
-//        assertEquals(350, cpu.getBalance());
-//        assertEquals(2, cpu.getNumHouses());
-//
-//        assertThrows(BankruptcyException.class, () -> {
-//            while (cpu.getNumHouses() == 2) {
-//                cpu.sellBuildingsToRaiseFunds(1000);
-//            }
-//        });
-//    }
+    /**
+     * Developed by: shifmans
+     */
+    @Test
+    public void testSetController() {
+        ComputerPlayer cpu = new ComputerPlayer("CPU", new Token("CPU", "BattleShip.png"));
+        ComputerPlayerController mockController = new ComputerPlayerController();
+
+        cpu.setController(mockController);
+
+        assertNotNull(cpu.getController(), "Controller should not be null after being set.");
+        assertEquals(mockController, cpu.getController(), "Controller should be correctly set.");
+    }
+
+    /**
+     * Developed by: shifmans
+     */
+    @Test
+    public void testTakeTurnNormalRoll() {
+        ComputerPlayer cpu = new ComputerPlayer("CPU", new Token("CPU", "BattleShip.png"));
+        Dice dice = Dice.getInstance();
+
+        dice.roll();
+        cpu.takeTurn(dice);
+
+        assertTrue((cpu.getPosition() >= 0) && (cpu.getPosition() <= 40));
+    }
 }

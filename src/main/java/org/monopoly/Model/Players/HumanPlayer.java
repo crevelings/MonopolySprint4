@@ -36,8 +36,28 @@ public class HumanPlayer extends Player {
         this.controller = controller;
     }
 
+    /**
+     * Gets the controller for the player.
+     * @return The controller for the player.
+     *
+     * Developed by: shifmans
+     */
+    public HumanPlayerController getController() {
+        return controller;
+    }
+
     public void resolveDecision() {
         needsDecision = false;
+    }
+
+    /**
+     * Gets the needsDecision boolean.
+     * @return Whether the player needs to make a decision or not.
+     *
+     * Developed by: shifmans
+     */
+    public boolean getNeedsDecision() {
+        return needsDecision;
     }
 
     /**
@@ -258,6 +278,7 @@ public class HumanPlayer extends Player {
      */
     public void endGame() {
         Scanner keyboard = new Scanner(System.in);
+        TurnManager turnManager = TurnManager.getInstance();
 
         System.out.println("Do all players want to end the game (Y/N)? ");
         char answer = keyboard.next().charAt(0);
@@ -268,33 +289,13 @@ public class HumanPlayer extends Player {
         }
 
         if (answer == 'Y' || answer == 'y') {
-            System.out.println("Game Over! The winner is " + getWealthiestPlayer().getName() + " with $" + getWealthiestPlayer().getBalance() + "!");
+            System.out.println("Game Over! The winner is " + turnManager.getWealthiestPlayer().getName() + " with $" + turnManager.getWealthiestPlayer().getBalance() + "!");
             removePlayersFromGame();
         }
         else
         {
             System.out.println("Not all players voted to end the game. The game will continue.");
         }
-    }
-
-    /**
-     * Gets the wealthiest player in the game.
-     * @return The wealthiest player.'
-     *
-     * Developed by: shifmans
-     */
-    private Player getWealthiestPlayer() {
-        TurnManager tm = TurnManager.getInstance();
-        ArrayList<Player> players = tm.getPlayers();
-        Player wealthiestPlayer = players.getFirst();
-
-        for (Player player : players) {
-            if (wealthiestPlayer.getBalance() < player.getBalance()) {
-                wealthiestPlayer = player;
-            }
-        }
-
-        return wealthiestPlayer;
     }
 
     /**

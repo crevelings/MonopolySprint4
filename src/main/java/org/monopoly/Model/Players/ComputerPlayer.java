@@ -34,6 +34,17 @@ public class ComputerPlayer extends Player {
     public void setController(ComputerPlayerController controller) {
         this.controller = controller;
     }
+
+    /**
+     * Gets the controller for the computer player.
+     * @return ComputerPlayerController.
+     *
+     * Developed by: shifmans
+     */
+    public ComputerPlayerController getController() {
+        return controller;
+    }
+
     /**
      * A method for a player to take a turn in the game
      *

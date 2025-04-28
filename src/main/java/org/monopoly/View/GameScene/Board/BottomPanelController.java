@@ -9,7 +9,10 @@ import javafx.scene.control.*;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.*;
 import org.monopoly.Model.Banker;
+import org.monopoly.Model.Players.HumanPlayer;
+import org.monopoly.Model.TurnManager;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -111,10 +114,60 @@ public class BottomPanelController implements Initializable {
         }
     }
 
-
+    /**
+     * Handles the end game button click event.
+     *
+     * Developed by: shifmans
+     */
     @FXML
-    public void onQuitGameClick() {
-        System.out.println("Quit Game Clicked");
+    public void onEndGameClick() {
+        TurnManager turnManager = TurnManager.getInstance();
+        long humanPlayerCount = turnManager.getPlayers().stream()
+                .filter(player -> player instanceof HumanPlayer)
+                .count();
+
+        Alert winnerAlert = displayEndGameWinner(turnManager);
+
+        if (humanPlayerCount == 1) {
+            HumanPlayer player = (HumanPlayer) turnManager.getPlayers().get(0);
+            String simulatedInput = "Y\n";
+            System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+            player.endGame();
+            winnerAlert.showAndWait();
+            System.exit(0);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("End Game Confirmation");
+            alert.setContentText("Do all players want to end the game?");
+
+            ButtonType yesButton = new ButtonType("Yes");
+            ButtonType noButton = new ButtonType("No");
+            alert.getButtonTypes().setAll(yesButton, noButton);
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == yesButton) {
+                    String simulatedInput = "Y\n";
+                    System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+                    ((HumanPlayer) turnManager.getCurrentPlayer()).endGame();
+                    winnerAlert.showAndWait();
+                    System.exit(0);
+                } else if (response == noButton) {
+                    Alert declineAlert = new Alert(Alert.AlertType.INFORMATION);
+                    declineAlert.setTitle("End Game Declined");
+                    declineAlert.setHeaderText(null);
+                    declineAlert.setContentText("Not all of the players agreed to end the game.");
+                    declineAlert.showAndWait();
+                }
+            });
+        }
+    }
+
+    private Alert displayEndGameWinner(TurnManager turnManager) {
+        Alert winnerAlert = new Alert(Alert.AlertType.INFORMATION);
+        winnerAlert.setTitle("Game Results");
+        winnerAlert.setContentText("Game Over! The winner is " + turnManager.getWealthiestPlayer().getName() + " with $" + turnManager.getWealthiestPlayer().getBalance() + "!");
+
+        return winnerAlert;
     }
 
     @FXML
