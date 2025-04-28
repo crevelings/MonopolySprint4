@@ -2,7 +2,6 @@ package org.monopoly.View.GameScene.Board;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import org.monopoly.Model.Banker;
 
 /**
  * Controller class for the BankInfo view.

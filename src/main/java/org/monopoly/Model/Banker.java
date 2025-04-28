@@ -106,16 +106,6 @@ public class Banker {
     }
 
     /**
-     * Updates the bank's property count when a property returns to the bank
-     * @param propertyName The name of the property returning to the bank
-     * @author crevelings
-     */
-    public void returnPropertyToBank(String propertyName) {
-        deck.getTitleDeeds().getProperty(propertyName).setOwner("");
-        this.bankNumProperties++;
-    }
-
-    /**
      * This method is used to receive a house from a player.
      * @param propertyName The name of the property to receive a house from.
      * @param player The player who is receiving the house.

@@ -1,6 +1,5 @@
 package org.monopoly.Model.Players;
 
-import javafx.scene.control.Alert;
 import org.monopoly.Model.*;
 
 import org.monopoly.Model.Cards.ColorGroup;
@@ -37,8 +36,28 @@ public class HumanPlayer extends Player {
         this.controller = controller;
     }
 
+    /**
+     * Gets the controller for the player.
+     * @return The controller for the player.
+     *
+     * Developed by: shifmans
+     */
+    public HumanPlayerController getController() {
+        return controller;
+    }
+
     public void resolveDecision() {
         needsDecision = false;
+    }
+
+    /**
+     * Gets the needsDecision boolean.
+     * @return Whether the player needs to make a decision or not.
+     *
+     * Developed by: shifmans
+     */
+    public boolean getNeedsDecision() {
+        return needsDecision;
     }
 
     /**
